@@ -1,350 +1,381 @@
-**Namaste bacho! Aa jao class mein, aur marker par dhyan do.**
+**Arey bacho! Jaldi se class mein aa jao aur dhyan seedhe whiteboard par lagao.** 
 
-Pichle chapters mein humne linear arrays aur unke patterns ko dhang se seekh liya. Lekin real life mein, aur software engineering ke complex problems mein, data hamesha ek single straight line mein nahi hota.
+Pichle chapters mein humne **Arrays Fundamentals (Chapter 3)** aur unke dhasu **Problem-Solving Patterns (Chapter 4)** ko achhe se samajh liya hai. Humne seekha ki linear array kya hota hai aur sliding window, prefix sum aur two pointers kaise kaam karte hain. 
 
-Jaise chess board ka grid, computer screen ke pixels, ya Google Sheets ki spreadsheet—ye sab elements horizontal aur vertical coordinates dono mein spread hote hain. Aaj hum isi 2D space ko master karenge aur dhyan se samjhengay **Matrix & 2D Arrays in JavaScript**!
+Lekin beta, real world aur coding interviews mein data hamesha ek seedhi line (linear array) mein nahi hota. Kai baar humein tabular data, maps, image pixels, ya game boards (jaise Chess ya Tic-Tac-Toe) ko represent karna padta hai. Aur yahin par entry hoti hai computer science ke ek aur mahanayak ki—**Matrix & 2D Arrays**!
 
----
+Aaj hum is chapter mein 2D arrays ko bilkul zero level se advanced interview level tak breakdown karenge, aur in-place matrix modifications ke un secret patterns ko seekhenge jo interviewers ke favourite hote hain. 
 
-## 1. 2D ARRAY BASICS (GRID KA MENTAL MODEL)
-
-### What is a 2D Array?
-**Sabse pehle dimaag mein ek simple picture banao.** Ek standard 1D array linear sequence hota hai. Lekin ek **2D Array** aur kuch nahi, balki **an array of arrays** hai! Yani ek bada dibba, jiske andar har element apne aap mein ek aur array hai.
-
-```
-                 MATRIX REPRESENTATION (3 x 4 Grid)
-                 
-                 Column 0   Column 1   Column 2   Column 3
-               ┌──────────┬──────────┬──────────┬──────────┐
-      Row 0 ──►│    │   │   │   │
-               ├──────────┼──────────┼──────────┼──────────┤
-      Row 1 ──►│   │   │   │   │
-               ├──────────┼──────────┼──────────┼──────────┤
-      Row 2 ──►│   │   │   │   │
-               └──────────┴──────────┴──────────┴──────────┘
-```
-
-* **Rows (Sote hue/Horizontal lines):** Isme indices upar se neeche (`0` se `rows - 1`) badhte hain.
-* **Columns (Khade hue/Vertical lines):** Isme indices left se right (`0` se `cols - 1`) badhte hain.
-
-### Creating a Matrix in JavaScript
-JavaScript mein lower-level contiguous 2D memory blocks native nahi hote. Hum sub-arrays nesting use karte hain.
-
-#### 1. Direct Initialization (Manual):
-```javascript
-const matrix = [
-   ,
-   ,
-   
-];
-```
-
-#### 2. Dynamic Initialization (V8 Engine-Friendly):
-Agar humein dynamic sizes (`rows` aur `cols`) ka empty matrix banana ho, toh kabhi bhi `new Array(rows).fill(new Array(cols))` mat karna! 
-* *Why?* Kyunki `fill()` same sub-array ka reference har row mein copy kar deta hai. Agar tum ek element change karoge, toh poori column change ho jayegi!
-* *Correct Way:*
-```javascript
-const rows = 3;
-const cols = 4;
-// Create an array of size 'rows', then map each slot to a brand new array of size 'cols'
-const dynamicMatrix = Array.from({ length: rows }, () => new Array(cols).fill(0));
-```
-
-### Accessing & Updating `matrix[row][column]`
-Access karne ke liye, pehle coordinate row index ka select hota hai aur dusra col index ka:
-* `matrix[r]` se poori row (jo ki ek array hai) fetch hoti hai.
-* `matrix[r][c]` se us row ke andar ka specific element fetch hota hai.
-
-```javascript
-let val = matrix; // Row index 1, Column index 2 element
-matrix = 99;      // Row index 2, Column index 0 ko update kiya
-```
-
-### Dimensions: Rectangular vs Square Matrix
-* **Square Matrix:** Jiske rows aur columns barabar hon (`rows === cols`). Jaise \\(3 \times 3\\) matrix.
-* **Rectangular Matrix:** Jiske rows aur columns barabar nahi hote (`rows !== cols`). Jaise \\(3 \times 4\\) matrix.
-  * **Rows count:** `matrix.length`
-  * **Columns count:** `matrix.length` (Safe check: `matrix.length > 0 ? matrix.length : 0`)
+Chalo, pen aur copy nikal lo, shuru karein? Aao!
 
 ---
 
-## 2. MATRIX TRAVERSAL (CLASSROOM WHITEBOARD)
+## 1. 2D ARRAY & MATRIX BASICS (DIMAAG MEIN GRID BANAO)
 
-Traversing ka matlab hai grid ke har coordinate par traverse karna. Chalo dono major traversal strategies ko dhang se dry-run karte hain.
+### What is a 2D Array / Matrix? (Kya hai yeh?)
+Ek simple linear array ko hum **1D Array** kehte hain, jo ek single horizontal line ki tarah dikhta hai. Lekin jab hum multiple 1D arrays ko ek ke upar ek stack (arrange) kar dete hain, toh ek grid ban jata hai. Isi grid ko hum **2D Array** ya **Matrix** kehte hain.
 
 ```
-      Row-Wise Traversal (Classic)            Column-Wise Traversal
-      ┌─────────────────────────┐             ┌─────────────────────────┐
-      │  ──►   ──►   ──►   ──►  │             │  │   │   │   │  ▲   │   │ │
-      │  ──►   ──►   ──►   ──►  │             │  ▼   ▼   ▼   ▼  │   ▼   ▼ │
-      └─────────────────────────┘             └─────────────────────────┘
+                             1D Array:
+                             [ 1, 2, 3, 4 ]
+                             
+                             2D Array (Matrix):
+                             Col 0   Col 1   Col 2
+                    Row 0 ┌───────┬───────┬───────┐
+                          │   1   │   2   │   3   │  <-- Row Array 0
+                          ├───────┼───────┼───────┤
+                    Row 1 │   4   │   5   │   6   │  <-- Row Array 1
+                          ├───────┼───────┼───────┤
+                    Row 2 │   7   │   8   │   9   │  <-- Row Array 2
+                          └───────┴───────┴───────┘
 ```
 
-### A. Row-Wise Traversal
-Isme hum pehle row select karte hain, aur phir us row ke saare columns ko print karte hain, aur phir agli row par jump karte hain.
+### Rows, Columns, Dimensions aur Indexing
+Matrix ke coordinate system ko dhang se samajhna zaroori hai, warna index errors ke traps mein phas jaoge:
+*   **Rows (Rows):** Horizontal lines ko rows kehte hain. Upar ke matrix mein Rows ki sankhya `3` hai (Row 0, Row 1, Row 2).
+*   **Columns (Columns):** Vertical lines ko columns kehte hain. Upar ke matrix mein Columns ki sankhya `3` hai (Col 0, Col 1, Col 2).
+*   **Dimensions:** Matrix ke size ko hum **\\(M \times N\\)** se represent karte hain, jahan \\(M\\) total rows hain aur \\(N\\) total columns.
+*   **Indexing:** Kisi bhi element ko unique tarike se access karne ke liye humein do coordinates chahiye hote hain—**Row Index (i)** aur **Column Index (j)**. Isko hum likhte hain: **`matrix[i][j]`**.
+    *   *Example:* Upar ke matrix mein, `matrix` par kaunsa element hai? Row 1 aur Column 2 ka intersection dekhoge toh value milegi **`6`**.
 
+---
+
+### JavaScript Array of Arrays Under the Hood (Sabse Bada Reference Trap! ⚠️)
+Bacho, dhyan se suno. C++ ya Java jaise languages mein matrix memory mein ek single, contiguous block of memory mein store ho sakti hai. **Lekin JavaScript mein aisi koi cheez nahi hoti!**
+
+JavaScript mein matrix aur kuch nahi, balki **"Array of Arrays"** (nested arrays) hoti hai. Yaani ek outer array hota hai jiske andar store hone wale elements khud arrays hote hain.
+
+```
+                  Memory Layout in JavaScript Engine (V8):
+                  
+                  matrix ──► [ Ref Row 0, Ref Row 1, Ref Row 2 ]  (Outer Array)
+                                  │           │           │
+                     ┌────────────┘           │           └────────────┐
+                     ▼                        ▼                        ▼
+                [ 1, 2, 3 ]              [ 4, 5, 6 ]              [ 7, 8, 9 ]
+               (Row Array 0)            (Row Array 1)            (Row Array 2)
+```
+
+#### Why does this matter? (Iska kya impact hai?)
+Kyunki har row memory mein ek independent array object hai:
+1.  **Ragged / Jagged Arrays:** JS mein zaroori nahi ki har row ka size same ho. Ek row mein 3 elements aur dusri row mein 5 elements ho sakte hain!
+2.  **Reference Semantics:** Agar tum matrix ko copy karne ke liye bina soche assignment operator likhoge (`let copy = matrix`), toh sirf reference copy hoga, naya array allocate nahi hoga.
+
+---
+
+## 2. JAVASCRIPT MEIN 2D ARRAYS CREATE/ACCESS/UPDATE
+
+### Matrix Creation (Bacho wala ganda tareeqa vs Professional SDE Way)
+
+#### ❌ The Common Interview Bug:
+Bohot se bache 2D array banana chahte hain aur yeh likhte hain:
 ```javascript
-function traverseRowWise(matrix) {
-    const rows = matrix.length;
-    const cols = matrix.length;
+// DON'T DO THIS! This is a dangerous bug!
+let matrix = new Array(3).fill(new Array(3).fill(0));
+```
+*   **Why is this wrong?** Kyunki `.fill()` method jo inner array pass ho raha hai, uske **same reference pointer** ko outer array ke har compartment mein fill kar deta hai. 
+*   Agar tum ab `matrix = 5` karoge, toh **saari rows ke index 0 par 5 ho jayega!** Dekho:
+```javascript
+matrix = 5;
+console.log(matrix); 
+// Output: [ ] <-- Pure matrix ki lanka lag gayi!
+```
+
+#### ✅ The Correct Way (Dynamic Matrix Allocation):
+Hum nested loop use kar sakte hain ya fir ES6 ka `Array.from()` use karke independent objects instantiate kar sakte hain:
+
+*   **Rasta A: Classic Nested Loops (Highly Readable)**
+    ```javascript
+    let rows = 3, cols = 3;
+    let matrix = [];
+    for (let i = 0; i < rows; i++) {
+        matrix.push(new Array(cols).fill(0)); // Har row ek brand new array hai
+    }
+    ```
+*   **Rasta B: Modern ES6 `Array.from()` (Clean & One-Liner)**
+    ```javascript
+    let matrix = Array.from({ length: 3 }, () => new Array(3).fill(0));
+    ```
+
+---
+
+## 3. TRAVERSAL TECHNIQUES (VISUAL whiteBOARD PATTERNS)
+
+Matrix traversal matlab matrix ke har ek element ko visit karna. Traversal ka direction badalne se operations ka pattern badal jata hai. Chalo visual diagrams se samajhte hain.
+
+### A. Row-wise Traversal (Horizontal scanning)
+Pehle Row 0 ko left to right scan karo, fir Row 1 ko, fir Row 2 ko.
+```
+                  i=0 ──►  [ 1  ──►  2  ──►  3 ]
+                  i=1 ──►  [ 4  ──►  5  ──►  6 ]
+                  i=2 ──►  [ 7  ──►  8  ──►  9 ]
+```
+*   **Implementation:**
+    ```javascript
+    let R = matrix.length;       // Total Rows
+    let C = matrix.length;    // Total Columns in Row 0
     
-    for (let i = 0; i < rows; i++) { // Outer loop: Row controller
-        for (let j = 0; j < cols; j++) { // Inner loop: Column controller
+    for (let i = 0; i < R; i++) {
+        for (let j = 0; j < C; j++) {
+            console.log(matrix[i][j]); // j variable badh raha hai row consistent rehne par
+        }
+    }
+    ```
+*   **Time Complexity:** **\\(O(R \times C)\\)**
+*   **Space Complexity:** **\\(O(1)\\)**
+
+### B. Column-wise Traversal (Vertical scanning)
+Pehle Column 0 ko top to bottom scan karo, fir Column 1 ko, fir Column 2 ko.
+```
+                           j=0       j=1       j=2
+                            │         │         │
+                            ▼         ▼         ▼
+                          [ 1 ]     [ 2 ]     [ 3 ]
+                            │         │         │
+                            ▼         ▼         ▼
+                          [ 4 ]     [ 5 ]     [ 6 ]
+                            │         │         │
+                            ▼         ▼         ▼
+                          [ 7 ]     [ 8 ]     [ 9 ]
+```
+*   **Implementation:**
+    ```javascript
+    let R = matrix.length;
+    let C = matrix.length;
+    
+    for (let j = 0; j < C; j++) { // Outer loop changes column index
+        for (let i = 0; i < R; i++) { // Inner loop changes row index
             console.log(matrix[i][j]);
         }
     }
-}
-```
-
-#### Dry Run on `matrix = [,]`:
-* `rows = 2`, `cols = 2`
-* **`i = 0` (Row 0 selected):**
-  * `j = 0`: prints `matrix` = `10`
-  * `j = 1`: prints `matrix` = `20`
-* **`i = 1` (Row 1 selected):**
-  * `j = 0`: prints `matrix` = `30`
-  * `j = 1`: prints `matrix` = `40`
-* **Complexity:** Time: **\\(O(rows \times cols)\\)**, Space: **\\(O(1)\\)**.
+    ```
+*   **Time Complexity:** **\\(O(R \times C)\\)**
 
 ---
 
-### B. Column-Wise Traversal
-Isme outer index column control karega aur inner index row ko control karega!
+### C. Diagonal Traversal (The Square Matrix Special)
+Square matrix (jahan Rows === Columns) mein do prominent diagonals hote hain:
 
+```
+                      Main Diagonal: j === i (Red Line)
+                      Secondary Diagonal: j === n - 1 - i (Blue Line)
+                      
+                         ┌─────────┬─────────┬─────────┐
+                         │  (0,0)  │         │  (0,2)  │
+                         ├─────────┼─────────┼─────────┤
+                         │         │  (1,1)  │         │
+                         ├─────────┼─────────┼─────────┤
+                         │  (2,0)  │         │  (2,2)  │
+                         └─────────┴─────────┴─────────┘
+```
+
+1.  **Main Diagonal (Primary):** Jahan Row index aur Column index dono bilkul barabar ho: **`i === j`**.
+    *   *Elements:* `(0,0)`, `(1,1)`, `(2,2)` (jaise `1`, `5`, `9`).
+2.  **Secondary Diagonal (Anti-Diagonal):** Jahan indices ka combination coordinate property follow kare: **`j === n - 1 - i`**.
+    *   *Elements:* `(0,2)`, `(1,1)`, `(2,0)` (jaise `3`, `5`, `7`).
+
+#### Optimized Single-Loop Diagonal Traversal:
+Instead of running \\(O(n^2)\\) double loops to check diagonal filters, we can traverse in **\\(O(n)\\)**:
 ```javascript
-function traverseColWise(matrix) {
-    const rows = matrix.length;
-    const cols = matrix.length;
-    
-    for (let j = 0; j < cols; j++) { // Outer loop: Column controller
-        for (let i = 0; i < rows; i++) { // Inner loop: Row controller
-            console.log(matrix[i][j]);
-        }
-    }
-}
-```
-
-#### Dry Run on same `matrix = [,]`:
-* **`j = 0` (Col 0 selected):**
-  * `i = 0`: prints `matrix` = `10`
-  * `i = 1`: prints `matrix` = `30`
-* **`j = 1` (Col 1 selected):**
-  * `i = 0`: prints `matrix` = `20`
-  * `i = 1`: prints `matrix` = `40`
-* **Complexity:** Time: **\\(O(rows \times cols)\\)**, Space: **\\(O(1)\\)**.
-
----
-
-## 3. BASIC MATRIX OPERATIONS
-
-### A. Matrix Sum, Row-Sums & Col-Sums
-```javascript
-function matrixOperations(matrix) {
-    const rows = matrix.length;
-    const cols = matrix.length;
-    let totalSum = 0;
-    
-    const rowSums = new Array(rows).fill(0);
-    const colSums = new Array(cols).fill(0);
-    
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            const val = matrix[i][j];
-            totalSum += val;
-            rowSums[i] += val;
-            colSums[j] += val;
-        }
-    }
-    return { totalSum, rowSums, colSums };
-}
-```
-
----
-
-### B. Diagonal Traversals (Only for Square Matrices)
-
-Square matrix mein do major diagonals hote hain:
-1. **Main Diagonal (Primary):** Top-left se bottom-right.
-2. **Secondary Diagonal:** Top-right se bottom-left.
-
-```
-                   PRIMARY & SECONDARY DIAGONALS
-                   
-                   j=0      j=1      j=2
-                 ┌────────┬────────┬────────┐
-            i=0  │  Main  │        │  Sec   │   Index conditions:
-                 ├────────┼────────┼────────┤
-            i=1  │        │ Both ! │        │   Main: i === j
-                 ├────────┼────────┼────────┤
-            i=2  │  Sec   │        │  Main  │   Sec:  i + j === n - 1
-                 └────────┴────────┴────────┘
-```
-
-#### Primary Diagonal Condition:
-Har element diagonal line par `row index === column index` hota hai (`i === j`).
-* Naive approach: double loop laga kar check karo `if (i === j)`. Complexity: \\(O(n^2)\\).
-* **Optimal approach (Single loop):**
-```javascript
-function printPrimaryDiagonal(matrix) {
-    const n = matrix.length;
+function printDiagonals(matrix) {
+    let n = matrix.length;
     for (let i = 0; i < n; i++) {
-        console.log(matrix[i][i]); // O(n) time! No nested loop!
-    }
-}
-```
-
-#### Secondary Diagonal Condition:
-Is line par indices ka sum hamesha boundary range size minus one hota hai: `i + j === n - 1` yaani **`j === n - 1 - i`**.
-* **Optimal approach (Single loop):**
-```javascript
-function printSecondaryDiagonal(matrix) {
-    const n = matrix.length;
-    for (let i = 0; i < n; i++) {
-        console.log(matrix[i][n - 1 - i]); // O(n) time!
+        console.log("Primary:", matrix[i][i]); // j is replaced by i
+        console.log("Secondary:", matrix[i][n - 1 - i]); // j is replaced by n-1-i
     }
 }
 ```
 
 ---
 
-## 4. TRANSPOSE OF A MATRIX
+## 4. MATRIX BASIC OPERATIONS
 
-### What is Transpose? (Paltana)
-**Rows ko Columns bana do, aur Columns ko Rows bana do!**
-Yani coordinate `[i][j]` transpose hone ke baad coordinate `[j][i]` ban jata hai.
-
-```
-         Original (3x2 Rectangular)               Transposed (2x3 Matrix)
-              ┌────────┬────────┐                     ┌───┬───┬───┐
-              │   1    │   2    │                     │ 1 │ 3 │ 5 │
-              ├────────┼────────┤                     ├───┼───┼───┤
-              │   3    │   4    │   ─────────────►    │ 2 │ 4 │ 6 │
-              ├────────┼────────┤                     └───┴───┴───┘
-              │   5    │   6    │
-              └────────┴────────┘
-```
-
-### A. Square Matrix In-Place Transpose (No extra space)
-Square matrix ko transpose karte waqt, hum elements ko directly swap kar sakte hain, par dhyan rahe: **Humein sirf half diagonal swap karna hai (`j > i` area).** Agar pure loops check karenge, toh element do baar swap hokar vapas original position par aa jayega!
-
+### A. Matrix Addition (Cell-by-Cell Mapping)
+Do matrices ko tabhi add kiya ja sakta hai jab unke dimensions bilkul same ho. Addition hamesha **cell-by-cell mapping** se hota hai:
 ```javascript
-function transposeSquare(matrix) {
-    const n = matrix.length;
-    for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j < n; j++) { // j starts from i + 1 (swapping above diagonal)
-            let temp = matrix[i][j];
-            matrix[i][j] = matrix[j][i];
-            matrix[j][i] = temp;
-        }
-    }
-    return matrix;
-}
-```
-* **Complexity:** Time Complexity: **\\(O(n^2)\\)**, Space Complexity: **\\(O(1)\\)** auxiliary space.
-
-### B. Rectangular Matrix Transpose (New Matrix Allocation)
-Rectangular matrix mein hum directly swap nahi kar sakte kyunki rows and cols size different hote hain. Humein ek naya matrix of size `cols x rows` allocate karna padega.
-
-```javascript
-function transposeRectangular(matrix) {
-    const rows = matrix.length;
-    const cols = matrix.length;
+function addMatrices(mat1, mat2) {
+    let R = mat1.length;
+    let C = mat1.length;
+    let result = Array.from({ length: R }, () => new Array(C).fill(0));
     
-    // Create col x rows empty matrix
-    const result = Array.from({ length: cols }, () => new Array(rows));
-    
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            result[j][i] = matrix[i][j];
+    for (let i = 0; i < R; i++) {
+        for (let j = 0; j < C; j++) {
+            result[i][j] = mat1[i][j] + mat2[i][j]; // direct addition
         }
     }
     return result;
 }
 ```
-* **Complexity:** Time: **\\(O(rows \times cols)\\)**, Space: **\\(O(rows \times cols)\\)** for result matrix.
 
----
-
-## 5. MATRIX TRANSFORMATIONS: ROTATE 90 DEGREES
-
-### Rotations (SDE Interview Favourite)
-**Problem:** Ek square matrix ko 90 degrees clockwise direction mein rotate karna hai (in-place).
+### B. Transpose of a Matrix (The Symmetric Flip)
+**Transpose** ka matlab hai matrix ke rows ko columns mein aur columns ko rows mein convert kar dena.
 
 ```
-                      Original               Rotated 90°
-                     ┌───┬───┬───┐          ┌───┬───┬───┐
-                     │ 1 │ 2 │ 3 │          │ 7 │ 4 │ 1 │
-                     ├───┼───┼───┤   ──►    ├───┼───┼───┤
-                     │ 4 │ 5 │ 6 │          │ 8 │ 5 │ 2 │
-                     ├───┼───┼───┤          ├───┼───┼───┤
-                     │ 7 │ 8 │ 9 │          │ 9 │ 6 │ 3 │
-                     └───┴───┴───┘          └───┴───┴───┘
+                          Transpose Operation:
+                          
+               Matrix A:                         Matrix Aᵀ (Transposed):
+             ┌───┬───┬───┐                             ┌───┬───┬───┐
+             │ 1 │ 2 │ 3 │                             │ 1 │ 4 │ 7 │
+             ├───┼───┼───┤                             ├───┼───┼───┤
+             │ 4 │ 5 │ 6 │                             │ 2 │ 5 │ 8 │
+             ├───┼───┼───┤                             ├───┼───┼───┤
+             │ 7 │ 8 │ 9 │                             │ 3 │ 6 │ 9 │
+             └───┴───┴───┘                             └───┴───┴───┘
+             (Values 2, 4, 3, 7, 6, 8 are swapped symmetrically over diagonal!)
 ```
 
-#### Brute Force Strategy:
-Naya matrix allocate karo aur direct indices map karo: `result[j][n - 1 - i] = matrix[i][j]`. Space takes \\(O(n^2)\\).
-
-#### The Optimal Matrix Trick: (Transpose + Reverse)
-*Dekho dosto, isme ek gajab ki symmetry hai!*
-1. **Pehle matrix ko Transpose karo (In-place swap):**
-   `` \\(\longrightarrow\\) `` (Isse humare rows diagonal symmetric reflect ho gaye).
-2. **Ab Matrix ki har row ko reverse karo:**
-   Row 0: `` becomes ``.
-   Row 1: `` becomes ``.
-   Row 2: `` becomes ``.
-*Boom! Matrix bina kisi extra matrix space ke 90° clockwise rotate ho gaya!*
+#### Transpose In-Place (Square Matrix Only):
+Square matrix mein hum extra space waste kiye bina directly diagonal ke lower triangular elements ko upper triangular elements ke sath swap kar sakte hain.
+*   **Rule:** Sirf `i < j` wale elements ko swap karo. Agar saare elements ko swap karoge, toh elements do baar swap hokar wapas apni original jagah par aa jayenge!
 
 ```javascript
-function rotate90Clockwise(matrix) {
-    const n = matrix.length;
-    
-    // Step 1: Transpose in-place
+function transposeInPlace(matrix) {
+    let n = matrix.length;
     for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j < n; j++) {
+        for (let j = i + 1; j < n; j++) { // j starts from i+1 to avoid duplicate swaps!
+            // Swap matrix[i][j] with matrix[j][i]
             let temp = matrix[i][j];
             matrix[i][j] = matrix[j][i];
             matrix[j][i] = temp;
         }
     }
-    
-    // Step 2: Reverse each row
-    for (let i = 0; i < n; i++) {
-        matrix[i].reverse(); // manual row reversal in-place
-    }
-    
-    return matrix;
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(n^2)\\)**, Space Complexity: **\\(O(1)\\)** auxiliary space.
+*   **Time Complexity:** **\\(O(n^2)\\)** but runs half iterations.
+*   **Space Complexity:** **\\(O(1)\\) Auxiliary** space (completely in-place!).
 
 ---
 
-## 6. SPIRAL TRAVERSAL (THE BOUNDARY SHRINKING PATTERN)
+## 5. SEARCHING IN A 2D MATRIX (SDE SPECIAL)
 
-**Spiral Traversal matrix coding questions ka sabse popular pattern hai.**
+Standard interview problem jismein bache brute force se optimal design seekhte hain.
+
+### Key Problem: Search in a 2D Matrix (LeetCode 74 / Row-Col Sorted)
+
+#### 1. Understand:
+Humein ek matrix diya gaya hai jismein har row left to right sorted hai, aur har row ka pehla element pichli row ke aakhri element se bada hai. Humein ek `target` value dhoondhni hai.
+*   *Example:*
+    ```javascript
+    let matrix = [
+       ,
+       ,
+       
+    ];
+    let target = 3; // Output: true
+    ```
+
+#### 2. Brute Force (Linear Scan):
+Pure grid par nested loops lagao aur ek-ek element match karo.
+*   **Time Complexity:** **\\(O(R \times C)\\)**.
+*   **Bottleneck:** Hum sorted properties ka use hi nahi kar rahe!
+
+#### 3. Better Approach (Binary Search Preview on 2D Space):
+Kyunki har row pichli row se continuous sequence mein badi hai, hum is poore matrix ko ek single **1D virtual sorted array** ki tarah treat kar sakte hain!
+*   Total elements of virtual array = \\(R \times C\\).
+*   Indices virtual range = \\(0\\) to \\((R \times C) - 1\\).
+*   **Virtual to Real Coordinates Formula:**
+    Agar virtual index `mid` hai, toh matrix mein iska row aur col coordinates kya hoga?
+    \\[\text{row} = \lfloor \text{mid} / C \rfloor\\]
+    \\[\text{col} = \text{mid} \% C\\]
+    *(Where C is the number of columns)*
+
+#### 4. JavaScript Code:
+```javascript
+function searchMatrix(matrix, target) {
+    if (matrix.length === 0) return false;
+    
+    let R = matrix.length;
+    let C = matrix.length;
+    
+    let low = 0;
+    let high = (R * C) - 1; // Virtual bounds
+    
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+        
+        // Convert virtual index to real 2D matrix coordinates
+        let r = Math.floor(mid / C);
+        let c = mid % C;
+        
+        let midVal = matrix[r][c];
+        
+        if (midVal === target) {
+            return true;
+        } else if (midVal < target) {
+            low = mid + 1; // Search right half
+        } else {
+            high = mid - 1; // Search left half
+        }
+    }
+    return false;
+}
+```
+
+#### 5. Dry Run on `target = 16`:
+*   `R = 3, C = 4`. `low = 0, high = 11`.
+*   **Step 1:** `mid = Math.floor((0 + 11) / 2) = 5`.
+    *   Row: `r = Math.floor(5 / 4) = 1`. Col: `c = 5 % 4 = 1`.
+    *   `matrix` is `11`.
+    *   `11 < 16` \\(\rightarrow\\) `low = 5 + 1 = 6`.
+*   **Step 2:** `mid = Math.floor((6 + 11) / 2) = 8`.
+    *   Row: `r = Math.floor(8 / 4) = 2`. Col: `c = 8 % 4 = 0`.
+    *   `matrix` is `23`.
+    *   `23 > 16` \\(\rightarrow\\) `high = 8 - 1 = 7`.
+*   **Step 3:** `mid = Math.floor((6 + 7) / 2) = 6`.
+    *   Row: `r = Math.floor(6 / 4) = 1`. Col: `c = 6 % 4 = 2`.
+    *   `matrix` is `16`.
+    *   `16 === 16` \\(\rightarrow\\) **Target Found! Returns true**.
+*   **Complexity:** Time: **\\(O(\log(R \times C))\\)**, Space: **\\(O(1)\\)**.
+
+---
+
+## 6. SPIRAL TRAVERSAL (SDE INTERVIEW CLASSIC 🏆)
+
+SDE interviews ka sabse favourite problem jismein dynamic boundary markers set kiye jate hain.
+
+### Problem: Spiral Matrix (LeetCode 54)
+*Given an \\(M \times N\\) matrix, return all elements of the matrix in spiral order (clockwise direction).*
 
 ```
-                      1  ──►  2  ──►  3
-                                      │
-                      8  ──►  9       4
-                      ▲               │
-                      7  ◄──  6  ◄──  5
+                         1 ───► 2 ───► 3
+                                       │
+                         4 ───► 5      6
+                         ▲             │
+                         │             ▼
+                         7 ◄─── 8 ◄─── 9
 ```
 
-### The Boundary Approach (Pointers Strategy)
-Hum char variables ke zariye boundary areas lock karte hain aur spiral movement ke mutabik boundary range shrink karte hain:
-1. `top = 0`
-2. `bottom = rows - 1`
-3. `left = 0`
-4. `right = cols - 1`
+### 1. Understand:
+Matrix ke edges ko clock-wise spiral circular patterns mein trace karna hai.
 
-#### Traversal Algorithm:
-Hum loop tab tak chalate hain jab tak boundary pointers overlaps na karein (`top <= bottom && left <= right`):
-1. **Left to Right (Top row constant):** Traverse `left` to `right` pointer. Increment `top++`.
-2. **Top to Bottom (Right column constant):** Traverse `top` to `bottom`. Decrement `right--`.
-3. **Right to Left (Bottom row constant):** Check `top <= bottom` first (safety check), traverse `right` to `left`. Decrement `bottom--`.
-4. **Bottom to Top (Left column constant):** Check `left <= right` first (safety check), traverse `bottom` to `top`. Increment `left++`.
+### 2. Example:
+Input: `matrix = [,,]`  
+Output: ``
 
+### 3. Brute Force / Bottleneck:
+Bina boundary track kiye direct indexing karna unmaintainable, messy aur dynamic resizing ke cases mein code crash kar deta hai.
+
+### 4. Better/Optimal (4-Boundary Pointer Setup):
+Hum matrix ke charo taraf boundaries (walls) set kar denge:
+*   `top` wall initialized at `0`.
+*   `bottom` wall initialized at `matrix.length - 1` (R - 1).
+*   `left` wall initialized at `0`.
+*   `right` wall initialized at `matrix.length - 1` (C - 1).
+
+Hum loops se walls ko travel karenge, aur jaise hi ek wall print ho jayegi, hum use **shrink (andar ki taraf shift)** kar denge!
+
+```
+                  top ──►   1 ───────► 2 ───────► 3
+                            ▲                     │
+                            │                     │
+                            7 ◄─────── 8 ◄─────── 9  ◄── bottom
+                            ▲                     │
+                            left                  right
+```
+
+---
+
+### 5. JavaScript Code:
 ```javascript
 function spiralOrder(matrix) {
     const result = [];
@@ -355,203 +386,306 @@ function spiralOrder(matrix) {
     let left = 0;
     let right = matrix.length - 1;
     
-    while (top <= bottom && left <= right) {
-        // 1. Left to Right
-        for (let i = left; i <= right; i++) {
-            result.push(matrix[top][i]);
+    while (left <= right && top <= bottom) {
+        // Step 1: Traverse left to right along top boundary
+        for (let j = left; j <= right; j++) {
+            result.push(matrix[top][j]);
         }
-        top++;
+        top++; // Shrink top boundary downwards
         
-        // 2. Top to Bottom
+        // Step 2: Traverse top to bottom along right boundary
         for (let i = top; i <= bottom; i++) {
             result.push(matrix[i][right]);
         }
-        right--;
+        right--; // Shrink right boundary leftwards
         
-        // 3. Right to Left (Safety check to avoid redundant prints)
+        // Step 3: Traverse right to left along bottom boundary (if top/bottom didn't cross)
         if (top <= bottom) {
-            for (let i = right; i >= left; i--) {
-                result.push(matrix[bottom][i]);
+            for (let j = right; j >= left; j--) {
+                result.push(matrix[bottom][j]);
             }
-            bottom--;
+            bottom--; // Shrink bottom boundary upwards
         }
         
-        // 4. Bottom to Top (Safety check)
+        // Step 4: Traverse bottom to top along left boundary (if left/right didn't cross)
         if (left <= right) {
             for (let i = bottom; i >= top; i--) {
                 result.push(matrix[i][left]);
             }
-            left++;
+            left++; // Shrink left boundary rightwards
         }
     }
     return result;
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(rows \times cols)\\)** (every single index visited once), Space Complexity: **\\(O(1)\\)** auxiliary space (excluding final result list storage).
+
+### 6. Line-by-Line Explanation:
+*   `let top = 0`, etc.: boundary markers define karte hain.
+*   `while (left <= right && top <= bottom)`: Tab tak chalao jab tak search boundaries touch ya cross nahi karti.
+*   `top++`, `right--`, etc.: Har pass ke baad printed boundaries ko lock karke center ki taraf squeeze karte hain.
+
+### 7. Dry Run on `[,,]`:
+*   `top=0, bottom=2, left=0, right=2`.
+*   **Left to Right (top=0):** elements `1, 2, 3` pushed. `top` becomes `1`.
+*   **Top to Bottom (right=2):** elements `6, 9` pushed. `right` becomes `1`.
+*   **Right to Left (bottom=2):** elements `8, 7` pushed. `bottom` becomes `1`.
+*   **Bottom to Top (left=0):** element `4` pushed. `left` becomes `1`.
+*   **Next Loop (left=1, right=1, top=1, bottom=1):** `5` pushed. Pointers cross. Loop ends!
+*   *Result:* ``. Absolutely correct!
+
+### 8. Complexity:
+*   **Time Complexity:** **\\(O(R \times C)\\)** because every cell is visited exactly once.
+*   **Space Complexity:** **\\(O(1)\\) Auxiliary** space (not counting the output array space).
 
 ---
 
-## 7. MATRIX SEARCH (LOOKUP OPTIMIZATIONS)
+## 7. ROTATE MATRIX BY 90° (IN-PLACE TRANSFORMATION)
 
-Matrix search queries ke algorithms is baat par depend karte hain ki matrix kaisa sorted hai.
+### Problem Statement: Rotate Image (LeetCode 48)
+*You are given an \\(N \times N\\) 2D matrix representing an image, rotate the image by 90 degrees (clockwise) in-place.*
 
-### Case A: Search in a row-wise and column-wise Sorted Matrix (Search in 2D Matrix II)
-Matrix values rows aur columns dono mein sorted hain ascending orders mein.
 ```
-                  [ 10,  20,  30,  40 ]
-                  [ 15,  25,  35,  45 ]
-                  [ 27,  29,  37,  48 ]
+                       1   2   3         7   4   1
+                       4   5   6   ──►   8   5   2
+                       7   8   9         9   6   3
 ```
 
-#### The Staircase Search Logic:
-*Hum isme binary search ki tarah range dynamic reduction lagayenge.*
-* **Start Corner Selection:** Hum top-right corner `(row = 0, col = cols - 1)` se shuru karte hain.
-* **Movement Rule:**
-  * Agar `matrix[row][col] === target`, mil gaya!
-  * Agar `matrix[row][col] > target`, iska matlab is column ki values target se badi hain. Decrement `col--` (move left).
-  * Agar `matrix[row][col] < target`, iska matlab is row ki values target se choti hain. Increment `row++` (move down).
+### 1. Understand:
+Humein original matrix ke memory cells ko rightward 90 degrees twist/rotate karna hai bina koi dusra temporary array allocate kiye.
 
+### 2. Example:
+Input: `matrix = [,,]`  
+Output: `[,,]`
+
+### 3. Brute Force (Out-Of-Place):
+Naya array create karke cells map karo: `newMat[j][n - 1 - i] = matrix[i][j]`. Space is \\(O(n^2)\\).
+
+### 4. Bottleneck:
+Interviews mein strict constraint hota hai: **"In-place modify karna hai, Space complexity O(1) honi chahiye."**
+
+### 5. Optimal Observation (Transpose + Reverse Pattern 💡):
+Chalo matrix transformation ke symmetrical levels ko observe karte hain.
+```
+Original:
+
+
+
+
+Step 1: Take Transpose of matrix (Swap over primary diagonal):
+
+
+
+
+Step 2: Reverse each row of transposed matrix:
+
+
+
+
+BOOM! We got the rotated matrix in O(1) space!
+```
+
+---
+
+### 6. JavaScript Code:
 ```javascript
-function searchMatrixSorted(matrix, target) {
-    if (matrix.length === 0) return false;
+function rotate(matrix) {
+    let n = matrix.length;
     
-    let row = 0;
-    let col = matrix.length - 1; // Start at Top-Right
-    
-    while (row < matrix.length && col >= 0) {
-        if (matrix[row][col] === target) {
-            return true;
-        } else if (matrix[row][col] > target) {
-            col--; // Move Left
-        } else {
-            row++; // Move Down
+    // Step 1: Transpose the matrix
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            let temp = matrix[i][j];
+            matrix[i][j] = matrix[j][i];
+            matrix[j][i] = temp;
         }
     }
-    return false;
+    
+    // Step 2: Reverse each row
+    for (let i = 0; i < n; i++) {
+        // Classic two pointer array reverse
+        let left = 0;
+        let right = n - 1;
+        while (left < right) {
+            let temp = matrix[i][left];
+            matrix[i][left] = matrix[i][right];
+            matrix[i][right] = temp;
+            left++;
+            right--;
+        }
+    }
 }
 ```
-* **Complexity Comparison:**
-  * *Brute Force (Linear Scan):* Time \\(O(rows \times cols)\\).
-  * *Staircase Search (Sorted):* Time Complexity **\\(O(rows + cols)\\)**. Space Complexity: **\\(O(1)\\)**.
+
+### 7. Complexity:
+*   **Time Complexity:** **\\(O(n^2)\\)**. (Transpose is \\(O(n^2)\\), reversing all rows is \\(O(n^2)\\)).
+*   **Space Complexity:** **\\(O(1)\\)** Auxiliary space. Perfect in-place execution!
 
 ---
 
-## 8. 2D PREFIX SUM PATTERN (INTEGRAL IMAGING)
+## 8. 2D PREFIX SUM PATTERN (RECTANGLE RANGE QUERY)
 
-**1D prefix sum range queries ko fast karta hai. Par matrix grids mein sub-rectangle range queries ko \\(O(1)\\) kaise karein?**
+Ab level ko thoda aur upar lekar chalte hain.
 
-### The Sub-Rectangle Sum Query Problem:
-Manlo grid size bada hai aur interviewer tumse poochta hai: *"Index (r1, c1) se (r2, c2) rectangle boundaries ke bache sub-matrix ka sum kya hai?"*
+### Concept:
+Jaise 1D array mein hum dynamic range sum queries ko **Prefix Sum (Chapter 4)** se optimize karte the, waise hi 2D matrix mein humein subgrid coordinates `(r1, c1)` se `(r2, c2)` tak ka query sum **\\(O(1)\\)** time mein calculate karna pad sakta hai.
 
 ```
-                  (0,0) ──────────► Columns (j)
-                    │   ┌───┬───┬───┬───┐
-                    │   │   │   │   │   │
-                    ▼   ├───┼───┼───┼───┤
-                 Rows   │   │(r1,c1)│   │  ◄── sub-rectangle
-                  (i)   ├───┼───┼───┼───┤
-                        │   │   │(r2,c2)│
-                        └───┴───┴───┴───┘
+                         2D prefix[i][j] represents:
+                         Sum of all matrix cells from (0,0) to (i,j)
+                         
+                         (0,0) ┌───────────────┐
+                               │               │
+                               │   Sub-Grid    │
+                               │               │
+                               └───────────────┘ (i,j)
 ```
 
-### Precalculating 2D Prefix Matrix:
-Hum ek `prefix[i][j]` matrix design karenge, jahan har index `(i,j)` top-left starting corner `(0,0)` se lekar coordinate `(i,j)` tak ke rectangular boundaries ke values ka cumulative sum save rakhta hai.
-
+### Construction Formula:
+Bacho, overlaps ko visualize karne ke liye hum standard inclusion-exclusion principle use karte hain:
 \\[\text{prefix}[i][j] = \text{matrix}[i][j] + \text{prefix}[i-1][j] + \text{prefix}[i][j-1] - \text{prefix}[i-1][j-1]\\]
-* *Intuition:* Dono left and upper coordinates ka cumulative sums bounds add karte waqt diagonal overlap index segment `prefix[i-1][j-1]` do baar add ho jata hai, isiliye use subtract karna padta hai.
+*(Overlapping common intersection region `prefix[i-1][j-1]` ko subtract kiya jata hai taaki double counting na ho).*
+
+```
+              ┌───────────────────────────┬───────────────────────────┐
+              │                           │                           │
+              │     prefix[i-1][j-1]      │       prefix[i-1][j]      │
+              │                           │                           │
+              ├───────────────────────────┼───────────────────────────┤
+              │                           │        matrix[i][j]       │
+              │     prefix[i][j-1]        │     (Current adding point)│
+              │                           │                           │
+              └───────────────────────────┴───────────────────────────┘
+```
+
+---
+
+### Query Sum Formula:
+Kisi bhi dynamic rectangular grid `(r1, c1)` se `(r2, c2)` tak ka sum constant time mein nikalne ka formula:
+\\[\text{Area} = \text{prefix}[r2][c2] - \text{prefix}[r1-1][c2] - \text{prefix}[r2][c1-1] + \text{prefix}[r1-1][c1-1]\\]
 
 ```javascript
 class NumMatrix {
     constructor(matrix) {
-        if (matrix.length === 0 || matrix.length === 0) return;
-        const r = matrix.length;
-        const c = matrix.length;
+        let R = matrix.length;
+        let C = matrix.length;
+        // Padded n+1 array to handle boundary index checks cleanly
+        this.prefix = Array.from({ length: R + 1 }, () => new Array(C + 1).fill(0));
         
-        // 1-padded prefix matrix to handle negative offset indices elegantly
-        this.prefix = Array.from({ length: r + 1 }, () => new Array(c + 1).fill(0));
-        
-        for (let i = 1; i <= r; i++) {
-            for (let j = 1; j <= c; j++) {
-                this.prefix[i][j] = matrix[i - 1][j - 1] 
-                                  + this.prefix[i - 1][j] 
-                                  + this.prefix[i][j - 1] 
-                                  - this.prefix[i - 1][j - 1];
+        for (let i = 1; i <= R; i++) {
+            for (let j = 1; j <= C; j++) {
+                this.prefix[i][j] = matrix[i-1][j-1] 
+                                  + this.prefix[i-1][j] 
+                                  + this.prefix[i][j-1] 
+                                  - this.prefix[i-1][j-1];
             }
         }
     }
-    
-    // Constant time range sum query O(1) Time!
+
     sumRegion(r1, c1, r2, c2) {
-        // Shift indexing according to 1-padding matrix allocations
-        r1++; c1++; r2++; c2++;
-        return this.prefix[r2][c2] 
-             - this.prefix[r1 - 1][c2] 
-             - this.prefix[r2][c1 - 1] 
-             + this.prefix[r1 - 1][c1 - 1];
+        // coordinates mapping with our padded prefix sum array
+        return this.prefix[r2 + 1][c2 + 1] 
+             - this.prefix[r1][c2 + 1] 
+             - this.prefix[r2 + 1][c1] 
+             + this.prefix[r1][c1];
     }
 }
 ```
-* **Complexity:** Matrix setup preprocessing takes **\\(O(rows \times cols)\\)**, but once created, **any sub-rectangle sum region query runs in \\(O(1)\\) constant time**!
+*   **Complexity:** Preprocessing is **\\(O(R \times C)\\)**, Query Sum runs in **\\(O(1)\\) constant time**!
 
 ---
 
-## 9. PRACTICE PROBLEMS (CORNER STUDY)
+## 9. MATRIX AS GRAPH / GRID PREVIEW (THE HOOK 🪝)
 
-🚀 **Whiteboard bilkul ready hai bacho! Chalo ab teen behtareen interview matrix problems ko trace aur implement karte hain.**
+Bacho, LeetCode ke kai advanced matrix problems (jaise *Number of Islands* ya *Rotten Oranges*) actually graph problems hoti hain. 
 
-### Problem 1 (Easy): Diagonal Sums Difference
-*Given a square matrix, calculate the absolute difference between the sums of its diagonals.*
+Matrix ka har ek box `(i, j)` ek **Node (Vertex)** ban jata hai, aur uski adjacent directions (Up, Down, Left, Right) ke paths unke **Edges** ban jate hain.
 
-#### 🧠 Analysis:
-* Square matrix condition means `primary` can be iterated via `i === j`, and `secondary` via `j === n - 1 - i`.
-* We can compute both sums in a **single loop of \\(O(n)\\)** time complexity!
+```
+                                    (i-1, j)
+                                       ▲
+                                       │
+                      (i, j-1) ◄─── (i, j) ───► (i, j+1)
+                                       │
+                                       ▼
+                                    (i+1, j)
+```
+
+Hum graph theory traversals (BFS/DFS) ko use karke adjacent cells ko explore karte hain, iski complete algorithms hum pure depth ke sath dedicated **Graph Chapter** mein padhenge.
+
+---
+
+## 10. PATTERN RECOGNITION (STRATEGIC weaponS MATRIX)
+
+Product interview rooms mein problem padhte hi matrix ke clues decode karo:
+
+| Pattern Clue | Match Category | Core Strategy |
+| :--- | :--- | :--- |
+| **Grid rotations, diagonal flips** | Symmetrical Manipulation | Transpose + row reverse patterns in-place. |
+| **Sum query inside sub-rectangles** | 2D Query Optimization | Precompute static matrices using 2D Prefix Sum. |
+| **Searching in row-col sorted matrix**| Search Compression | Convert index flat coordinates, apply Binary Search. |
+| **Sequential spiral boundary tracing** | Shrinking Box Pattern | Maintain 4-pointer walls, squeeze coordinates inside spiral loops. |
+
+---
+
+## 11. PRACTICE CORNER (CHALLENGING DIAGNOSTICS)
+
+🚀 **Whiteboard bilkul clean hai dosto! Chalo, direct solutions par mat jana. Har question ke logic ko dhang se trace karo pehle!**
+
+---
+
+### Problem 1 (Easy): Transpose Matrix (LeetCode 867)
+*Given a 2D array `matrix`, return the transpose of `matrix`.*
+
+#### 🧠 Diagnostics:
+*   *Is it a square matrix?* No, rectangular parameters are allowed.
+*   *In-place possible?* No, rectangular transpose dimensions change (e.g. \\(3 \times 2 \rightarrow 2 \times 3\\)), so we must allocate a new output array.
 
 ```javascript
-function diagonalDifference(matrix) {
-    const n = matrix.length;
-    let primarySum = 0;
-    let secondarySum = 0;
+function transpose(matrix) {
+    let R = matrix.length;
+    let C = matrix.length;
     
-    for (let i = 0; i < n; i++) {
-        primarySum += matrix[i][i];
-        secondarySum += matrix[i][n - 1 - i];
+    // Transposed matrix will have C rows and R columns
+    let result = Array.from({ length: C }, () => new Array(R).fill(0));
+    
+    for (let i = 0; i < R; i++) {
+        for (let j = 0; j < C; j++) {
+            result[j][i] = matrix[i][j]; // Rows map to Columns
+        }
     }
-    return Math.abs(primarySum - secondarySum);
+    return result;
 }
 ```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)**.
+*   **Complexity:** Time: **\\(O(R \times C)\\)**, Space: **\\(O(R \times C)\\)**.
 
 ---
 
-### Problem 2 (Medium): Set Matrix Zeroes
-*Given an \\(m \times n\\) integer matrix, if an element is 0, set its entire row and column to 0's in-place.*
+### Problem 2 (Medium): Set Matrix Zeroes (LeetCode 73)
+*Given an \\(M \times N\\) integer matrix, if an element is 0, set its entire row and column to 0's.*
 
-#### 🧠 Analysis & Bottleneck:
-* If we update elements to `0` immediately when scanned, we will accidentally propagate zeroes down the matrix, turning the entire matrix zero!
-* *Brute force:* Use \\(O(rows + cols)\\) extra space using two arrays to record indices of zeroes seen.
-* *Optimal In-place approach:* We can use the **first row and first column of the matrix itself as markers**!
-  We just need two extra flags to check if the first row or first column itself contained zeroes originally.
+#### 🧠 Diagnostics:
+*   *Brute Force:* Naya matrix allocate karo, zero milne par result mein updates run karo. Space: \\(O(R \times C)\\).
+*   *Optimal Approach (Reference Overwriting Optimization):* Hum extra arrays are memory allocations ko bypass karke, matrix ki **first row** aur **first column** ko hi markers (flag tracking) ki tarah use kar sakte hain!
 
 ```javascript
 function setZeroes(matrix) {
-    const rows = matrix.length;
-    const cols = matrix.length;
+    let R = matrix.length;
+    let C = matrix.length;
     let firstRowHasZero = false;
     let firstColHasZero = false;
     
-    // Check if first column has any zero
-    for (let i = 0; i < rows; i++) {
+    // Step 1: Check if first row has any zeroes
+    for (let j = 0; j < C; j++) {
+        if (matrix[j] === 0) firstRowHasZero = true;
+    }
+    // Check if first column has any zeroes
+    for (let i = 0; i < R; i++) {
         if (matrix[i] === 0) firstColHasZero = true;
     }
     
-    // Check if first row has any zero
-    for (let j = 0; j < cols; j++) {
-        if (matrix[j] === 0) firstRowHasZero = true;
-    }
-    
-    // Use first row and column as marker storage
-    for (let i = 1; i < rows; i++) {
-        for (let j = 1; j < cols; j++) {
+    // Step 2: Use first row and col as markers for rest of matrix
+    for (let i = 1; i < R; i++) {
+        for (let j = 1; j < C; j++) {
             if (matrix[i][j] === 0) {
                 matrix[i] = 0; // Row marker
                 matrix[j] = 0; // Col marker
@@ -559,111 +693,54 @@ function setZeroes(matrix) {
         }
     }
     
-    // Place zeroes based on markers
-    for (let i = 1; i < rows; i++) {
-        for (let j = 1; j < cols; j++) {
+    // Step 3: Zero out cells based on markers
+    for (let i = 1; i < R; i++) {
+        for (let j = 1; j < C; j++) {
             if (matrix[i] === 0 || matrix[j] === 0) {
                 matrix[i][j] = 0;
             }
         }
     }
     
-    // Zero out first col if needed
-    if (firstColHasZero) {
-        for (let i = 0; i < rows; i++) matrix[i] = 0;
-    }
-    
-    // Zero out first row if needed
+    // Step 4: Handle first row/col edge cases
     if (firstRowHasZero) {
-        for (let j = 0; j < cols; j++) matrix[j] = 0;
+        for (let j = 0; j < C; j++) matrix[j] = 0;
+    }
+    if (firstColHasZero) {
+        for (let i = 0; i < R; i++) matrix[i] = 0;
     }
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(rows \times cols)\\)**, Space Complexity: **\\(O(1)\\)** auxiliary space. *Zero extra variables storage bacho!*
+*   **Complexity:** Time Complexity: **\\(O(R \times C)\\)**, Space Complexity: **\\(O(1)\\)** auxiliary space. Amazing optimization!
 
 ---
 
-### Problem 3 (Challenging): Diagonal Traversal (Snake diagonal pattern)
-*Given an \\(m \times n\\) matrix, return all elements of the matrix in diagonal order (zigzag snake style).*
+## 12. COMMON MISTAKES & INTERVIEW TRAPS ⚠️
 
-```
-                     Original (3x3 Matrix)
-                     ┌───┬───┬───┐
-                     │ 1 │ 2 │ 3 │
-                     ├───┼───┼───┤   Zigzag output diagonal scan:
-                     │ 4 │ 5 │ 6 │  
-                     ├───┼───┼───┤
-                     │ 7 │ 8 │ 9 │
-                     └───┴───┴───┘
-```
-
-#### 🧠 Analysis & Mathematical symmetry:
-* Notice that all elements on any single diagonal line have the **same index sum: `i + j === d`** (where diagonal index `d` ranges from `0` to `rows + cols - 2`).
-* Zigzag trace direction depends on whether diagonal step index is even or odd:
-  * Even diagonals traverse **upwards** (row decreasing, col increasing).
-  * Odd diagonals traverse **downwards** (row increasing, col decreasing).
-
-```javascript
-function findDiagonalOrder(matrix) {
-    if (matrix.length === 0) return [];
-    const rows = matrix.length;
-    const cols = matrix.length;
-    const result = [];
-    
-    // Total number of diagonal lanes is (rows + cols - 1)
-    const numDiagonals = rows + cols - 1;
-    
-    for (let d = 0; d < numDiagonals; d++) {
-        const intermediate = [];
-        
-        // Find starting row and col indexes for diagonal sum line 'd'
-        let r = d < cols ? 0 : d - cols + 1;
-        let c = d < cols ? d : cols - 1;
-        
-        while (r < rows && c >= 0) {
-            intermediate.push(matrix[r][c]);
-            r++;
-            c--;
-        }
-        
-        // If even diagonal index sum, we reverse direction values to go upwards
-        if (d % 2 === 0) {
-            result.push(...intermediate.reverse());
-        } else {
-            result.push(...intermediate);
-        }
-    }
-    return result;
-}
-```
-* **Complexity:** Time Complexity: **\\(O(rows \times cols)\\)** (one linear zigzag trace), Space Complexity: **\\(O(rows \times cols)\\)** for intermediate reversing storage lanes.
-
----
-
-## 11. COMMON MISTAKES (THE RED FLAGS)
-
-1. **Row/Column confusion:**
-   `matrix[col][row]` likhna sabse aam galti hai. Coordinates are hamesha `matrix[row][col]`. Outer bounds size limit is row lengths, inner is columns.
-2. **Dynamic initialization referencing pointers bug:**
-   `let matrix = new Array(rows).fill(new Array(cols))` creates identical references. Avoid this and use `Array.from()`.
-3. **Invalid Index access crash:**
-   Scanning diagonal calculations without boundary checks can cause reading properties of **`undefined`** (`matrix[i][j]` where `matrix[i]` is undefined). Always safeguard `row < rows` and `col >= 0`.
-4. **Incorrect rotational transpositions:**
-   Swapping rectangular matrices elements in-place will cause array boundaries overlap and index corruption. *Transpose rectangular arrays only by allocating new sized coordinates!*
+1.  **Confusing Row and Column Indexes:**
+    Using `matrix[j][i]` instead of `matrix[i][j]`. Always track: `i` denotes outer Row index, `j` denotes inner Column index.
+2.  **`matrix.length` vs `matrix.length`:**
+    *   `matrix.length` always returns the number of **Rows** (outer array size).
+    *   `matrix.length` returns the number of **Columns** (inner row array size).
+3.  **OutOfBound Crash in Spiral Traversal:**
+    Forgetting to add `if (top <= bottom)` checks inside leftward/upward traversal steps. Pointers update mid-loop, leading to duplicates if boundaries crossed.
+4.  **Reference Aliasing Bugs:**
+    Writing `new Array(cols).fill([])` duplicates identical row object instances. Modifying one cell mutates other rows instantly. Always initialize rows with constructor maps.
 
 ---
 
 ### ✅ Completed | Chapter 5 — Matrix & 2D Arrays
 
-🧠 **Matrix Skills:**
-* Representing dynamic coordinate matrices inside weakly-typed arrays of arrays.
-* Linear-time diagonal operations through single loops arithmetic optimizations.
-* In-place rotational shifts (Transpose + Reverse) using algebraic symmetric reflections.
+🧠 **Completed Topics:**
+*   Multidimensional "array of arrays" memory footprints in JavaScript engines.
+*   Safe grid allocations bypassing reference replication bugs.
+*   Horizontally row-wise, column-wise, diagonal scanning traversal loops.
+*   Constant time subgrid range sums precomputations using 2D Prefix Sum.
 
-🎯 **Patterns Learned:**
-* **Boundary Shrinking:** tracking top-bottom-left-right boundary pointers sequentially (Spiral Traversal).
-* **Staircase Elimination:** row-wise and col-wise matrix scanning to drop search spaces in sorted structures.
-* **2D Prefix Sum:** Precomputing integral values to resolve regional queries in \\(O(1)\\) constant time.
+🎯 **Mastered Patterns:**
+*   **Shrinking boundary pointer mapping** for clockwise spiral tracing.
+*   **Transpose and reverse swap** sequences for in-place rotated matrices.
+*   **Marker placement flags** leveraging matrix row bounds to optimize space complexity.
 
-⚠️ **Common Mistakes:** Reference replication errors during empty array definitions, and index crashes from row-col swapping logic.
+⚠️ **Mistakes to Avoid:** Row/Column coordinate mismatch, and allocating duplicate references in array constructors.
 
