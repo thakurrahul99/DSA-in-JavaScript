@@ -1,561 +1,602 @@
-**Arey bacho! Bilkul timing par aaye ho class mein. Marker aur copy ready rakho, kyunki aaj hum DSA ka sabse bada cheat-code seekhne wale hain—Hashing!**
+**Arey bacho! Jaldi se class mein aa jao aur dhyan seedhe whiteboard par lagao.**
 
-Dekho, software engineering aur coding interviews mein agar koi aisi cheez hai jo hamesha \\(O(n^2)\\) ya \\(O(n)\\) ke slow solutions ko jhatke mein **\\(O(1)\\)** ya **\\(O(n)\\)** par le aati hai, toh wo hai **Hashing**. Isko samajh liya toh samjho aadhe se zyada array aur string ke medium/hard questions tumse chutkiyon mein banenge.
+Pichle chapters mein humne Arrays, Matrices, aur Strings ko poore depth mein samjha aur dekha ki kaise dynamic window tracking ya opposite-direction traversal se hum complex loops ko transform karte hain. 
 
-Chalo, bilkul zero level se shuru karte hain aur dimaag ko ekdam makkhan banate hain!
+Lekin beta, ek bohot bada bottleneck abhi bhi bacha hua hai. Agar humein kisi array mein koi element dhoondhna ho, toh sorted array mein Binary Search lagakar \\(O(\log n)\\) time lagta hai, aur unsorted mein toh linear scan karke pure \\(O(n)\\) operations karne padte hain. 
+
+*"Sir, kya koi aisa magic structure hai jahan hum lakhon elements ke beech mein se apna target bina kisi loop ke, instantly **\\(O(1)\\) (Constant Time)** mein dhoondh sakein?"*
+
+**Haan bacho, bilkul hai!** Aur usi superpower ka naam hai **Hashing**! Aaj hum Hashing ke concepts ko bilkul zero se advanced Google/Amazon interview level tak breakdown karenge. Apne dimaag ke saare window compartments open kar lo aur register par likhna shuru karo!
 
 ---
 
-## 1. HASHING BASICS: CONCEPT & INTUITION
+## 1. THE Locker AnalogY: WHAT IS HASHING?
 
-### What is Hashing? (Sabse pehle asaan bhasha mein samjho)
-Chalo ek real-life analogy lete hain. Manlo tumhare paas ek bohot bada register hai jismein 10,000 dosto ke phone numbers likhe hain. Agar register random order mein likha gaya hai aur tumhein "Rahul" ka number chahiye, toh tumhein pehle page se aakhir tak ek-ek line padhni padegi (Linear Search). Isme time lagega \\(O(n)\\).
+Chalo ek dam mast real-life example se shuru karte hain.
 
-Lekin agar main ek aisa magic cupboard (almirah) banaun jismein **26 compartments** hain, har letter ke liye ek (A se Z). Ab agar mujhe "Rahul" ka number dhoondhna hai, toh main bina baki compartments ko touch kiye, directly **'R'** wale compartment ko kholunga aur number nikal lunga. 
-
-Yahi cupboard computer science mein **Hash Table** kehlata hai, aur register se coordinate dhoondhne ke is magical directly jump karne wale process ko hum **Hashing** kehte hain.
-
-### Key \\(\rightarrow\\) Value Mapping
-Hashing kaam karti hai **Key-Value** pairs par:
-* **Key:** Jo tum search karte ho (jaise kisi ka Name).
-* **Value:** Jo tumhein return mein chahiye (jaise unka Phone Number).
+Manlo tum ek bade amusement park ya swimming pool mein gaye. Wahan ek **Locker Room** hai jahan 100 lockers hain, aur unke numbers `0` se `99` tak hain.
 
 ```
-┌─────────────┐       ┌───────────────┐       ┌───────────────┐
-│  Key (Name) │ ───►  │ Hash Function │ ───►  │ Bucket Index  │
-└─────────────┘       └───────────────┘       └───────────────┘
- "John Smith"          Sum of ASCII % 32             17  (Direct Memory Slot)
+                  ┌───────┬───────┬───────┬───────┐
+                  │ Slot 0│ Slot 1│ Slot 2│ Slot 3│ ... up to Slot 99
+                  ├───────┼───────┼───────┼───────┤
+                  │ Empty │ Bag 🎒│ Empty │ Shoes │ 
+                  └───────┴───────┴───────┴───────┘
 ```
 
-### Hash Function Intuition: ASCII Code Khel
-Humein key (jo string bhi ho sakti hai) ko array ke valid index (integer) mein convert karna hota hai. Yeh kaam karta hai ek **Hash Function**.
+Agar tum apna bag locker room mein rakhna chahte ho, toh wahan ka manager ek simple mathematical formula use karta hai. Woh tumhara naam poochta hai, tumne bataya: **"Amit"**.
 
-* **ASCII Code:** Computer strings ko numbers ki form mein hi samajhta hai. Har character ka ek code hota hai (e.g., `'a'` ka `97`, `'b'` ka `98`).
-* **Desi Hash Function:** Chalo ek simple function banate hain jo key ke characters ke ASCII values ko sum karega aur use total array size (buckets count) se modulo (`%`) kar dega taaki index limit ke andar rahe.
+Manager ne ek magic machine (Hash Function) mein **"Amit"** dala:
+1. Machine ne Amit ke characters ka sum nikala: \\(A(65) + m(109) + i(105) + t(116) = 395\\).
+2. Locker total 100 hain, toh usne modulo kiya: \\(395 \% 100 = 95\\).
+3. Manager ne bola: *"Amit babu, apna bag **Locker Number 95** mein rakh do!"*
+
+Shaam ko jab tum wapas aaye aur bole: *"Mera bag de do"*, toh manager ne phir se wahi math calculate kiya: Amit \\(\rightarrow\\) 95. Usne bina kisi search ke, seedhe Locker 95 khola aur tumhara bag nikal kar de diya. 
+
+**Isi ko Hashing kehte hain!** Bina poore room mein dhoondhe (no loops, no scans), seedhe address calculate karke element par jump karna.
+
+### Key Concepts to Remember:
+1. **Key:** Jo unique identifier tum pass karte ho (jaise tumhara Name ya Roll Number).
+2. **Value:** Jo actual data tum save kar rahe ho (jaise tumhara Phone Number ya Bag).
+3. **Hash Function:** Woh magic machine jo Key ko lekar ek specific integer index return karti hai.
+4. **Hash Table:** Woh array/bucket structure jahan data actually un calculated indices par store hota hai.
+
+---
+
+## 2. UNDER THE HOOD: HASH FUNCTIONS & COLLISIONS
+
+Tumhare dimaag mein ek sawaal aa raha hoga: *"Sir, agar do alag-alag naam ka calculated hash index same aa gaya toh kya hoga?"*
+
+Chalo check karte hain:
+* **Key 1: "Amit"** \\(\rightarrow\\) ASCII Sum = 395. Modulo 100 = **`95`**.
+* **Key 2: "Mita"** \\(\rightarrow\\) ASCII Sum is also 395 (same characters rearrange ho gaye!). Modulo 100 = **`95`**.
+
+**Oh Teri!** Dono ko same locker mila. Is condition ko DSA mein **Collision (Takraav)** kehte hain! Collision tab hota hai jab do different keys ke liye Hash Function same index output kar de.
+
+```
+                             COLLISION ENCOUNTERED!
+                             
+                                 Key: "Amit" ──┐
+                                               ▼
+                                         Hash Function
+                                               ▲
+                                 Key: "Mita" ──┘
+                                               │
+                                               ▼
+                                          Index: 95 (Collision! 💥)
+```
+
+### Collision Resolution Strategies (Collision se kaise bachein?)
+Real engines collisions ko handle karne ke liye do bade methods use karte hain:
+
+#### A. Separate Chaining (The Linked List Chain)
+Hum table ke har slot par direct data rakhne ke bajay ek **Linked List ka Head pointer** betha dete hain.
+* Agar Locker 95 par pehle se Amit ka data hai, aur ab Mita bhi 95 par aayi, toh hum Amit ke node ke aage Mita ka node append kar denge.
+* **Lookup:** Index 95 par jao, aur us slot ki Linked List ko traverse karke target key match karo.
+
+```
+           Index 95 ──► [ Amit | Value 1 ] ───► [ Mita | Value 2 ] ───► null
+```
+
+#### B. Linear Probing (Open Addressing)
+Agar calculated slot pehle se full hai, toh aage badho aur agla jo bhi khali (empty) slot mile, wahan apna data rakh do!
+
+---
+
+### Complexity Caveat: The Worst Case Scenario ⚠️
+* **Average Case Complexity:** Agar hash function bohot balanced hai aur keys perfectly distributed hain, toh insertion, deletion, aur search hamesha **\\(\mathcal{O}(1)\\)** hoga.
+* **Worst Case Caveat:** Agar hash function ganda hai aur saari keys same index par crash ho gayi, toh separate chaining mein ek hi slot par \\(N\\) elements ki lambi Linked List ban jayegi. Tab search complexity degrade hokar **\\(\mathcal{O}(n)\\)** ho jayegi!
+
+---
+
+## 3. KEYED COLLECTIONS IN JAVASCRIPT: Object vs Map & Set vs Array
+
+JavaScript mein Hashing patterns ko implement karne ke liye humare paas main teen weapons hote hain: **Object**, **Map**, aur **Set**. Inke differences ko bilkul dhyan se samajh lo, yeh interviewers ka hot-topic hai!
+
+### A. Object vs. Map ⚔️
+
+```
+             OBJECT                                   ES6 MAP
+      ┌──────────────────┐                     ┌──────────────────┐
+      │ "key" ──► Value  │                     │  Key  ──► Value  │
+      └──────────────────┘                     └──────────────────┘
+      * Keys are ALWAYS coerced to Strings.    * Keys can be ANY data type
+                                                 (Objects, Functions, etc.)
+```
+
+| Feature | Standard Object | ES6 Map |
+| :--- | :--- | :--- |
+| **Allowed Key Types** | Sirf **String** ya **Symbol**. Agar tum number ya array ko key banaoge, toh JS engine use internally string mein coerce (convert) kar dega. | **Any Type!** Tum pure arrays, objects, functions ya primitives ko directly key bana sakte ho. |
+| **Key Ordering** | Elements sorted order mein iterate hote hain (integer keys pehle, baki insertion order mein). | Hamesha strictly **Insertion Order** guarantee karta hai. |
+| **Size Lookup** | **\\(\mathcal{O}(n)\\)** time. Humein `Object.keys(obj).length` lagana padta hai jo pure object ko scan karta hai. | **\\(\mathcal{O}(1)\\)** time. Isme direct `.size` property hoti hai. |
+| **Performance** | Basic cases ke liye theek hai, par frequent updates par slow ho jata hai. | High-frequency additions aur removals ke liye heavily optimized hai. |
+
+---
+
+### B. Set vs. Array ⚔️
+* **Array:** Ordered collection hai jahan elements duplicates ho sakte hain aur search karne ke liye \\(\mathcal{O}(n)\\) scan lagta hai.
+* **Set:** Unique values ka collection hai. Agar tum Set mein same element 10 baar bhi insert karoge, toh woh sirf ek hi baar save hoga. Set internally hash table use karta hai, isiliye check karna ki element present hai ya nahi (`set.has(val)`) instantly **\\(\mathcal{O}(1)\\)** mein hota hai!
+
+---
+
+### C. Map and Set Operations in Action (Hands-on) 💻
+
+Chalo engine par inke behaviors ko practically trace karte hain:
 
 ```javascript
-function simpleHash(key, bucketsNumber) {
-    let hashCode = 0;
-    for (let i = 0; i < key.length; i++) {
-        hashCode += key.charCodeAt(i); // Har character ka ASCII value add karenge
-    }
-    return hashCode % bucketsNumber; // Modulo operator index ko table ke range mein rakhega
-}
+// 1. Map Operations
+const userRoles = new Map();
 
-console.log(simpleHash("ab", 100)); 
-// 'a' = 97, 'b' = 98 -> Sum is 195
-// 195 % 100 = 95 (Index 95 is returned!)
+// set(key, value)
+userRoles.set("Amit", "SDE-1");
+userRoles.set(45, "Locker Number"); // Numeric key allowed!
+
+// get(key)
+console.log(userRoles.get("Amit")); // Output: "SDE-1"
+console.log(userRoles.get("Rahul")); // Output: undefined
+
+// has(key) -> Returns boolean
+console.log(userRoles.has(45)); // Output: true
+
+// delete(key)
+userRoles.delete(45);
+console.log(userRoles.has(45)); // Output: false
+console.log(userRoles.size); // Output: 1 (Instant O(1) size check)
 ```
 
-### Lookup ka Magic: Average \\(O(1)\\) aur Worst Case \\(O(n)\\)
-Kyunki humein key se seedha memory index ka address mil jata hai, isiliye value ko dhoondhna ya write karna constant time **\\(O(1)\\)** mein ho jata hai. 
-
-Lekin kabhi-kabhi do alag-alag keys ka hash output same index de sakta hai (e.g., "ab" aur "ba" dono ka sum `195` hoga). Is situation ko hum **Collision** kehte hain. Agar collisions bohot zyada ho jayein aur hum collision resolution achhe se na karein, toh lookup speed degrade hokar bad se badtar **\\(O(n)\\)** tak ja sakti hai. Is collision ke baare mein hum detail mein section 7 mein baat karenge.
-
 ---
 
-## 2. JAVASCRIPT HASHING TOOLS: `Map`, `Set` & `Object`
+### D. The JS Reference Trap in Hashing! 🚨
 
-JavaScript mein humein scratch se hash table likhne ki zaroorat nahi padti (interviews ko chodhkar). Humare paas teen powerful built-in tools hain. Chalo inka difference bilkul crystal clear karte hain.
+Bachon, yahan 99% developers fail hote hain. Is code ka output guess karo:
 
-### A. Object `{}` as a Lookup Table
-JavaScript mein Objects internally key-value pairs store karne ke liye use hote hain.
-
-* **Syntax & Example:**
-  ```javascript
-  const lookup = {};
-  lookup["apple"] = 10; // set: O(1)
-  console.log(lookup["apple"]); // get: O(1)
-  console.log("apple" in lookup); // check: true
-  ```
-* **Complexity:** Set/Get: Average **\\(O(1)\\)**, Worst **\\(O(n)\\)** agar prototype parameters clash ho jayein.
-* **When to use:** Jab keys pehle se hi fixed/known strings hon (jaise API configuration values).
-
----
-
-### B. Map Class (The Ultimate SDE Key-Value Store)
-ES6 mein Map class aayi jo dynamic key-value storage ke liye optimized hai.
-
-* **Syntax & Example:**
-  ```javascript
-  const map = new Map();
-  map.set("apple", 10); // set
-  console.log(map.get("apple")); // get: 10
-  console.log(map.has("apple")); // check: true
-  console.log(map.size); // get size instantly: 1 (O(1) time)
-  ```
-* **Complexity:** Set/Get/Has/Delete: **\\(O(1)\\)** average. Size fetch karna hamesha **\\(O(1)\\)** hota hai.
-* **When to use:** DSA coding problems mein key-value storage ke liye hamesha **`Map`** ka hi use karo.
-
----
-
-### C. Set Class (Unique Values Store)
-Set hamesha unique items ka collection store karta hai, duplicates ko silently ignore kar deta hai.
-
-* **Syntax & Example:**
-  ```javascript
-  const set = new Set();
-  set.add(10);
-  set.add(10); // Duplicate ignored!
-  console.log(set.has(10)); // true (O(1) search!)
-  console.log(set.size); // 1
-  ```
-* **Complexity:** Add/Has/Delete: **\\(O(1)\\)**.
-* **When to use:** Jab sirf values ki uniqueness check karni ho ya duplicates hatane hon (jaise `[...new Set(arr)]`).
-
----
-
-### Comparison Matrix for SDE Interviews
-
-Chalo ise dhang se analyze karo, interviewer yahan se seedha sawaal puchte hain:
-
-| Feature / Attribute | Standard JavaScript Object | ES6 Map Class | ES6 Set Class |
-| :--- | :--- | :--- | :--- |
-| **Permitted Key Types** | Only Strings or Symbols | Any data type (objects, numbers, etc.) | N/A (Only stores unique values) |
-| **Size Retrieval Cost** | **\\(O(n)\\)** (Object.keys().length) | **\\(O(1)\\)** (using map.size) | **\\(O(1)\\)** (using set.size) |
-| **Key Iteration Order** | Unordered (numbers first, then strings) | Strict Insertion Order guaranteed | Strict Insertion Order |
-| **Prototype Overheads** | Clashes with Object.prototype default keys | Completely clean; no defaults | Clean unique data store |
-| **Primary Use Cases** | Static configs, raw JSON payloads | Dynamic lookups, cache mappings, DSA frequency | Duplicate removal, membership tracking |
-
----
-
-## 3. FREQUENCY COUNTING PATTERN
-
-**Hinglish logic:** "Kisi array ya string ke elements ko traverse karo, unka dynamic count (frequency) Map ya Object mein store karo, aur phir us map ko use karke result calculate karo."
-
-```
-Input Array: [ "a", "b", "a", "c", "a", "b" ]
-
-Step 1: Traverse and build frequency map:
-{
-  "a": 3,
-  "b": 2,
-  "c": 1
-}
-Step 2: Use this map to answer query instantly in O(1)!
-```
-
-### A. Frequency Counting using Object `{}`
 ```javascript
-function countFreqObject(arr) {
-    const freq = {};
-    for (const val of arr) {
-        // Agar value pehle se map mein hai toh +1 karo, nahi toh 1 se start karo
-        freq[val] = (freq[val] || 0) + 1;
-    }
-    return freq;
-}
-```
+const myMap = new Map();
+myMap.set(, "Gold Medalist");
 
-### B. Frequency Counting using Map
-```javascript
-function countFreqMap(arr) {
-    const freqMap = new Map();
-    for (const val of arr) {
-        // Map methods are set, get, has
-        const currentCount = freqMap.get(val) || 0;
-        freqMap.set(val, currentCount + 1);
-    }
-    return freqMap;
-}
+console.log(myMap.get()); // Kya output aayega?
 ```
+Tum bologe: *"Sir, simple hai, 'Gold Medalist'!"* 
+
+**Nahi beta! Iska output `undefined` aayega!** 
+
+#### Why? (Samajho memory logic):
+JavaScript mein arrays aur objects **Reference Types** hote hain. 
+* Jab tumne `.set(, ...)` kiya, toh memory address `Ref_A` par ek array bana.
+* Jab tumne `.get()` kiya, toh tumne ek naya array bracket khola, jiska memory address `Ref_B` hai.
+* Map check karega: `Ref_A === Ref_B`? Dono references different heap blocks ko point kar rahe hain, isiliye use key nahi milegi!
+
+> **Golden Rule:** Agar key Object ya Array hai, toh hamesha **same reference variable** pass hona chahiye:
+> ```javascript
+> const arrKey =;
+> myMap.set(arrKey, "Success");
+> console.log(myMap.get(arrKey)); // Output: "Success"! Correct!
+> ```
 
 ---
 
-## 4. CORE HASHING PROBLEMS (DISASSEMBLING STEP-BY-STEP)
+## 4. THE SDE BLUEPRINT: PATTERN RECOGNITION
 
-**Chalo dosto, ab shuru hota hai real logical dimaag ka khel. Hum direct code nahi seekhenge, brute force ke bottlenecks ko analyze karke optimal solution build karenge.**
+Interview room mein baithe ho, aur array/string ka question saamne aaya. Hashing kab aur kaise apply karni hai? Is strategy table ko dimaag mein lock karo:
 
-### Problem 1: Two Sum (LeetCode 1 - Super Famous)
-*Given an array of integers `nums` and an integer `target`, return indices of the two numbers such that they add up to `target`.*
+```
+                            HASHING SELECTION TREE
+                                       │
+         ┌─────────────────────────────┴─────────────────────────────┐
+  Are you checking UNIQUE items?                              Do you need to store counts/indices?
+         │                                                           │
+         ▼ (Yes)                                                     ▼ (Yes)
+      USE SET!                                                    USE MAP / OBJECT!
+  (Instant O(1) duplicate filter)                             (Frequency array/Complement lookup)
+```
+
+1. **Kab SET use karein?** 
+   Jab humein elements ki count ya positions se koi matlab nahi hai, bas unki **uniqueness/presence** check karni ho (e.g., duplicate detection, intersection checks).
+2. **Kab MAP/OBJECT use karein?**
+   * Jab humein elements ke sath unki **Frequencies (Count)** ya unka **Index map** save rakhna ho.
+   * Jab **Complement Lookup** karna ho (jaise Two Sum).
+3. **Kab Static Count Array (size 26/256) use karein?**
+   Agar keys strictly lowercase English letters (`'a'-'z'`) ya ASCII characters tak limited hon, toh dynamic Map allocation ke overhead se bachne ke liye direct constant size integer array use karo. Isse performance bohot optimize ho jati hai.
+4. **Kab Hashing USE NAHI karni chahiye?**
+   * Jab memory ki bohot strict boundary ho (kyunki hashing extra auxiliary space leti hai).
+   * Jab elements ka relative order ya sorting sequence barkarar rakhna ho.
+   * Jab continuous prefix range boundaries par dynamic minimum/maximum ranges query karni ho.
+
+---
+
+## 5. MASTERCLASS PROBLEMS (PROGRESSIVE CLASSROOM)
+
+🚀 **Aao dosto, whiteboard bilkul saaf hai. Ab hum progressive interview problems ko crack karenge!**
+
+---
+
+### Problem A (Easy): First Unique Character in a String (LeetCode 387)
 
 #### 1. Understand:
-`nums =, target = 9` \\(\longrightarrow\\) Output: `` (since `nums + nums === 9`).
+Humein ek string `s` di gayi hai. Humein isme sabse pehla non-repeating character dhoondhna hai aur uska index return karna hai. Agar saare characters repeat ho rahe hain, toh `-1` return karo.
 
-#### 2. Brute Force (Double Loop):
-"Sir, main do nested loops chalaunga aur har ek pair ka sum check karunga."
+#### 2. Example:
+Input: `s = "leetcode"`  
+Output: `0` (Kyunki `'l'` pure string mein sirf 1 baar aaya hai aur woh index 0 par hai).
+
+Input: `s = "loveleetcode"`  
+Output: `2` (First unique character is `'v'`).
+
+---
+
+#### 3. Brute Force Approach:
+Har character `s[i]` ke liye, poori string par ek aur nested loop chalakar check karo ki kya woh character aage ya peeche dobara aaya hai.
+* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Bottleneck:** Same character ka lookup baar-baar pure linear scan ke roop mein chal raha hai.
+
+#### 4. SDE Observation:
+*"Sir, agar hum ek hi pass mein saare characters ka frequency count pehle se rakh lein, toh second pass mein hum bas check kar sakte hain ki kis character ka count exactly 1 hai!"*
+* **What to remember?** Character frequencies (Counts).
+* **Which Structure?** Map (ya 26-size ka count array, kyunki input lowercase English letters hai).
+
+---
+
+#### 5. JavaScript Implementation:
 ```javascript
-// O(n^2) Brute Force
-for(let i = 0; i < nums.length; i++) {
-    for(let j = i + 1; j < nums.length; j++) {
-        if(nums[i] + nums[j] === target) return [i, j];
+function firstUniqChar(s) {
+    const freqMap = new Map();
+
+    // Pass 1: Build Frequency Map
+    for (let char of s) {
+        freqMap.set(char, (freqMap.get(char) || 0) + 1);
+    }
+
+    // Pass 2: Linearly find the first element with count === 1
+    for (let i = 0; i < s.length; i++) {
+        if (freqMap.get(s[i]) === 1) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+```
+
+#### 6. Dry Run on `s = "loveleetcode"`:
+* **State of Map after Pass 1:**
+  ```
+  Map(7) {
+    'l' => 2,
+    'o' => 2,
+    'v' => 1,
+    'e' => 4,
+    't' => 1,
+    'c' => 1,
+    'd' => 1
+  }
+  ```
+* **Pass 2 Trace:**
+  * `i = 0`: `s = 'l'`. `freqMap.get('l')` is `2` (Not 1).
+  * `i = 1`: `s = 'o'`. `freqMap.get('o')` is `2` (Not 1).
+  * `i = 2`: `s = 'v'`. `freqMap.get('v')` is `1` (Match Found! Return `2`). Correct!
+
+#### 7. Complexity Analysis:
+* **Time Complexity:** **\\(\mathcal{O}(n)\\)** (Two sequential linear passes).
+* **Space Complexity:** **\\(\mathcal{O}(1)\\)** (Auxiliary space is limited to maximum 26 lowercase English characters).
+
+#### 8. Edge Cases:
+* Empty string `""` \\(\rightarrow\\) Return `-1`.
+* All identical characters `"eeee"` \\(\rightarrow\\) Return `-1`.
+
+---
+
+### Problem B (Easy): Two Sum (LeetCode 1)
+
+#### 1. Understand:
+Humein ek integers ka array `nums` aur ek `target` sum diya gaya hai. Humein un do elements ke indices return karne hain jinka sum target ke barabar ho.
+
+#### 2. Example:
+Input: `nums =, target = 9`  
+Output: `` (Kyunki `nums + nums === 9`).
+
+---
+
+#### 3. Brute Force Approach:
+Nested loops chalakar saare possible pairs ka sum check karo.
+```javascript
+for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++) {
+        if (nums[i] + nums[j] === target) return [i, j];
     }
 }
 ```
-* **Bottleneck:** Nested loops lagne ki wajah se time complexity **\\(O(n^2)\\)** hai. Yeh bahut slow hai jab array lakhon elements ka ho.
-* **Why Hashing?** Agar main index `i` par hoon (value = `nums[i]`), toh mujhe pure array mein bas ek hi value dhoondhni hai: `target - nums[i]` (Complement). Pure array par loop lagane se behtar hai ki main humesha processed elements ko map mein store karta chaloon aur map se constant time check kar loon!
+* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Bottleneck:** Complement value `target - nums[i]` ko array mein dhoondhne ke liye har baar inner loop scan karna padta hai.
 
-#### 3. Optimal Approach (Single-Pass Hash Map Lookup):
+#### 4. SDE Observation (The Complement Lookup Pattern 💡):
+*"Sir, agar hum value `nums[i]` par khade hain, toh humein bas yeh dhoondhna hai ki kya `target - nums[i]` pehle kabhi array mein aa chuka hai? Agar haan, toh hume pair mil gaya!"*
+* **What to remember?** Past seen values aur unke indices.
+* **Which Structure?** `Map` (Key = Value, Value = Index).
+
+---
+
+#### 5. JavaScript Implementation:
 ```javascript
 function twoSum(nums, target) {
-    const seen = new Map(); // Store: Value -> Index
-    
+    const seen = new Map(); // Store: Value => Index
+
     for (let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i]; // Jo dhoondhna hai
-        
-        // Agar complement map mein mil gaya toh instantly indices mil gaye
+        const complement = target - nums[i];
+
+        // Check if complement has already been processed
         if (seen.has(complement)) {
             return [seen.get(complement), i];
         }
-        
-        // Nahi mila toh current value ko map mein daal do index ke sath
+
+        // Record current value index
         seen.set(nums[i], i);
     }
+
     return [];
 }
 ```
 
-#### 4. Dry Run on `nums =, target = 9`:
-* `seen = Map {}`
-* **`i = 0` (Value = 2):**
-  * `complement = 9 - 2 = 7`. Kya map mein `7` hai? Nahi.
-  * Map mein store karo: `seen.set(2, 0)`. `seen` is now `Map {2 => 0}`.
-* **`i = 1` (Value = 11):**
-  * `complement = 9 - 11 = -2`. Kya map mein `-2` hai? Nahi.
-  * Map mein store karo: `seen.set(11, 1)`. `seen` is now `Map {2 => 0, 11 => 1}`.
-* **`i = 2` (Value = 7):**
-  * `complement = 9 - 7 = 2`. Kya map mein `2` hai? **Haan, bilkul hai!**
-  * Returns `[seen.get(2), 2]`, which is **``**. Correct!
+#### 6. Dry Run on `nums =, target = 9`:
+* `i = 0` (`nums = 2`): `complement = 9 - 2 = 7`.
+  * Is `7` in Map? No.
+  * Map State: `Map { 2 => 0 }`.
+* `i = 1` (`nums = 11`): `complement = 9 - 11 = -2`.
+  * Is `-2` in Map? No.
+  * Map State: `Map { 2 => 0, 11 => 1 }`.
+* `i = 2` (`nums = 7`): `complement = 9 - 7 = 2`.
+  * Is `2` in Map? **Yes!**
+  * `seen.get(2)` returns `0`.
+  * Return ``. Correct!
 
-#### 5. Complexity:
-* **Time Complexity:** **\\(O(n)\\)** — Kyunki humne pure array ko sirf ek baar scan kiya aur map lookup instant \\(O(1)\\) hota hai.
-* **Space Complexity:** **\\(O(n)\\)** — Worst-case mein saare elements map mein store karne pad sakte hain.
-
----
-
-### Problem 2: Valid Anagram (LeetCode 242)
-*Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `false` otherwise.*
-
-#### 1. Understand:
-`s = "anagram", t = "nagaram"` \\(\longrightarrow\\) Output: `true`.
-`s = "rat", t = "car"` \\(\longrightarrow\\) Output: `false`.
-
-#### 2. Brute Force / Sorting:
-Dono strings ko array mein split karke alphabetize sort karo, aur fir match karo.
-```javascript
-let sortedS = s.split("").sort().join(""); // O(n log n)
-```
-* **Bottleneck:** Sorting hamesha **\\(O(n \log n)\\)** time complexity leti hai. Humein ise **\\(O(n)\\)** linear time mein solve karna hai.
-
-#### 3. Optimal Approach (Frequency Counting):
-Hum ek Map/Object banayenge jo string `s` ke har character ki frequency count karega, aur string `t` se characters ko ghatata jayega.
-
-```javascript
-function isAnagram(s, t) {
-    if (s.length !== t.length) return false;
-    
-    const countMap = {};
-    
-    // String s se map build karenge
-    for (let char of s) {
-        countMap[char] = (countMap[char] || 0) + 1;
-    }
-    
-    // String t se check aur nullify karenge
-    for (let char of t) {
-        if (!countMap[char]) {
-            return false; // Character missing ya count limit cross ho gayi
-        }
-        countMap[char]--;
-    }
-    return true;
-}
-```
-* **Complexity:** Time Complexity: **\\(O(n)\\)** (one pass mapping). Space Complexity: **\\(O(1)\\)** auxiliary space kyunki alphabet size fixed (maximum 26 characters for lowercase English).
+#### 7. Complexity Analysis:
+* **Time Complexity:** **\\(\mathcal{O}(n)\\)** because of single-pass map checks.
+* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space for map storage.
 
 ---
 
-### Problem 3: Group Anagrams (LeetCode 49)
-*Given an array of strings `strs`, group the anagrams together. You can return the answer in any order.*
+### Problem C (Medium): Group Anagrams (LeetCode 49)
 
 #### 1. Understand:
-`strs = ["eat", "tea", "tan", "ate", "nat", "bat"]`  
-Output: `[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]`.
+Humein strings ka ek array diya gaya hai. Humein anagrams ko ek sath groups mein collect/arrange karna hai. Anagrams wo strings hoti hain jinke character counts bilkul identical hote hain (jaise `"eat"`, `"tea"`, `"ate"`).
 
-#### 2. Bottleneck:
-Agar hum brute force se har word ko baki saare words se match karenge, toh \\(O(n^2 \cdot L)\\) lag jayega.
-* **Smart observation:** Kisi bhi Anagram group ka signature (sorted word) hamesha same hota hai! Jaise `"eat"`, `"tea"`, `"ate"` teeno ka sorted form hamesha **`"aet"`** hoga.
-* **Optimal Plan:** Hum Sorted String ko as a **Key** map karenge, aur dynamic grouped words ke arrays ko **Value** banakar hash map mein group karte jayenge!
+#### 2. Example:
+Input: `strs = ["eat", "tea", "tan", "ate", "nat", "bat"]`  
+Output: `[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]`
 
-#### 3. Optimal Code Implementation:
+---
+
+#### 3. Brute Force Approach:
+Har word ke liye poore array mein duplicate frequencies compare karo aur manually buckets mein match karke push karo.
+* **Complexity:** **Time: \\(\mathcal{O}(n^2 \cdot k \log k)\\)** (where \\(k\\) is max string length).
+
+#### 4. Better/Optimal Approach (The Sorted-Key Categorization Pattern 💡):
+*"Sir, agar hum kisi anagram string ke characters ko alphabetically sort kar dein, toh uske saare variants (eat, tea, ate) ka sorted version exact same string `"aet"` ban jayega! Hum is sorted string ko hi **Map Key** ki tarah use kar sakte hain!"*
+
+* **What to remember?** Sorted base-key and its list of anagram words.
+* **Which Structure?** `Map` (Key = Sorted String, Value = Array of original strings).
+
+---
+
+#### 5. JavaScript Implementation:
 ```javascript
 function groupAnagrams(strs) {
-    const groups = new Map();
-    
+    const anagramGroups = new Map();
+
     for (let str of strs) {
-        // Step 1: Sort the word to create the common signature key
-        let sortedKey = str.split("").sort().join("");
-        
-        // Step 2: Push into its respective anagram group array
-        if (!groups.has(sortedKey)) {
-            groups.set(sortedKey, []);
+        // Step 1: Create unique categorization key by sorting
+        const sortedKey = str.split("").sort().join(""); // eat -> aet
+
+        // Step 2: Initialize group list if absent
+        if (!anagramGroups.has(sortedKey)) {
+            anagramGroups.set(sortedKey, []);
         }
-        groups.get(sortedKey).push(str);
+
+        // Step 3: Add original string to its mapped group
+        anagramGroups.get(sortedKey).push(str);
     }
-    
-    // Return all grouped arrays
-    return Array.from(groups.values());
+
+    // Convert map values directly to Array of Arrays
+    return Array.from(anagramGroups.values());
 }
 ```
 
-#### 4. Dry Run:
-* Input: `["eat", "tea", "tan"]`
-* **Word = "eat":** `sortedKey = "aet"`. Groups: `{"aet" => ["eat"]}`
-* **Word = "tea":** `sortedKey = "aet"`. Groups: `{"aet" => ["eat", "tea"]}`
-* **Word = "tan":** `sortedKey = "ant"`. Groups: `{"aet" => ["eat", "tea"], "ant" => ["tan"]}`
-* Returns: `[["eat", "tea"], ["tan"]]`. Correct!
-* **Complexity:** Time Complexity: **\\(O(n \cdot L \log L)\\)** where \\(L\\) is maximum word length (due to sorting words). Space Complexity: **\\(O(n \cdot L)\\)**.
+#### 6. Dry Run on `["eat", "tea", "tan"]`:
+* `str = "eat"`: `sortedKey = "aet"`.
+  * Map State: `Map { "aet" => ["eat"] }`.
+* `str = "tea"`: `sortedKey = "aet"`.
+  * Map State: `Map { "aet" => ["eat", "tea"] }`.
+* `str = "tan"`: `sortedKey = "ant"`.
+  * Map State: `Map { "aet" => ["eat", "tea"], "ant" => ["tan"] }`.
+* **Output values:** `[["eat", "tea"], ["tan"]]`. Correct!
+
+#### 7. Complexity Analysis:
+* **Time Complexity:** **\\(\mathcal{O}(n \cdot k \log k)\\)** where \\(n\\) is number of words and \\(k\\) is word length (due to sorting of characters).
+* **Space Complexity:** **\\(\mathcal{O}(n \cdot k)\\)** to store words inside map.
 
 ---
 
-### Problem 4: Longest Consecutive Sequence (LeetCode 128)
-*Given an unsorted array of integers `nums`, return the length of the longest consecutive elements sequence.*
+### Problem D (Medium): Longest Consecutive Sequence (LeetCode 128)
 
 #### 1. Understand:
-`nums =` \\(\longrightarrow\\) Output: `4` (since consecutive sequence is ``).
+Humein ek unsorted integers ka array `nums` diya gaya hai. Humein sabse lambi contiguous consecutive sequence (jaise ``) ki length return karni hai. **Constraint:** Code ki Time Complexity strictly **\\(\mathcal{O}(n)\\)** honi chahiye!
 
-#### 2. Brute Force & Sorting:
-Array ko sort karke search karna takes \\(O(n \log n)\\). Hum ise **\\(O(n)\\)** mein karenge!
+#### 2. Example:
+Input: `nums =`  
+Output: `4` (Kyunki consecutive sequence `` sabse badi hai, iski length 4 hai).
 
-#### 3. Optimal Approach (Uniqueness Set Checking):
-Consecutive numbers dhoondhne ke liye humein sets par scan lagana hai.
-* *How to avoid duplicate loop lookups?* Hum us number se sequence check karna tabhi shuru karenge jab wo number **sequence ka starting point** ho!
-* Kisi number `X` ka starting point hone ka condition kya hai? Ki array mein `X - 1` absent ho!
+---
 
+#### 3. Brute Force Approach:
+Array ko sort kar do, aur fir linear check chalakar count karo ki kitne numbers consecutive order follow kar rahe hain.
+* **Complexity:** **Time: \\(\mathcal{O}(n \log n)\\)** due to sorting.
+* **Bottleneck:** Sorting rules humein \\(\mathcal{O}(n \log n)\\) se fast chalne nahi dete. We must achieve strictly \\(\mathcal{O}(n)\\).
+
+#### 4. Optimal Approach (The Boundary Marker Pattern 💡):
+*"Sir, consecutive sequence hamesha apne sabse chote element se shuru hoti hai! Agar hum Set ka use karein, toh hum \\(\mathcal{O}(1)\\) mein check kar sakte hain ki kya current element sequence ka start hai ya beech ka part."*
+
+**The Algorithm:**
+1. Saare elements ko ek **Set** mein daal do (uniqueness and fast lookup ensure karne ke liye).
+2. Array ke elements ko check karo. Ek element `num` sequence ka starting point tabhi hoga jab `num - 1` Set mein present **na ho**!
+3. Agar `num - 1` present nahi hai, toh loop chalakar check karo ki `num + 1`, `num + 2`... kab tak Set mein hain. Us path ki total length count karo aur max record karo.
+
+---
+
+#### 5. JavaScript Implementation:
 ```javascript
 function longestConsecutive(nums) {
-    const numSet = new Set(nums); // Quick unique set setup
+    const numSet = new Set(nums); // O(n) space and time setup
     let longestStreak = 0;
-    
+
     for (let num of numSet) {
-        // Step 1: Check if 'num' is indeed the starting of a sequence
+        // Step 1: Identify if current number is the START of a sequence
         if (!numSet.has(num - 1)) {
             let currentNum = num;
             let currentStreak = 1;
-            
-            // Step 2: Keep checking for next consecutive elements
+
+            // Step 2: Keep checking the next elements in O(1)
             while (numSet.has(currentNum + 1)) {
                 currentNum += 1;
                 currentStreak += 1;
             }
-            
+
+            // Step 3: Update global maximum
             longestStreak = Math.max(longestStreak, currentStreak);
         }
     }
+
     return longestStreak;
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(n)\\)** because even though there's a while loop inside, each element is visited at most 2 times. Space Complexity: **\\(O(n)\\)**.
+
+#### 6. Dry Run on `nums =`:
+* `numSet = Set { 100, 4, 200, 1, 3, 2 }`.
+* `num = 100`: Is `99` in Set? No.
+  * Start streak check from 100. Is 101 in set? No. `streak = 1`. `longest = max(0, 1) = 1`.
+* `num = 4`: Is `3` in Set? **Yes!** (Skip, because 4 is not the starting boundary).
+* `num = 200`: Is `199` in Set? No.
+  * Streak from 200: `streak = 1`. `longest = max(1, 1) = 1`.
+* `num = 1`: Is `0` in Set? No.
+  * Streak from 1: Is 2 in set? Yes. Is 3 in set? Yes. Is 4 in set? Yes. Is 5 in set? No.
+  * Streak length = 4. `longest = max(1, 4) = 4`.
+* Returns `4`. Correct!
+
+#### 7. Complexity Analysis:
+* **Time Complexity:** **\\(\mathcal{O}(n)\\)**. (Dhyan se dekho bacho! Bhale hi `while` loop nested dikh raha hai, par any element maximum 2 baar hi check hota hai—ek baar starting point check hone par, aur ek baar streak expansion ke dauran. Isiliye amortized operations strictly linear **\\(\mathcal{O}(n)\\)** rehte hain).
+* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space Set store karne ke liye.
 
 ---
 
-## 5. PREFIX SUM + HASHING PATTERNS
+### Problem E (Hard): Subarray Sum Equals K (LeetCode 560)
 
-**Ab pichle chapters ke patterns ko mix karne ka waqt aa gaya hai.** 
+#### 1. Understand:
+Humein ek array `nums` aur ek target sum `k` diya gaya hai. Humein un continuous subarrays (segments) ki total count dhoondhni hai jinka sum exactly `k` ho. Array mein negative numbers aur zeroes dono ho sakte hain.
 
-Manlo tumhare paas array hai ``. Humein consecutive range dhoondhni hai jiska subarray sum equal to target value `K` ho. Jab array mein negative numbers ho sakte hain, toh Sliding Window fails because it relies on monotonic increments. Yahin par kaam aati hai **Prefix Sum + Hashing** ki dhasu combination!
+#### 2. Example:
+Input: `nums =, k = 2`  
+Output: `2` (Subarrays are `` at index 0-1, and `` at index 1-2).
 
-```
-Cumulative sum at index i is prefixSum[i].
-If we want a subarray from index j to i with sum K:
-prefixSum[i] - prefixSum[j] = K  ===>  prefixSum[j] = prefixSum[i] - K
-```
+Input: `nums = [3, 4, 7, 2, -3, 1, 4, 2], k = 7`  
+Output: `4` (Subarrays: ``, ``, `[7, 2, -3, 1]`, `[-3, 1, 4, 2]`).
 
-```
-           ┌───────────────────── prefixSum[i] ─────────────────────┐
-           ├────────── prefixSum[j] ──────────┼─────── K ───────────┤
-           [.................................][.....................]
-           0                                  j                     i
-```
+---
 
-### Key Problem: Subarray Sum Equals K (LeetCode 560 - Extremely Important)
-*Given an array of integers `nums` and an integer `k`, return the total number of continuous subarrays whose sum equals to `k`.*
+#### 3. Brute Force Approach:
+Do nested loops chalakar saare contiguous subarrays generate karo aur unka range sum check karo.
+* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Bottleneck:** Shifting windows check slow ho jati hai jab array mein negatives hon, jiski wajah se hum sliding window ko shrink ya expand karne ka optimal criteria lose kar dete hain.
 
+#### 4. Optimal Approach (The Prefix Sum + Hash Map Lookup Pattern 💡):
+*"Sir, Chapter 4 mein humne Prefix Sum seekha tha! Agar index `0` se `i` tak ka cumulative sum \\(P[i]\\) hai, aur humein beech ka segment sum `k` chahiye, toh equations ke mutabik:"*
+\\[\text{prefixSum}[i] - \text{prefixSum}[j] = k \implies \text{prefixSum}[j] = \text{prefixSum}[i] - k\\]
+
+Iska matlab: agar hum current prefix sum par khade hain, aur humein past history mein se koi aisa prefix sum dhoondhna hai jiske subtraction se target `k` mile, toh humein bas check karna hai ki **`currentPrefixSum - k` past mein kitni baar aa chuka hai!**
+
+* **What to remember?** Previous prefix sums ke count/frequencies.
+* **Which Structure?** `Map` (Key = Prefix Sum value, Value = Frequency).
+
+---
+
+#### 5. JavaScript Implementation:
 ```javascript
 function subarraySum(nums, k) {
     let count = 0;
-    let currentPrefixSum = 0;
-    
-    // Map to store: prefixSum -> Count of occurrences
-    const prefixMap = new Map();
-    // Base Case: cumulative prefix sum 0 occurs once before starting
-    prefixMap.set(0, 1);
-    
+    let runningPrefixSum = 0;
+    const prefixFrequencies = new Map();
+
+    // Base Case Setup: Prefix sum 0 has occurred exactly 1 time initially
+    prefixFrequencies.set(0, 1);
+
     for (let i = 0; i < nums.length; i++) {
-        currentPrefixSum += nums[i]; // Step 1: Accumulate prefix sum
-        
-        // Step 2: Check if currentPrefixSum - k has occurred before
-        if (prefixMap.has(currentPrefixSum - k)) {
-            count += prefixMap.get(currentPrefixSum - k);
+        runningPrefixSum += nums[i]; // Precomputation in action
+
+        const targetPrefix = runningPrefixSum - k;
+
+        // Check if our target complement has occurred before
+        if (prefixFrequencies.has(targetPrefix)) {
+            count += prefixFrequencies.get(targetPrefix);
         }
-        
-        // Step 3: Record the current prefix sum frequency
-        prefixMap.set(currentPrefixSum, (prefixMap.get(currentPrefixSum) || 0) + 1);
+
+        // Record current prefix sum count in Map
+        prefixFrequencies.set(
+            runningPrefixSum, 
+            (prefixFrequencies.get(runningPrefixSum) || 0) + 1
+        );
     }
+
     return count;
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(n)\\)**, Space Complexity: **\\(O(n)\\)**. *Dynamic pre-computation turns \\(O(n^2)\\) brute force into clean linear scan!*
+
+#### 6. Dry Run on `nums =, k = 7`:
+* Initial Map: `Map { 0 => 1 }`. `count = 0`.
+* `i = 0` (Value = 3): `runningPrefixSum = 3`.
+  * `targetPrefix = 3 - 7 = -4`. Is `-4` in Map? No.
+  * Map State: `Map { 0 => 1, 3 => 1 }`.
+* `i = 1` (Value = 4): `runningPrefixSum = 3 + 4 = 7`.
+  * `targetPrefix = 7 - 7 = 0`. Is `0` in Map? **Yes!**
+  * `count += prefixFrequencies.get(0)` \\(\rightarrow\\) `count = 0 + 1 = 1`. (Subarray matches index 0-1: ``).
+  * Map State: `Map { 0 => 1, 3 => 1, 7 => 1 }`.
+* `i = 2` (Value = 7): `runningPrefixSum = 7 + 7 = 14`.
+  * `targetPrefix = 14 - 7 = 7`. Is `7` in Map? **Yes!**
+  * `count += prefixFrequencies.get(7)` \\(\rightarrow\\) `count = 1 + 1 = 2`. (Subarray matches index 2: ``).
+  * Map State: `Map { 0 => 1, 3 => 1, 7 => 1, 14 => 1 }`.
+* Returns `2`. Correct!
+
+#### 7. Complexity Analysis:
+* **Time Complexity:** **\\(\mathcal{O}(n)\\)** strictly linear single pass lookup.
+* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space map storage ke liye.
 
 ---
 
-## 6. PATTERN RECOGNITION (HOW TO DECODE QUESTIONS)
+## 6. COMMON MISTAKES & INTERVIEW TRAPS ⚠️
 
-Interview room mein baithe ho, aur question padhte hi yeh clues pakdo:
+Interview hall mein badmashi mat karna, in 4 bugs ko hamesha dhyan mein rakhna:
 
-* **Clue 1:** *"Dhoondho kya yeh pair, target, element pehle kabhi aaya tha?"* \\(\rightarrow\\) **Fast lookup is needed** \\(\rightarrow\\) Think **Map/Object**.
-* **Clue 2:** *"Count occurrences / characters sequence density / duplicate counts"* \\(\rightarrow\\) **Frequency count lookup** \\(\rightarrow\\) Think **Map/Object**.
-* **Clue 3:** *"Sirf uniqueness ensure karni hai / duplicates drop karne hain"* \\(\rightarrow\\) **Unique membership** \\(\rightarrow\\) Think **Set**.
-* **Clue 4:** *"Negative numbers hain, aur continuous array range ka sum equal to K dhoondhna hai"* \\(\rightarrow\\) **Subarray sum with target** \\(\rightarrow\\) Think **Prefix Sum + Hashing**.
-
----
-
-## 7. COLLISIONS & COLLISION-RESOLUTION
-
-### Collisions Kyun Hote Hain? (The Pigeonhole Principle)
-Manlo ek building mein **10 cupboards (buckets)** hain, lekin usme raddhi rakhne wale **15 files (keys)** aa jayein. Toh kisi na kisi cupboard mein kam se kam 2 files toh rakhni hi padegi na? 
-
-Yahi collisions ka mool mantra hai. Computer memory finite hoti hai, keys infinite ho sakti hain.
-
-### Resolution Technique: Separate Chaining (Cupboard ke andar list)
-Sabse standard technique hai **Separate Chaining**. Isme hum hash table ke har memory bucket mein ek **Linked List** betha dete hain.
-
-```
-Index:
-  0 ──► [ Empty ]
-  1 ──► [ Key: "John" | Val: 10 ] ──► [ Key: "Sujit" | Val: 20 ] (Separate Chain)
-  2 ──► [ Key: "Billy" | Val: 15 ]
-```
-
-* **Write Operation:** Agar collision hua, toh hum naye data ko list ke end mein attach (append) kar dete hain.
-* **Read Operation:** Pehle index calculate hoga (modulo formula), fir us list par sequentially iterate karke target key match karenge.
-
-Kyunki ideal hash function dynamic size balance maintain rakhta hai, isiliye **Average lookups hamesha constant \\(O(1)\\) time letay hain**. Lekin agar cupboard dhang ka select na ho (ganda/imperfect hash function), toh saare elements ek hi bucket par phans jayenge aur list quadratic loop creation par speed block kar degi.
+1. **Forgetting the Base Case `{0 => 1}` in Prefix Sum Map:**
+   Agar subarray index 0 se hi target sum `k` bana deta hai (jaise pehle example mein `3 + 4 = 7`), toh `runningPrefixSum - k` ki value `0` banegi. Agar map mein `0 => 1` added nahi hai, toh index 0 starting point skip ho jayega!
+2. **Confusing `Map.has()` with `Map.get()`:**
+   * `.has(key)` sirf check karta hai ki key present hai ya nahi (returns boolean).
+   * `.get(key)` us key ki associated value return karta hai. 
+   `if (map.get(key))` likhne ki galti mat karna! Kyunki agar value `0` hui, toh JS use falsy consider kar lega aur logic fail ho jayega. Always use `map.has(key)`.
+3. **Overwriting Map Keys dynamically without incremental checks:**
+   Frequency counter banate waqt `map.set(char, map.get(char) + 1)` direct mat likho agar map mein character absent hai. Missing checks `undefined + 1 = NaN` generate kar dete hain! Always use the default or operator setup: `(map.get(char) || 0) + 1`.
+4. **Object and Map Interchanging Myths:**
+   Dhyan rakhna, standard objects prototypes methods inherit karte hain (jaise `toString`), jo keys collisions generate kar sakte hain agar properties dynamically user input se overlap karein. Strict hashing ke liye hamesha **Map** hi use karein!
 
 ---
 
-## 8. REAL INTERACTIVE PRACTICE PROBLEMS
+## CHAPTER END SUMMARY
 
-🚀 **Whiteboard bilkul saaf hai. Pehle in teen dhasu questions ke clues aur logic ko dhyan se socho, phir solutions ko trace karo!**
+### Completed Topics:
+* Hashing technique locker analogies aur lookup logic.
+* Collisions Separate Chaining aur average \\(O(1)\\) vs worst case \\(O(N)\\) behaviors.
+* ES6 Map & Set operations and Javascript key references heap behavior.
+* Dynamic frequency arrays optimization lowercase English alphabet letters par.
 
-### Problem 1 (Easy): First Unique Character in a String
-*Find the first non-repeating character in a string and return its index. If it does not exist, return -1.*
-
-#### 🧠 Analysis & Clues:
-* *What info to remember?* Har character kitni baar aaya (frequency count).
-* *Lookup type?* Character frequency map setup.
-
-```javascript
-function firstUniqChar(s) {
-    const freq = {};
-    // Step 1: Record frequency
-    for (let char of s) {
-        freq[char] = (freq[char] || 0) + 1;
-    }
-    // Step 2: Linear check string coordinates
-    for (let i = 0; i < s.length; i++) {
-        if (freq[s[i]] === 1) return i;
-    }
-    return -1;
-}
-```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)** (since English character space has bound 26 letters).
+### Mastered Patterns:
+* **Frequency Counting Map** character duplicates aur groupings trace karne ke liye.
+* **Complement Lookup pattern** target sums pairwise convergence drop karne.
+* **Boundary tracking Set pattern** sequences scale linearly compute karne.
+* **Prefix Sum Hashing** subarray partitions tracking limits dhoondhne.
 
 ---
-
-### Problem 2 (Medium): Contains Duplicate II
-*Given an integer array `nums` and an integer `k`, return `true` if there are two distinct indices `i` and `j` in the array such that `nums[i] === nums[j]` and `Math.abs(i - j) <= k`.*
-
-#### 🧠 Analysis & Clues:
-* *What is needed?* Duplicate number dhoondhna hai jiska distance index level par at most `k` ho.
-* *How to optimize lookup?* Hum hash map mein value store karenge, lekin value ke sath **uska last-seen index** record karenge taaki direct absolute difference check ho sake!
-
-```javascript
-function containsNearbyDuplicate(nums, k) {
-    const indexMap = new Map(); // Stores Value -> Last Seen Index
-    
-    for (let i = 0; i < nums.length; i++) {
-        if (indexMap.has(nums[i])) {
-            const lastIndex = indexMap.get(nums[i]);
-            if (i - lastIndex <= k) {
-                return true; // Duplicates are within distance k!
-            }
-        }
-        indexMap.set(nums[i], i); // Update last seen index
-    }
-    return false;
-}
-```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(n)\\)**.
-
----
-
-### Problem 3 (Challenging): Subarray Sums Divisible by K (LeetCode 974)
-*Given an integer array `nums` and an integer `k`, return the number of non-empty subarrays that have a sum divisible by `k`.*
-
-#### 🧠 Analysis & Step-by-Step Logic:
-1. Divisibility check says: `(prefixSum[i] - prefixSum[j]) % k === 0`.
-2. Mathematical rule of remainder modulo arithmetic:
-   \\[\text{prefixSum}[i] \% k \equiv \text{prefixSum}[j] \% k\\]
-3. *Intuition:* Agar current prefix sum ka modulo remainder `k` ke sath pehle bhi kabhi aa chuka hai, toh us index se lekar abhi tak ka subarray sum guaranteed `k` se divide ho jayega!
-4. *Extra Edge Case:* JavaScript modulo check negative remainders ke liye sahi output dene ke liye normalization rule use karega: `(remainder + k) % k`.
-
-```javascript
-function subarraysDivByK(nums, k) {
-    let count = 0;
-    let prefixSum = 0;
-    const remainderCounts = new Map();
-    // Base Case: remainder 0 occurs once before arrays start
-    remainderCounts.set(0, 1);
-    
-    for (let num of nums) {
-        prefixSum += num;
-        let rem = prefixSum % k;
-        
-        // Normalize negative remainders in JavaScript
-        if (rem < 0) {
-            rem += k;
-        }
-        
-        if (remainderCounts.has(rem)) {
-            count += remainderCounts.get(rem);
-        }
-        
-        remainderCounts.set(rem, (remainderCounts.get(rem) || 0) + 1);
-    }
-    return count;
-}
-```
-* **Complexity:** Time Complexity: **\\(O(n)\\)**, Space Complexity: **\\(O(k)\\)** to store remainders. *Amazing mathematical optimization bacho!*
-
----
-
-## 9. COMMON MISTAKES (THE RED FLAG LIST!)
-
-As a problems mentor, main nahi chahta tum ye glatiyan karo:
-
-1. **Using Set when frequency counts matter:**
-   Duplicate track karne ke liye log `Set` use kar lete hain, par agar count mapping logic (frequencies) checking dynamic ho, toh **`Map` / Object** hi safe rasta hai.
-2. **Forgetting to update frequency bounds inside Map:**
-   Writing `map.set(val, count)` but missing the calculation phase, which overrides the counts. Always verify `(map.get(val) || 0) + 1`.
-3. **Incorrect Javascript modulo checks on negatives:**
-   `let rem = sum % k` will give a negative value in JS. Always normalize it by `(rem + k) % k`!
-4. **Incorrect assumptions of complete guaranteed \\(O(1)\\):**
-   Interviews are about scale. Always mention: *"On average lookups are \\(O(1)\\), but if hash function degrades, worst case can turn \\(O(n)\\)."*
-
----
-
-### ✅ Completed | Chapter 7 — Hashing & Hash-Based Problem Solving
-
-🧠 **Hashing Concepts:**
-* Hash maps key-value map boundaries allocate karke instant \\(O(1)\\) dynamic access capabilities dete hain.
-* Set structures single values unique sets filter karte hain, duplicates eliminate karne ke liye.
-* Collisions Separate Chaining lists resolution techniques se safely handle ho jate hain.
-
-🎯 **Recognition Patterns:**
-* Instant searching check \\(\longrightarrow\\) Set/Map lookup.
-* Frequencies checking \\(\longrightarrow\\) Map counts storage.
-* Divisible ranges / Target sums divisible subarrays \\(\longrightarrow\\) Prefix Sum + Hashing remainder matches.
-
-⚠️ **Common Mistakes:** Incorrect modulo offsets on negative remainder arrays, and forgetting base state keys `(0, 1)`.
-
