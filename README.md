@@ -4,8 +4,6 @@
 
 Data Structures & Algorithms ka complete, interview-focused masterclass — JavaScript mein. Basics se lekar Google/FAANG-level advanced topics (Graphs, DP, Backtracking, Bit Manipulation) tak, saath mein 150+ practice problems, pattern recognition system, aur full mock interview simulations.
 
-> 📋 See [AUDIT_REPORT.md](./AUDIT_REPORT.md) for a full content-quality audit — code bugs fixed, formatting cleanup details, and known remaining gaps.
-
 ---
 
 ## Learning Approach
