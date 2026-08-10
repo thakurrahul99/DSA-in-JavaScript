@@ -2,11 +2,11 @@
 
 Pichle chapter mein humne **Advanced Graph Algorithms (Chapter 20)** ko poore dhasu tarike se seekha aur dekha ki kaise dynamic networks mein routing aur minimum connections manage kiye jaate hain.
 
-Lekin beta, aaj hum computer science ke ek aise topic mein enter karne ja rahe hain jisse 90% bacho ko darr lagta hai, aur unhe lagta hai ki iske transitions aur formulas ko rट्टा (memorize) marna padega. Ise hum kehte hain—**Dynamic Programming (DP)** [cite: 308, 342]!
+Lekin beta, aaj hum computer science ke ek aise topic mein enter karne ja rahe hain jisse 90% bacho ko darr lagta hai, aur unhe lagta hai ki iske transitions aur formulas ko rट्टा (memorize) marna padega. Ise hum kehte hain—**Dynamic Programming (DP)**!
 
 *"Sir, kya DP sach mein itna mushkil hai?"*
 
-Bilkul nahi bacho! Aaj tumhara ye teacher tumhare dimaag se DP ka darr humesha ke liye nikal dega. Hum DP ko koi "magic formula" ki tarah nahi padhenge. Hum zero se shuru karenge, dimaag kholenge, aur iska **mental model aur thinking framework** khud se derive karenge [cite: 308, 518]!
+Bilkul nahi bacho! Aaj tumhara ye teacher tumhare dimaag se DP ka darr humesha ke liye nikal dega. Hum DP ko koi "magic formula" ki tarah nahi padhenge. Hum zero se shuru karenge, dimaag kholenge, aur iska **mental model aur thinking framework** khud se derive karenge!
 
 Apna pen aur register nikal lo, aur dhyan seedhe board par focus karo! 🚀
 
@@ -16,50 +16,50 @@ Apna pen aur register nikal lo, aur dhyan seedhe board par focus karo! 🚀
 
 ### Real-Life Analogy (Dimaag ka Cache 🧠)
 Maan lo main tumse ek sawal puchta hoon:
-* **Teacher:** \\(1 + 1 + 1 + 1 + 1\\) kitna hota hai?
-* **Student:** (Ungliyon par count karke) Sir, \\(5\\)!
-* **Teacher:** Chalo badhiya. Ab agar main iske aage ek aur \\(+ 1\\) likh doon: \\(1 + 1 + 1 + 1 + 1 + 1\\), toh ab kitna hoga?
-* **Student:** (Instantly) Sir, \\(6\\)!
+* **Teacher:** 1 + 1 + 1 + 1 + 1 kitna hota hai?
+* **Student:** (Ungliyon par count karke) Sir, 5!
+* **Teacher:** Chalo badhiya. Ab agar main iske aage ek aur + 1 likh doon: 1 + 1 + 1 + 1 + 1 + 1, toh ab kitna hoga?
+* **Student:** (Instantly) Sir, 6!
 * **Teacher:** Arey! Tumne is baar dobara shuru se count kyun nahi kiya?
-* **Student:** Sir, simple hai na! Mujhe pichla answer \\(5\\) yaad tha, maine bas usme ek naya \\(1\\) add kar diya!
+* **Student:** Sir, simple hai na! Mujhe pichla answer 5 yaad tha, maine bas usme ek naya 1 add kar diya!
 
-**Bas bacho! Yahi hai Dynamic Programming (DP) [cite: 308]!** 
-Pichle kaam ko yaad rakhna (remembering the past) taaki wahi kaam dobara na karna pade, isi ko programming mein DP kehte hain [cite: 308, 445].
+**Bas bacho! Yahi hai Dynamic Programming (DP)!** 
+Pichle kaam ko yaad rakhna (remembering the past) taaki wahi kaam dobara na karna pade, isi ko programming mein DP kehte hain.
 
 ---
 
-### The Evolution: Brute Force \\(\rightarrow\\) Recursion \\(\rightarrow\\) Repeated Work \\(\rightarrow\\) DP 📈
+### The Evolution: Brute Force → Recursion → Repeated Work → DP 📈
 
 ```
                    THE PROBLEM SOLVING EVOLUTION
                                  │
          ┌───────────────────────┼───────────────────────┐
-   Brute Force               Recursion                  DP [cite: 308]
+   Brute Force               Recursion                  DP
 Check every path        Break into smaller        Solve each subproblem
-exponentials.           subproblems [cite: 276, 710].      ONCE & save result [cite: 308].
+exponentials.           subproblems.      ONCE & save result.
 ```
 
-1. **Brute Force:** Saare possible combinations ko check karna. Isme time complexity exponential ho jati hai [cite: 32, 410].
-2. **Normal Recursion:** Problem ko chote subproblems mein divide karna [cite: 276, 710]. Lekin normal recursion andha hota hai; use nahi pata hota ki jo subproblem wo abhi solve kar raha hai, use wo pehle bhi 100 baar solve kar chuka hai [cite: 308]!
-3. **Dynamic Programming:** Jab hum recursion ke sath ek **Memory Shield (Cache)** laga dete hain jo purane results ko store kar sake, toh wo ban jata hai dynamic programming [cite: 308, 518]!
+1. **Brute Force:** Saare possible combinations ko check karna. Isme time complexity exponential ho jati hai.
+2. **Normal Recursion:** Problem ko chote subproblems mein divide karna. Lekin normal recursion andha hota hai; use nahi pata hota ki jo subproblem wo abhi solve kar raha hai, use wo pehle bhi 100 baar solve kar chuka hai!
+3. **Dynamic Programming:** Jab hum recursion ke sath ek **Memory Shield (Cache)** laga dete hain jo purane results ko store kar sake, toh wo ban jata hai dynamic programming!
 
 ---
 
 ### The Two Sacred Pillars of DP 🏛️
-Kisi bhi problem par DP lagane se pehle, usme do properties ka hona zaroori hai [cite: 308]:
+Kisi bhi problem par DP lagane se pehle, usme do properties ka hona zaroori hai:
 
 1. **Overlapping Subproblems (Baar-baar wahi kaam):** 
-   Jab recursion tree mein hum same subproblem ko bar-bar evaluate karte hain [cite: 308]. (Jaise Fibonacci mein `fib(3)` nikalne ke liye `fib(2)` aur `fib(1)` chahiye, aur `fib(4)` ke liye bhi `fib(3)` aur `fib(2)` chahiye [cite: 45]).
+   Jab recursion tree mein hum same subproblem ko bar-bar evaluate karte hain. (Jaise Fibonacci mein `fib(3)` nikalne ke liye `fib(2)` aur `fib(1)` chahiye, aur `fib(4)` ke liye bhi `fib(3)` aur `fib(2)` chahiye).
 2. **Optimal Substructure (Chote se bada banana):**
-   Jab hum pure problem ka optimal solution uske chote-chote subproblems ke optimal solutions ko use karke build kar sakein [cite: 276, 308].
+   Jab hum pure problem ka optimal solution uske chote-chote subproblems ke optimal solutions ko use karke build kar sakein.
 
 ---
 
 ### Paradigm Clash: DP vs. Backtracking vs. Greedy ⚔️
 
-* **Recursion/Backtracking:** Saare paths explore karta hai [cite: 32, 410]. Agar koi rasta galat nikle toh peeche aata hai (backtrack) [cite: 32, 504]. Isme koi memory cache nahi hota, isiliye ye bohot slow hota hai [cite: 32, 410].
-* **Greedy:** Bina aage ka soche, har step par jo locally best option lagta hai use utha leta hai [cite: 32, 427, 763]. Isme na backtracking hoti hai na overlapping calculations ki parwah [cite: 32, 427, 763]. Lekin har baar global optimum ki guarantee nahi hoti [cite: 32, 427]!
-* **Dynamic Programming:** Saare choices ko evaluate toh karta hai, par har overlapping subproblem ko **exactly ek hi baar solve karta hai** aur use memory mein save kar leta hai [cite: 308, 763]. It guarantees the global optimum [cite: 308]!
+* **Recursion/Backtracking:** Saare paths explore karta hai. Agar koi rasta galat nikle toh peeche aata hai (backtrack). Isme koi memory cache nahi hota, isiliye ye bohot slow hota hai.
+* **Greedy:** Bina aage ka soche, har step par jo locally best option lagta hai use utha leta hai. Isme na backtracking hoti hai na overlapping calculations ki parwah. Lekin har baar global optimum ki guarantee nahi hoti!
+* **Dynamic Programming:** Saare choices ko evaluate toh karta hai, par har overlapping subproblem ko **exactly ek hi baar solve karta hai** aur use memory mein save kar leta hai. It guarantees the global optimum!
 
 ---
 
@@ -80,7 +80,7 @@ dp[i] mean?    do I have?     previous states? stop recursively? final result?
 1. **State:** `dp[i]` ya `dp[i][j]` ka mathematically aur logically matlab kya hai? 
 2. **Choice:** Current state par khade hokar mere paas kya-kya options (choices) hain?
 3. **Transition:** Main un choices ko use karke pichli states se current state ka formula kaise bana sakta hoon?
-4. **Base Case:** Sabse choti subproblem kya hogi jahan recursion ko rukna hai [cite: 297, 494]?
+4. **Base Case:** Sabse choti subproblem kya hogi jahan recursion ko rukna hai?
 5. **Answer State:** Pura calculation complete hone ke baad final global answer kis index/state par milega?
 
 ---
@@ -93,10 +93,10 @@ Hum har DP problem ko teen progressive stages mein optimize karenge. Ise dimaag 
      Stage 1: Recursive (Top-Down)  ==> O(2^n) time (Very Slow!)
                 │
                 ▼
-     Stage 2: Memoized (Top-Down + Cache) ==> O(n) time, O(n) space [cite: 518]
+     Stage 2: Memoized (Top-Down + Cache) ==> O(n) time, O(n) space
                 │
                 ▼
-     Stage 3: Tabulation (Bottom-Up Table) ==> O(n) time, O(n) space [cite: 308]
+     Stage 3: Tabulation (Bottom-Up Table) ==> O(n) time, O(n) space
                 │
                 ▼
      Stage 4: Space Optimized ==> O(n) time, O(1) space (SDE Level! 💎)
@@ -110,29 +110,29 @@ Hum har DP problem ko teen progressive stages mein optimize karenge. Ise dimaag 
 
 ---
 
-### PROBLEM 1 (Easy): Fibonacci Numbers (LeetCode 509) [cite: 45]
+### PROBLEM 1 (Easy): Fibonacci Numbers (LeetCode 509)
 
 #### 1. Understand:
-Humein \\(N\\)-th Fibonacci number nikalna hai, jahan har number apne pichle do numbers ka sum hota hai [cite: 45].
-`0, 1, 1, 2, 3, 5, 8, 13, ...` [cite: 45, 46]
+Humein N-th Fibonacci number nikalna hai, jahan har number apne pichle do numbers ka sum hota hai.
+`0, 1, 1, 2, 3, 5, 8, 13, ...`
 
 ---
 
 #### 2. The 5-Step Framework Derivation:
-* **State:** Let `dp[i]` be the \\(i\\)-th Fibonacci number [cite: 46].
-* **Choice:** \\(i\\)-th number nikalne ke liye mere paas choice hai ki main pichle do states ko add karoon [cite: 45].
+* **State:** Let `dp[i]` be the i-th Fibonacci number.
+* **Choice:** i-th number nikalne ke liye mere paas choice hai ki main pichle do states ko add karoon.
 * **Transition:** 
-  \\[dp[i] = dp[i-1] + dp[i-2]\\] [cite: 45]
-* **Base Case:** `dp = 0`, `dp = 1` [cite: 46].
-* **Answer State:** Humein `dp[n]` par humara final result milega [cite: 46].
+  \\[dp[i] = dp[i-1] + dp[i-2]\\]
+* **Base Case:** `dp = 0`, `dp = 1`.
+* **Answer State:** Humein `dp[n]` par humara final result milega.
 
 ---
 
 #### 3. Stage 1: Brute Force / Normal Recursion
 ```javascript
 function fibRecursion(n) {
-    if (n < 2) return n; // Base case [cite: 46]
-    return fibRecursion(n - 1) + fibRecursion(n - 2); // [cite: 113]
+    if (n < 2) return n; // Base case
+    return fibRecursion(n - 1) + fibRecursion(n - 2); //
 }
 ```
 
@@ -146,16 +146,16 @@ function fibRecursion(n) {
                     /    \
                 fib(1)  fib(0)
 ```
-* **The Bottleneck:** Dekho bacho! `fib(2)` ko humne do baar evaluate kiya, aur `fib(1)` ko teen baar! Jaise-jaise \\(N\\) badhega, redundant calls exponentially badh jayengi, jisse time complexity **\\(O(2^n)\\)** ho jayegi [cite: 126]!
+* **The Bottleneck:** Dekho bacho! `fib(2)` ko humne do baar evaluate kiya, aur `fib(1)` ko teen baar! Jaise-jaise N badhega, redundant calls exponentially badh jayengi, jisse time complexity **O(2^n)** ho jayegi!
 
 ---
 
 #### 4. Stage 2: Memoization (Top-Down + Cache 🛡️)
-Hum ek array ya map banayenge jo pichle calculated values ko store karega [cite: 308]. Dobara call aane par hum direct cache se return karenge [cite: 308].
+Hum ek array ya map banayenge jo pichle calculated values ko store karega. Dobara call aane par hum direct cache se return karenge.
 
 ```javascript
 function fibMemo(n, memo = new Map()) {
-    if (n < 2) return n; // Base case [cite: 46]
+    if (n < 2) return n; // Base case
     
     // Check if result is already in our memory shield
     if (memo.has(n)) return memo.get(n);
@@ -167,30 +167,30 @@ function fibMemo(n, memo = new Map()) {
     return result;
 }
 ```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(n)\\)** (Recursion Stack + Cache space) [cite: 99, 103].
+* **Complexity:** Time: **O(n)**, Space: **O(n)** (Recursion Stack + Cache space).
 
 ---
 
 #### 5. Stage 3: Tabulation (Bottom-Up Table 🗃️)
-Hum recursion ko completely khatam kar denge aur aage se peeche ki taraf loop chalakar table ko fill karenge [cite: 308]!
+Hum recursion ko completely khatam kar denge aur aage se peeche ki taraf loop chalakar table ko fill karenge!
 
 ```javascript
 function fibTabulation(n) {
-    if (n < 2) return n; // [cite: 46]
+    if (n < 2) return n; //
     
     // Step 1: Create DP Table
     const dp = new Array(n + 1).fill(0);
     
     // Step 2: Initialize Base Cases
-    dp = 0; // [cite: 46]
-    dp = 1; // [cite: 46]
+    dp = 0; //
+    dp = 1; //
     
     // Step 3: Iterate forward
     for (let i = 2; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2]; // Transition [cite: 45]
+        dp[i] = dp[i - 1] + dp[i - 2]; // Transition
     }
     
-    return dp[n]; // Answer State [cite: 46]
+    return dp[n]; // Answer State
 }
 ```
 
@@ -199,37 +199,37 @@ function fibTabulation(n) {
 2. `i = 2`: `dp = dp + dp = 1 + 0 = 1`. Table: ``
 3. `i = 3`: `dp = dp + dp = 1 + 1 = 2`. Table: ``
 4. `i = 4`: `dp = dp + dp = 2 + 1 = 3`. Table: ``
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(n)\\)** (No recursion stack memory!).
+* **Complexity:** Time: **O(n)**, Space: **O(n)** (No recursion stack memory!).
 
 ---
 
-#### 6. Stage 4: Space Optimization (Going \\(O(1)\\) Space 💎)
-*Observation:* `dp[i]` ko calculate karne ke liye humein pure array ki zaroorat nahi hai, bas pichle do values (`prev1` and `prev2`) chahiye [cite: 47]!
+#### 6. Stage 4: Space Optimization (Going O(1) Space 💎)
+*Observation:* `dp[i]` ko calculate karne ke liye humein pure array ki zaroorat nahi hai, bas pichle do values (`prev1` and `prev2`) chahiye!
 
 ```javascript
 function fibOptimized(n) {
-    if (n < 2) return n; // [cite: 46]
+    if (n < 2) return n; //
     
     let prev2 = 0; // dp[i-2]
-    let prev1 = 1; // dp[i-1] [cite: 47]
+    let prev1 = 1; // dp[i-1]
     
     for (let i = 2; i <= n; i++) {
-        const curr = prev1 + prev2; // Transition [cite: 47]
-        prev2 = prev1; // Shift prev2 to prev1 [cite: 48]
-        prev1 = curr;  // Shift prev1 to curr [cite: 48]
+        const curr = prev1 + prev2; // Transition
+        prev2 = prev1; // Shift prev2 to prev1
+        prev1 = curr;  // Shift prev1 to curr
     }
     
-    return prev1; // Answer State [cite: 48]
+    return prev1; // Answer State
 }
 ```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)** auxiliary! Extremely optimized!
+* **Complexity:** Time: **O(n)**, Space: **O(1)** auxiliary! Extremely optimized!
 
 ---
 
-### PROBLEM 2 (Easy): Climbing Stairs (LeetCode 70) [cite: 309, 490]
+### PROBLEM 2 (Easy): Climbing Stairs (LeetCode 70)
 
 #### 1. Understand:
-Tum ek seedhi (stairs) par khade ho jiske total \\(N\\) steps hain. Tum ek baar mein ya toh **1 step** chal sakte ho ya **2 steps** [cite: 309]. Humein batana hai ki top tak pahunchne ke kitne unique tarike hain [cite: 309].
+Tum ek seedhi (stairs) par khade ho jiske total N steps hain. Tum ek baar mein ya toh **1 step** chal sakte ho ya **2 steps**. Humein batana hai ki top tak pahunchne ke kitne unique tarike hain.
 
 ```
                          Climbing Stairs Visual:
@@ -242,8 +242,8 @@ Tum ek seedhi (stairs) par khade ho jiske total \\(N\\) steps hain. Tum ek baar 
 ---
 
 #### 2. The 5-Step Framework Derivation:
-* **State:** `dp[i]` kya hai? Let `dp[i]` be the **total number of distinct ways** to reach the \\(i\\)-th step [cite: 309].
-* **Choice:** \\(i\\)-th step par pahunchne ke liye mere paas do options the:
+* **State:** `dp[i]` kya hai? Let `dp[i]` be the **total number of distinct ways** to reach the i-th step.
+* **Choice:** i-th step par pahunchne ke liye mere paas do options the:
   1. Main step `i-1` par khada tha aur maine 1-step ki chalaang lagayi.
   2. Main step `i-2` par khada tha aur maine 2-steps ki chalaang lagayi.
 * **Transition:**
@@ -288,14 +288,14 @@ function climbStairsTab(n) {
     return prev1;
 }
 ```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)** [cite: 48, 50].
+* **Complexity:** Time: **O(n)**, Space: **O(1)**.
 
 ---
 
-### PROBLEM 3 (Medium): House Robber (LeetCode 198) [cite: 409, 427, 763]
+### PROBLEM 3 (Medium): House Robber (LeetCode 198)
 
 #### 1. Understand:
-Tum ek chor (robber) ho jo ek raste par bane gharon se chori karna chahta hai. Har ghar mein kuch cash amount `nums[i]` store hai. Lekin niyam ye hai ki **tum do adjacent gharon (padosi gharon) mein lagataar chori nahi kar sakte**, warna police ko alert chala jayega. Goal hai maximum kitna paisa chura sakte ho [cite: 409, 427, 763].
+Tum ek chor (robber) ho jo ek raste par bane gharon se chori karna chahta hai. Har ghar mein kuch cash amount `nums[i]` store hai. Lekin niyam ye hai ki **tum do adjacent gharon (padosi gharon) mein lagataar chori nahi kar sakte**, warna police ko alert chala jayega. Goal hai maximum kitna paisa chura sakte ho.
 
 ```
                       House Robber Options:
@@ -311,7 +311,7 @@ Tum ek chor (robber) ho jo ek raste par bane gharon se chori karna chahta hai. H
   1. **Rob this house:** Agar ghar `i` churate hain, toh ghar `i-1` ko skip karna hoga. Total money = `nums[i] + dp[i-2]`.
   2. **Skip this house:** Agar ghar `i` nahi churate, toh hum ghar `i-1` tak jo max chura sakte the wahi milega. Total money = `dp[i-1]`.
 * **Transition:**
-  \\[dp[i] = \max(dp[i-1], \text{nums}[i] + dp[i-2])\\]
+  \\[dp[i] = max(dp[i-1], nums[i] + dp[i-2])\\]
 * **Base Case:** 
   * `dp = nums` (agar ek hi ghar hai toh use chura lo).
   * `dp = Math.max(nums, nums)` (agar do ghar hain, toh jismein zyada paisa ho use chura lo).
@@ -354,23 +354,23 @@ function rob(nums) {
 * **i = 4 (Value 1):**
   * `curr = Math.max(prev1, nums + prev2) = Math.max(11, 1 + 11) = 12`.
   * Shift pointers: `prev2 = 11`, `prev1 = 12`.
-* **Final Return:** `12` (Rob houses at index 0, 2, 4 \\(\rightarrow 2 + 9 + 1 = 12\\)). Perfectly correct!
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)**!
+* **Final Return:** `12` (Rob houses at index 0, 2, 4 → 2 + 9 + 1 = 12). Perfectly correct!
+* **Complexity:** Time: **O(n)**, Space: **O(1)**!
 
 ---
 
-### PROBLEM 4 (Easy): Min Cost Climbing Stairs (LeetCode 746) [cite: 309]
+### PROBLEM 4 (Easy): Min Cost Climbing Stairs (LeetCode 746)
 
 #### 1. Understand:
-Tum ek seedhi (stairs) par khade ho jahan har step `i` par khade hone ki ek cost `cost[i]` hai. Tum ya toh index `0` se ya index `1` se start kar sakte ho. Har step se tum ya toh **1 step** aage jump kar sakte ho ya **2 steps**. Goal hai top step par pahunchne ki **minimum cost** nikalna [cite: 309].
+Tum ek seedhi (stairs) par khade ho jahan har step `i` par khade hone ki ek cost `cost[i]` hai. Tum ya toh index `0` se ya index `1` se start kar sakte ho. Har step se tum ya toh **1 step** aage jump kar sakte ho ya **2 steps**. Goal hai top step par pahunchne ki **minimum cost** nikalna.
 
 ---
 
 #### 2. The 5-Step Framework Derivation:
-* **State:** Let `dp[i]` be the **minimum cost** to reach the \\(i\\)-th step.
-* **Choice:** \\(i\\)-th step par aane ke liye hum pichle step `i-1` se aaye honge, ya fir step `i-2` se aaye honge. Dono cases mein humein un steps ki cost pay karni hogi.
+* **State:** Let `dp[i]` be the **minimum cost** to reach the i-th step.
+* **Choice:** i-th step par aane ke liye hum pichle step `i-1` se aaye honge, ya fir step `i-2` se aaye honge. Dono cases mein humein un steps ki cost pay karni hogi.
 * **Transition:**
-  \\[dp[i] = \min(dp[i-1] + \text{cost}[i-1], dp[i-2] + \text{cost}[i-2])\\]
+  \\[dp[i] = min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])\\]
 * **Base Case:** 
   * `dp = 0` (starting directly at step 0 has 0 entry cost).
   * `dp = 0` (starting directly at step 1 has 0 entry cost).
@@ -398,24 +398,24 @@ function minCostClimbingStairs(cost) {
     return prev1; // Answer state
 }
 ```
-* **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n)**, Space: **O(1)** auxiliary.
 
 ---
 
-### PROBLEM 5 (Medium): Coin Change (LeetCode 322) [cite: 276, 763]
+### PROBLEM 5 (Medium): Coin Change (LeetCode 322)
 
 #### 1. Understand:
-Humein different values ke coins ka set `coins` diya hai, aur ek target `amount` diya hai [cite: 276]. Humein batana hai ki minimum kitne coins ko use karke hum woh amount bana sakte hain [cite: 276]. Agar banana impossible hai, toh return `-1` [cite: 276].
+Humein different values ke coins ka set `coins` diya hai, aur ek target `amount` diya hai. Humein batana hai ki minimum kitne coins ko use karke hum woh amount bana sakte hain. Agar banana impossible hai, toh return `-1`.
 
 ---
 
 #### 2. The 5-Step Framework Derivation:
 * **State:** Let `dp[i]` be the **minimum number of coins** needed to make the amount `i`.
-* **Choice:** Maan lo hum amount `i` banana chahte hain. Mere paas choice hai ki main kisi bhi coin `c` ko apne list se select karoon [cite: 276].
+* **Choice:** Maan lo hum amount `i` banana chahte hain. Mere paas choice hai ki main kisi bhi coin `c` ko apne list se select karoon.
   * If we choose coin `c`, we are left with subproblem: amount `i - c`.
   * Total coins = `1 + dp[i - c]`.
 * **Transition:**
-  \\[dp[i] = \min_{c \in \text{coins}} (dp[i - c] + 1)\\]
+  \\[dp[i] = min_{c in coins} (dp[i - c] + 1)\\]
 * **Base Case:** `dp = 0` (0 amount banane ke liye 0 coins lagenge).
 * **Answer State:** `dp[amount]` par final result milega.
 
@@ -445,13 +445,13 @@ function coinChange(coins, amount) {
     return dp[amount] > amount ? -1 : dp[amount];
 }
 ```
-* **Complexity:** Time: **\\(O(\text{amount} \times N)\\)** (where \\(N\\) is coins count), Space: **\\(O(\text{amount})\\)** for the DP table [cite: 192].
+* **Complexity:** Time: **O(amount × N)** (where N is coins count), Space: **O(amount)** for the DP table.
 
 ---
 
 ## 5. DP RECOGNITION GUIDE: HOW TO SPOT DP PROBLEMS? 🗺️
 
-Competitive test cases mein in patterns ko dekhkar direct pehchano ki DP lagti hai [cite: 308]:
+Competitive test cases mein in patterns ko dekhkar direct pehchano ki DP lagti hai:
 
 ```
                             DP RECOGNITION CHECKLIST
@@ -459,10 +459,10 @@ Competitive test cases mein in patterns ko dekhkar direct pehchano ki DP lagti h
         ┌──────────────────────────────┼──────────────────────────────┐
   1. Optimal Queries             2. Decision Choices            3. Overlapping Nodes
   Ask for "Min/Max/Shortest"     "Should I take this element    "Same subtree evaluated
-  or "Count ways/Existence"      or skip it?" binary choices.   repeatedly" [cite: 308].
+  or "Count ways/Existence"      or skip it?" binary choices.   repeatedly".
 ```
 
-1. **Optimal Queries:** Jab bhi sawal mein puchha ho: *"Find the Minimum cost..."*, *"Find Maximum profit..."*, or *"Count total number of ways..."* [cite: 309, 342, 763].
+1. **Optimal Queries:** Jab bhi sawal mein puchha ho: *"Find the Minimum cost..."*, *"Find Maximum profit..."*, or *"Count total number of ways..."*.
 2. **Distinct Decision Steps:** Jab har state par tumhein dynamic choices (jaise Lelo / Chodo, ya 1 jump / 2 jump) lene ke liye options diye hon.
 3. **No Greedy Choice Guarantee:** Jab greedy method fail ho raha ho (jaise hamara Coin Change Case 2 pichle chapter ka).
 
@@ -490,19 +490,19 @@ Bacho, interviews ke emotional stress mein in classic bugs se hamesha bacho:
 ## CHAPTER END SUMMARY
 
 ### Completed Concepts:
-* Overlapping subproblems, Memoization cache, and bottom-up tabulation tables [cite: 308].
-* Recursive stack frame tracing vs. space optimizations [cite: 99, 308, 518].
-* Derivation of States, Choices, Transitions, and Base Cases on core interview problems [cite: 308].
+* Overlapping subproblems, Memoization cache, and bottom-up tabulation tables.
+* Recursive stack frame tracing vs. space optimizations.
+* Derivation of States, Choices, Transitions, and Base Cases on core interview problems.
 
 ### The Core SDE Framework Mastered:
-* **State** \\(\rightarrow\\) **Choice** \\(\rightarrow\\) **Transition** \\(\rightarrow\\) **Base Case** \\(\rightarrow\\) **Answer**
+* **State** → **Choice** → **Transition** → **Base Case** → **Answer**
 
 ---
 
 ### SDE Practice Roadmap:
-1. Solve LeetCode 509 *Fibonacci Number* with strictly \\(O(1)\\) space optimization [cite: 45].
+1. Solve LeetCode 509 *Fibonacci Number* with strictly O(1) space optimization.
 2. Complete LeetCode 70 *Climbing Stairs* Bottom-up.
-3. Implement LeetCode 198 *House Robber* and trace the dry run table [cite: 426].
+3. Implement LeetCode 198 *House Robber* and trace the dry run table.
 
 ---
 

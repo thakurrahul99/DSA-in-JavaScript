@@ -1,6 +1,6 @@
 **Arey bacho! Jaldi se class mein aa jao aur whiteboard par apna dhyan lagao.**  
 
-Pichle chapters mein humne Arrays, Matrices, Strings, aur Hashing ke patterns ko completely disassemble kiya. Humne seekha ki kaise Map aur Set ka use karke hum lookups ko average **\\(\mathcal{O}(1)\\)** par le aate hain.  
+Pichle chapters mein humne Arrays, Matrices, Strings, aur Hashing ke patterns ko completely disassemble kiya. Humne seekha ki kaise Map aur Set ka use karke hum lookups ko average **O(1)** par le aate hain.  
 
 Lekin beta, jab hum deep data structures jaise Trees aur Graphs ki taraf badhte hain, ya dynamic programming aur backtracking ke complex maze ko solve karte hain, toh humare normal loops fail ho jate hain. Wahan humein ek aisi core programming technique ki zaroorat hoti hai jo complex problems ko asani se chote-chote subproblems mein break kar sake.  
 
@@ -115,7 +115,7 @@ Interviews mein poocha jata hai ki *"Sir, loop chalayein ya recursion use karein
 
 | Feature | Iteration (Loops) | Recursion |
 | :--- | :--- | :--- |
-| **Memory Footprint** | **\\(\mathcal{O}(1)\\) Space** (constant memory). Purane variables hi update hote hain, koi stack frames nahi bante. | **\\(\mathcal{O}(N)\\) Auxiliary Space**. Har recursive call ek naya stack frame memory par hold karti hai jab tak base case resolve na ho jaye. |
+| **Memory Footprint** | **O(1) Space** (constant memory). Purane variables hi update hote hain, koi stack frames nahi bante. | **O(N) Auxiliary Space**. Har recursive call ek naya stack frame memory par hold karti hai jab tak base case resolve na ho jaye. |
 | **Execution Speed** | Fast. Engine levels par loops bohot optimized hote hain. | Relatively slow. Function calls ka overhead, activation frames allocation, aur stack insertions time lete hain. |
 | **Code Readability** | Agar problem bohot deep aur complex ho (jaise tree traversal), toh iterative code bohot ganda aur bada ho jata hai. | Extremely elegant aur compact. 15 lines ka code 3-4 lines mein resolve ho jata hai. |
 
@@ -132,7 +132,7 @@ Recursive patterns alag-alag types ke hote hain:
 3. **Head Recursion:**  
    Agar recursive call function ki shuruat mein hi ho jaye, aur bacha hua saara logic (work) us call ke baad execute ho. Isme "unwinding phase" (wapas aate waqt) saara kaam hota hai.
 4. **Tail Recursion:**  
-   Agar recursive call function ka **absolutely last statement** ho. recursive call ke baad koi work bacha hi nahi hota. Modern compilers (jaise V8's Tail Call Optimization - TCO) tail recursion ko internally loop mein convert kar dete hain, jisse space complexity **\\(\mathcal{O}(1)\\)** par drop ho jati hai!
+   Agar recursive call function ka **absolutely last statement** ho. recursive call ke baad koi work bacha hi nahi hota. Modern compilers (jaise V8's Tail Call Optimization - TCO) tail recursion ko internally loop mein convert kar dete hain, jisse space complexity **O(1)** par drop ho jati hai!
 
 ---
 
@@ -156,12 +156,12 @@ Humein kisi non-negative integer `n` ka factorial nikalna hai (denote as `n!`).
 `5! = 5 * 4 * 3 * 2 * 1 = 120`. `0! = 1`.
 
 #### 2. Iterative Idea:
-Ek simple loop lagao `1` se `n` tak aur elements ko multiply karte jao. Space: \\(\mathcal{O}(1)\\).
+Ek simple loop lagao `1` se `n` tak aur elements ko multiply karte jao. Space: O(1).
 
 #### 3. Recursive Idea:
 *   *Smallest problem:* `factorial(0)` or `factorial(1)` ka answer `1` hota hai.
 *   *Smaller same problem:* `5!` aur kuch nahi, balki `5 * 4!` hai.
-*   *Mathematical relation:* \\(\text{factorial}(n) = n \times \text{factorial}(n - 1)\\).
+*   *Mathematical relation:* factorial(n) = n × factorial(n - 1).
 
 #### 4. Base Case Identify:
 ```javascript
@@ -184,10 +184,10 @@ function factorial(n) {
 ```
 
 #### 7. Call Stack Dry Run (`factorial(4)`):
-1. `factorial(4)` call hua \\(\rightarrow\\) `4 * factorial(3)` par hold ho gaya. Stack frame added.
-2. `factorial(3)` call hua \\(\rightarrow\\) `3 * factorial(2)` par hold. Stack frame added.
-3. `factorial(2)` call hua \\(\rightarrow\\) `2 * factorial(1)` par hold. Stack frame added.
-4. `factorial(1)` call hua \\(\rightarrow\\) `1` matches base case, returns `1` instantly. Stack frame pops.
+1. `factorial(4)` call hua → `4 * factorial(3)` par hold ho gaya. Stack frame added.
+2. `factorial(3)` call hua → `3 * factorial(2)` par hold. Stack frame added.
+3. `factorial(2)` call hua → `2 * factorial(1)` par hold. Stack frame added.
+4. `factorial(1)` call hua → `1` matches base case, returns `1` instantly. Stack frame pops.
 
 #### 8. Return/Unwinding Process:
 *   `factorial(1)` returns `1` to `factorial(2)`. `factorial(2)` computes `2 * 1 = 2` and returns it. Stack frame pops.
@@ -195,8 +195,8 @@ function factorial(n) {
 *   `factorial(4)` receives `6`, computes `4 * 6 = 24` and returns it. Stack frame pops. Call Stack is empty!
 
 #### 9. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)**. Function exactly \\(n\\) baar execute hota hai.
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\) Auxiliary Space** recursion call stack frames hold karne ke liye.
+*   **Time Complexity:** **O(n)**. Function exactly n baar execute hota hai.
+*   **Space Complexity:** **O(n) Auxiliary Space** recursion call stack frames hold karne ke liye.
 
 ---
 
@@ -205,12 +205,12 @@ function factorial(n) {
 #### 1. Understand:
 Fibonacci sequence zero aur one se shuru hoti hai, aur har agla term pichle do terms ka addition hota hai.  
 `Sequence: 0, 1, 1, 2, 3, 5, 8, 13, 21...`  
-Humein \\(N^{\text{th}}\\) Fibonacci index value return karni hai.
+Humein N^{th} Fibonacci index value return karni hai.
 
 #### 2. Recursive Relation:
 *   *Smallest problem:* `fib(0) === 0`, `fib(1) === 1`.
-*   *Smaller same problem:* \\(N^{\text{th}}\\) Fibonacci term nikalne ke liye pichle do terms, i.e., `(N-1)`th aur `(N-2)`th terms ka addition karna hoga.
-*   *Formula:* \\(\text{fib}(n) = \text{fib}(n - 1) + \text{fib}(n - 2)\\).
+*   *Smaller same problem:* N^{th} Fibonacci term nikalne ke liye pichle do terms, i.e., `(N-1)`th aur `(N-2)`th terms ka addition karna hoga.
+*   *Formula:* fib(n) = fib(n - 1) + fib(n - 2).
 
 #### 3. Code:
 ```javascript
@@ -237,13 +237,13 @@ Bacho, dhyan se dekho is tree ko, isme double recursion ka saara sach chupa hai!
 
 #### 5. Repeated Work & Performance Bottleneck 🚨:
 Dhyan se dekho! `fib(2)` ko humne left branch mein bhi calculate kiya aur right branch mein bhi calculation dobara run ki.  
-Jaise-jaise \\(n\\) badhega, yeh redundant calculations exponentially badh jayengi! 
-*   **Total Recursive Calls:** Tree ka har element lagbhag 2 sub-branches split hota hai. Isiliye operations ka count **\\(2^n\\)** ke scale par badhta hai.
-*   **DP Memoization Bridge:** Future chapters mein hum dynamic programming (memoization) seekhenge, jahan hum ek baar computed values (jaise `fib(2)`) ko map/object mein store kar lenge taaki dobara calculation na karni pade. Isse complexity exponential se seedhe **\\(\mathcal{O}(n)\\)** linear par drop ho jayegi.
+Jaise-jaise n badhega, yeh redundant calculations exponentially badh jayengi! 
+*   **Total Recursive Calls:** Tree ka har element lagbhag 2 sub-branches split hota hai. Isiliye operations ka count **2^n** ke scale par badhta hai.
+*   **DP Memoization Bridge:** Future chapters mein hum dynamic programming (memoization) seekhenge, jahan hum ek baar computed values (jaise `fib(2)`) ko map/object mein store kar lenge taaki dobara calculation na karni pade. Isse complexity exponential se seedhe **O(n)** linear par drop ho jayegi.
 
 #### 6. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(2^n)\\)** (Exponential height traversal).
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\) Auxiliary Space** kyunki call stack par simultaneously maximum depth at any point sirf \\(N\\) frames tak hi touch karegi.
+*   **Time Complexity:** **O(2^n)** (Exponential height traversal).
+*   **Space Complexity:** **O(n) Auxiliary Space** kyunki call stack par simultaneously maximum depth at any point sirf N frames tak hi touch karegi.
 
 ---
 
@@ -256,8 +256,8 @@ Humein ek array diya hai aur recursion use karke uske saare elements ka sum nika
 #### 2. SDE Optimization (Popping vs. Slicing vs. Pointer Bounds) 💡:
 Bachon, recursion se array sum nikalne ke teen raste hain. Tradeoffs samajhna zaroori hai:
 *   **Rasta A: Slicing (`arr.slice`):** Hum har step par last element nikalenge aur bache array ko slice karke recursion mein bhejenge. 
-    *   *Problem:* `slice()` method internally array elements ko copy karta hai, jo har step par **\\(\mathcal{O}(n)\\)** time aur space consume karta hai. Isse overall complexity degrade ho jayegi.
-*   **Rasta B: Pop Method (`arr.pop`):** Array ke aakhir se element ko pop karke constant time \\(\mathcal{O}(1)\\) mein operations chala sakte hain.
+    *   *Problem:* `slice()` method internally array elements ko copy karta hai, jo har step par **O(n)** time aur space consume karta hai. Isse overall complexity degrade ho jayegi.
+*   **Rasta B: Pop Method (`arr.pop`):** Array ke aakhir se element ko pop karke constant time O(1) mein operations chala sakte hain.
     *   *Problem:* Pop karne se original input array mutate (modify) ho jata hai, jo production code mein bad habit maani jati hai.
 *   **Rasta C: Pointer Bounds (Optimal SDE Way):** Original array ko intact rakho aur bas ek variable pointer `n` (array length) pass karo, jo track karega ki humein kis index tak ka sum chahiye.
 
@@ -274,30 +274,30 @@ function sumOfArray(arr, n) {
 ```
 
 #### 4. Dry Run (`arr =`, `n = 3`):
-*   `sumOfArray(arr, 3)` \\(\rightarrow\\) returns `arr + sumOfArray(arr, 2)` (i.e., `30 + sumOfArray(arr, 2)`)
-*   `sumOfArray(arr, 2)` \\(\rightarrow\\) returns `20 + sumOfArray(arr, 1)`
-*   `sumOfArray(arr, 1)` \\(\rightarrow\\) returns `10 + sumOfArray(arr, 0)`
-*   `sumOfArray(arr, 0)` \\(\rightarrow\\) base case hit, returns `0`.
-*   *Unwinding:* `10 + 0 = 10` \\(\rightarrow\\) `20 + 10 = 30` \\(\rightarrow\\) `30 + 30 = 60`. Returns `60` (Correct!).
+*   `sumOfArray(arr, 3)` → returns `arr + sumOfArray(arr, 2)` (i.e., `30 + sumOfArray(arr, 2)`)
+*   `sumOfArray(arr, 2)` → returns `20 + sumOfArray(arr, 1)`
+*   `sumOfArray(arr, 1)` → returns `10 + sumOfArray(arr, 0)`
+*   `sumOfArray(arr, 0)` → base case hit, returns `0`.
+*   *Unwinding:* `10 + 0 = 10` → `20 + 10 = 30` → `30 + 30 = 60`. Returns `60` (Correct!).
 
 #### 5. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)**. (Looping equivalents).
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\) Auxiliary** stack space.
+*   **Time Complexity:** **O(n)**. (Looping equivalents).
+*   **Space Complexity:** **O(n) Auxiliary** stack space.
 
 ---
 
 ### Problem 4: Power of a Number (Iterative vs. Fast Powering)
 
 #### 1. Understand:
-Humein `x` ko power `n` tak raise karna hai (i.e., \\(x^n\\)).
+Humein `x` ko power `n` tak raise karna hai (i.e., x^n).
 
 #### 2. Brute Force Recursive (Linear):
-Multiply `x` with `power(x, n - 1)`. Time takes \\(\mathcal{O}(n)\\).
+Multiply `x` with `power(x, n - 1)`. Time takes O(n).
 
 #### 3. Fast Powering Algorithm (Divide & Conquer):
 *"Sir, pichle chapters ke math lessons se humein pata hai ki dynamic subdivisions use ki ja sakti hain!"*  
-*   Agar power **even** hai: \\(2^8 = (2^4)^2 = (2 \times 2 \times 2 \times 2)^2\\). Yaani hum power ko directly aadha (half) kar sakte hain!
-*   Agar power **odd** hai: \\(2^9 = 2 \times 2^8\\).
+*   Agar power **even** hai: 2^8 = (2^4)^2 = (2 × 2 × 2 × 2)^2. Yaani hum power ko directly aadha (half) kar sakte hain!
+*   Agar power **odd** hai: 2^9 = 2 × 2^8.
 
 #### 4. JavaScript Code:
 ```javascript
@@ -319,8 +319,8 @@ function fastPower(x, n) {
 ```
 
 #### 5. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(\log n)\\)** (Directly problem space is halved at each recursion step!).
-*   **Space Complexity:** **\\(\mathcal{O}(\log n)\\) Stack Space** recursion depth ke liye.
+*   **Time Complexity:** **O(log n)** (Directly problem space is halved at each recursion step!).
+*   **Space Complexity:** **O(log n) Stack Space** recursion depth ke liye.
 
 ---
 
@@ -346,7 +346,7 @@ function isPalindrome(str) {
     return isPalindromeHelper(str, 0, str.length - 1);
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)** call stack space.
+*   **Complexity:** Time: **O(n)**, Space: **O(n)** call stack space.
 
 ---
 
@@ -390,7 +390,7 @@ SDE coding rounds mein in bugs ko door rakhna:
 
 ---
 
-## 10. CLASSROOM PRACTICE ROOM (EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD)
+## 10. CLASSROOM PRACTICE ROOM (EASY → MEDIUM → HARD)
 
 🚀 ** Whiteboard bilkul clean hai dosto! Chalo, pehle khud base cases aur relations dhoondho aur fir explanations padhna!**
 
@@ -412,7 +412,7 @@ function reverseString(str) {
     return str[str.length - 1] + reverseString(str.slice(0, str.length - 1));
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(n^2)\\)** (due to slice copy), Space: **\\(\mathcal{O}(n)\\)** stack space. (Optimization can be achieved using char array pointer swaps).
+*   **Complexity:** Time: **O(n^2)** (due to slice copy), Space: **O(n)** stack space. (Optimization can be achieved using char array pointer swaps).
 
 ---
 
@@ -432,7 +432,7 @@ function printNToOne(N) {
     printNToOne(N - 1);  // Progress
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)** Auxiliary Stack space.
+*   **Complexity:** Time: **O(n)**, Space: **O(n)** Auxiliary Stack space.
 
 ---
 
@@ -470,7 +470,7 @@ function generateSubsets(nums) {
     return result;
 }
 ```
-*   **Complexity:** Time Complexity: **\\(\mathcal{O}(2^n)\\)** (since total subsets generated of size \\(N\\) is exactly \\(2^N\\)). Space Complexity: **\\(\mathcal{O}(n)\\)** auxiliary stack depth space.
+*   **Complexity:** Time Complexity: **O(2^n)** (since total subsets generated of size N is exactly 2^N). Space Complexity: **O(n)** auxiliary stack depth space.
 
 ---
 

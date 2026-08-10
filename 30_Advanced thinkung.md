@@ -2,33 +2,33 @@
 
 Aaj hum humare SDE Prep Bootcamp ke sabse important aur final block mein enter kar rahe hain—**Chapter 30: Problem Solving Mastery & Advanced Interview Thinking**! 
 
-Is chapter ka goal aapko data structures ki definitions ya basic syntax sikhana nahi hai [cite: 13, 19, 283]. Woh kaam toh hum pichle chapters mein aur freeCodeCamp, Colt Steele, ya ThePrimeagen ke courses se deeply kar chuke hain [cite: 26, 411, 543, 544]. Aaj humara target hai **unfamiliar (unseen) problems ko systematically approach karna, unke patterns ko extract karna, aur unhe brute force se optimal solution tak escalate karna** [cite: 13, 14, 289, 719].
+Is chapter ka goal aapko data structures ki definitions ya basic syntax sikhana nahi hai. Woh kaam toh hum pichle chapters mein aur freeCodeCamp, Colt Steele, ya ThePrimeagen ke courses se deeply kar chuke hain. Aaj humara target hai **unfamiliar (unseen) problems ko systematically approach karna, unke patterns ko extract karna, aur unhe brute force se optimal solution tak escalate karna**.
 
-Google, Amazon, ya Microsoft ke barabar ke interviews mein aapko wahi questions nahi milenge jo aapne pehle se ratey (memorize kiye) huye hain [cite: 47, 719]. Jab screen par bilkul naya sawaal aayega, tab aap use kaise approach karenge? Us absolute real-time problem-solving thinking process ko aaj hum live deconstruct karenge!
+Google, Amazon, ya Microsoft ke barabar ke interviews mein aapko wahi questions nahi milenge jo aapne pehle se ratey (memorize kiye) huye hain. Jab screen par bilkul naya sawaal aayega, tab aap use kaise approach karenge? Us absolute real-time problem-solving thinking process ko aaj hum live deconstruct karenge!
 
 ---
 
-## SECTION 1: THE PROBLEM-SOLVING ENGINE (THE \\(10^8\\) RULE & CONSTRAINT THINKING)
+## SECTION 1: THE PROBLEM-SOLVING ENGINE (THE 10^8 RULE & CONSTRAINT THINKING)
 
-SDE interviews mein humara sabse bada clue humesha question ke niche chota sa likha hota hai—**Constraints** [cite: 71]! Maximum candidates constraints ko bilkul ignore kar dete hain aur seedhe code likhna shuru karte hain, aur fir online judge par aata hai red color mein: **Time Limit Exceeded (TLE)** [cite: 72]!
+SDE interviews mein humara sabse bada clue humesha question ke niche chota sa likha hota hai—**Constraints**! Maximum candidates constraints ko bilkul ignore kar dete hain aur seedhe code likhna shuru karte hain, aur fir online judge par aata hai red color mein: **Time Limit Exceeded (TLE)**!
 
-Jaise humne pichle lectures mein discuss kiya tha, **1 second mein typical online judge (LeatCode, GFG, CodeChef) max to max \\(10^8\\) operations perform kar sakta hai** [cite: 72]. 
+Jaise humne pichle lectures mein discuss kiya tha, **1 second mein typical online judge (LeatCode, GFG, CodeChef) max to max 10^8 operations perform kar sakta hai**. 
 
-Agar humein input size \\(N\\) pata hai, toh hum reverse engineering karke pehle se decide kar sakte hain ki humein optimal solution kis Time Complexity mein chahiye [cite: 72]!
+Agar humein input size N pata hai, toh hum reverse engineering karke pehle se decide kar sakte hain ki humein optimal solution kis Time Complexity mein chahiye!
 
 ### 📊 Constraint-to-Complexity Cheat Sheet
 
 Is table ko apne register mein red pen se mark karke double-star lagao:
 
-| Input Size (\\(N\\)) | Target Time Complexity | Eligible Paradigms & Algorithms |
+| Input Size (N) | Target Time Complexity | Eligible Paradigms & Algorithms |
 | :--- | :--- | :--- |
-| **\\(N \le 10\\)** | \\(\mathcal{O}(N!)\\) ya \\(\mathcal{O}(2^N)\\) | Backtracking, Recursion, Complete State Space Search (N-Queens, Permutations) [cite: 423]. |
-| **\\(N \le 20\\)** | \\(\mathcal{O}(2^N)\\) | Bitmask DP, DFS with pruning, Subsets generation [cite: 423]. |
-| **\\(N \le 100\\)** | \\(\mathcal{O}(N^4)\\) ya \\(\mathcal{O}(N^3)\\) | Floyd-Warshall, 3D/2D Dynamic Programming [cite: 1011, 423]. |
-| **\\(N \le 1,000\\)** | \\(\mathcal{O}(N^2)\\) | 2D DP, Nested Loops, Matrix multiplications, Insertion/Selection Sort [cite: 423, 425]. |
-| **\\(N \le 10^5\\)** | \\(\mathcal{O}(N \log N)\\) ya \\(\mathcal{O}(N)\\) | Sorting, Binary Search, Heaps (Priority Queue), Monotonic Stack, Segment Trees, Map/Set optimizations [cite: 315, 380, 521, 538]. |
-| **\\(N \le 10^6\\)** | \\(\mathcal{O}(N)\\) ya \\(\mathcal{O}(N \log N)\\) | Linear Scan, Single Pass Sliding Window, Two Pointers, KMP String Matching [cite: 115, 524, 538]. |
-| **\\(N > 10^7\\)** | \\(\mathcal{O}(\log N)\\) ya \\(\mathcal{O}(1)\\) | Binary Search on answer space, Bitwise Math hacks, Fenwick/Segment Tree point queries [cite: 452, 521]. |
+| **N <= 10** | O(N!) ya O(2^N) | Backtracking, Recursion, Complete State Space Search (N-Queens, Permutations). |
+| **N <= 20** | O(2^N) | Bitmask DP, DFS with pruning, Subsets generation. |
+| **N <= 100** | O(N^4) ya O(N^3) | Floyd-Warshall, 3D/2D Dynamic Programming. |
+| **N <= 1,000** | O(N^2) | 2D DP, Nested Loops, Matrix multiplications, Insertion/Selection Sort. |
+| **N <= 10^5** | O(N log N) ya O(N) | Sorting, Binary Search, Heaps (Priority Queue), Monotonic Stack, Segment Trees, Map/Set optimizations. |
+| **N <= 10^6** | O(N) ya O(N log N) | Linear Scan, Single Pass Sliding Window, Two Pointers, KMP String Matching. |
+| **N > 10^7** | O(log N) ya O(1) | Binary Search on answer space, Bitwise Math hacks, Fenwick/Segment Tree point queries. |
 
 ---
 
@@ -43,19 +43,19 @@ Bacho, jab bhi interview mein koi unfamiliar sawaal dikhe, hamesha is **15-Step 
                              ▼
  1. Understand (Verify input/output, ask clarifying questions)
                              ▼
- 2. Constraints Check (Eliminate unfeasible Time/Space bounds) [cite: 71, 72]
+ 2. Constraints Check (Eliminate unfeasible Time/Space bounds)
                              ▼
- 3. Brute Force (Draw a naive algorithm, get a working baseline) [cite: 41]
+ 3. Brute Force (Draw a naive algorithm, get a working baseline)
                              ▼
  4. Bottleneck Detection (Find redundant scans, quadratic loops)
                              ▼
  5. Core Observation (Uncover invariants, sorting properties)
                              ▼
- 6. Pattern Selection (Two pointers, Sliding Window, Monotonic stack) [cite: 289]
+ 6. Pattern Selection (Two pointers, Sliding Window, Monotonic stack)
                              ▼
- 7. Data Structure Selection (Map, Set, Heap, Segment Tree) [cite: 288]
+ 7. Data Structure Selection (Map, Set, Heap, Segment Tree)
                              ▼
- 8. Optimal Strategy Formulation (State transitions, space tradeoffs) [cite: 41, 531]
+ 8. Optimal Strategy Formulation (State transitions, space tradeoffs)
                              ▼
  9. Correctness Intuition / Proof (Mathematical/logical validity)
                              ▼
@@ -89,13 +89,13 @@ Humein ek integer array `nums` diya gaya hai. Humein check karna hai ki kya arra
 ---
 
 ##### Approach 1: Sorting and Adjacent Check
-*   **Intuition:** Agar hum array ko sort kar dein [cite: 315, 330], toh duplicates humesha ek dusre ke padosi (adjacent) ban jayenge bacho.
-*   **Time Complexity:** \\(\mathcal{O}(N \log N)\\) due to sorting [cite: 54, 290].
-*   **Space Complexity:** \\(\mathcal{O}(1)\\) or \\(\mathcal{O}(\log N)\\) depending on JS engine's quicksort/timsort implementation [cite: 125, 425].
+*   **Intuition:** Agar hum array ko sort kar dein, toh duplicates humesha ek dusre ke padosi (adjacent) ban jayenge bacho.
+*   **Time Complexity:** O(N log N) due to sorting.
+*   **Space Complexity:** O(1) or O(log N) depending on JS engine's quicksort/timsort implementation.
 
 ```javascript
 function hasDuplicateSort(nums) {
-    nums.sort((a, b) => a - b); // Step 1: Sort [cite: 315, 330]
+    nums.sort((a, b) => a - b); // Step 1: Sort
     for (let i = 0; i < nums.length - 1; i++) {
         if (nums[i] === nums[i + 1]) {
             return true; // Adjacent match!
@@ -108,16 +108,16 @@ function hasDuplicateSort(nums) {
 ---
 
 ##### Approach 2: Hash Set (Trading Space for Time)
-*   **Intuition:** Hum ek Set maintain karenge [cite: 308, 333]. Har element ko set mein insert karne se pehle search karenge ki kya woh pehle se Set mein hai. Agar haan, toh duplicate mil gaya [cite: 308, 539]!
-*   **Time Complexity:** \\(\mathcal{O}(N)\\) average, as Set search/insertion is \\(\mathcal{O}(1)\\) [cite: 308, 425].
-*   **Space Complexity:** \\(\mathcal{O}(N)\\) to store array elements inside Set [cite: 125, 308].
+*   **Intuition:** Hum ek Set maintain karenge. Har element ko set mein insert karne se pehle search karenge ki kya woh pehle se Set mein hai. Agar haan, toh duplicate mil gaya!
+*   **Time Complexity:** O(N) average, as Set search/insertion is O(1).
+*   **Space Complexity:** O(N) to store array elements inside Set.
 
 ```javascript
 function hasDuplicateSet(nums) {
     const seen = new Set();
     for (let num of nums) {
         if (seen.has(num)) {
-            return true; // Constant lookup match! [cite: 308, 539]
+            return true; // Constant lookup match!
         }
         seen.add(num);
     }
@@ -128,9 +128,9 @@ function hasDuplicateSet(nums) {
 ---
 
 ##### Approach 3: Two Pointers / Brute Force (Constraint Limit)
-*   **Intuition:** Har index \\(i\\) par ja kar pooray right array \\(j > i\\) ko search karo.
-*   **Time Complexity:** \\(\mathcal{O}(N^2)\\)
-*   **Space Complexity:** \\(\mathcal{O}(1)\\)
+*   **Intuition:** Har index i par ja kar pooray right array j > i ko search karo.
+*   **Time Complexity:** O(N^2)
+*   **Space Complexity:** O(1)
 
 ```javascript
 function hasDuplicateNaive(nums) {
@@ -153,8 +153,8 @@ Humein ek non-negative integer array `nums` aur ek target `K` diya hai. Humein a
 
 ---
 
-##### Case A: \\(N \le 100\\)
-*   **Thinking:** \\(N\\) chota hai, \\(\mathcal{O}(N^2)\\) solution easily pass ho jayega [cite: 72]. Hum sub-arrays ke nested loops generate kar sakte hain.
+##### Case A: N <= 100
+*   **Thinking:** N chota hai, O(N^2) solution easily pass ho jayega. Hum sub-arrays ke nested loops generate kar sakte hain.
 
 ```javascript
 function findSubarrayNaive(nums, k) {
@@ -163,7 +163,7 @@ function findSubarrayNaive(nums, k) {
         for (let j = i; j < nums.length; j++) {
             currentSum += nums[j];
             if (currentSum === k) {
-                return [i, j]; // Return boundaries [cite: 128]
+                return [i, j]; // Return boundaries
             }
         }
     }
@@ -173,9 +173,9 @@ function findSubarrayNaive(nums, k) {
 
 ---
 
-##### Case B: \\(N \le 10^5\\) (Large scale limit)
-*   **Thinking:** \\(\mathcal{O}(N^2)\\) is scale par crash ho jayega (TLE) [cite: 72]! Humein \\(\mathcal{O}(N)\\) single pass target karna hoga.
-*   **Observation:** Kyunki elements strictly positive hain, sliding window use kiya ja sakta hai [cite: 276, 524, 539]! Agar sum excess ho jaye, toh left pointer ko expand/shrink karke balance karo [cite: 276, 524].
+##### Case B: N <= 10^5 (Large scale limit)
+*   **Thinking:** O(N^2) is scale par crash ho jayega (TLE)! Humein O(N) single pass target karna hoga.
+*   **Observation:** Kyunki elements strictly positive hain, sliding window use kiya ja sakta hai! Agar sum excess ho jaye, toh left pointer ko expand/shrink karke balance karo.
 
 ```javascript
 function findSubarraySlidingWindow(nums, k) {
@@ -183,9 +183,9 @@ function findSubarraySlidingWindow(nums, k) {
     let runningSum = 0;
 
     for (let end = 0; end < nums.length; end++) {
-        runningSum += nums[end]; // Expand right pointer [cite: 524]
+        runningSum += nums[end]; // Expand right pointer
 
-        // Excess sum? Shrink left boundary [cite: 524]
+        // Excess sum? Shrink left boundary
         while (runningSum > k && start < end) {
             runningSum -= nums[start];
             start++;
@@ -201,26 +201,26 @@ function findSubarraySlidingWindow(nums, k) {
 
 ---
 
-##### Case C: \\(N \le 10^5\\) with NEGATIVE numbers also allowed!
+##### Case C: N <= 10^5 with NEGATIVE numbers also allowed!
 *   **Thinking:** Negative numbers aate hi window shrink properties hold nahi karengi (kyunki left border shrink karne par sum increase bhi ho sakta hai!). Sliding window fail!
-*   **Alternative Pattern:** Prefix Sum with Hash Map [cite: 330, 351, 380, 539]. 
+*   **Alternative Pattern:** Prefix Sum with Hash Map. 
     If `prefix[end] - prefix[start-1] === K`, then `prefix[end] - K === prefix[start-1]`. Hum previous sums ko Map mein index storage ke sath store karte jayenge bacho!
 
 ```javascript
 function findSubarrayPrefixMap(nums, k) {
-    const map = new Map(); // Key: PrefixSum, Value: Index [cite: 351, 539]
+    const map = new Map(); // Key: PrefixSum, Value: Index
     map.set(0, -1); // Base Case
     let runningSum = 0;
 
     for (let i = 0; i < nums.length; i++) {
         runningSum += nums[i];
 
-        // Do we have a prefix sum equal to runningSum - K? [cite: 539]
+        // Do we have a prefix sum equal to runningSum - K?
         if (map.has(runningSum - k)) {
-            return [map.get(runningSum - k) + 1, i]; // Found boundaries! [cite: 111]
+            return [map.get(runningSum - k) + 1, i]; // Found boundaries!
         }
 
-        // Store current sum index [cite: 351]
+        // Store current sum index
         if (!map.has(runningSum)) {
             map.set(runningSum, i);
         }
@@ -235,12 +235,12 @@ function findSubarrayPrefixMap(nums, k) {
 **Goal:** Tempting but incorrect logic patterns ko identify karke destroy karna.
 
 #### Problem: "The Coin Collector"
-*   **Tempting Trap:** "Greedy hamesha optimal hota hai!" [cite: 41, 301]. Agar humein `amount` banana hai, toh largest possible coin ko pick karte raho jab tak bacha amount exceed na ho [cite: 301].
+*   **Tempting Trap:** "Greedy hamesha optimal hota hai!". Agar humein `amount` banana hai, toh largest possible coin ko pick karte raho jab tak bacha amount exceed na ho.
 *   **Why it Fails:** Agar coin set `` ho aur amount `18` banana ho, toh Greedy choice se:
-    1. First coin picked: `10` (Remaining: `8`) [cite: 301]
-    2. Next picked: 8 coins of `1` \\(\rightarrow\\) Total: 9 coins.
-    *   *But Optimal is:* Two coins of `9` (\\(9 + 9 = 18\\))! Greedy yahan crash ho gaya [cite: 301].
-*   **Correct Observation:** States are overlapping subproblems. Optimal solution dynamic programming or coin subset state transition table se nikalna hoga [cite: 41, 315, 388, 422].
+    1. First coin picked: `10` (Remaining: `8`)
+    2. Next picked: 8 coins of `1` → Total: 9 coins.
+    *   *But Optimal is:* Two coins of `9` (9 + 9 = 18)! Greedy yahan crash ho gaya.
+*   **Correct Observation:** States are overlapping subproblems. Optimal solution dynamic programming or coin subset state transition table se nikalna hoga.
 
 ---
 
@@ -259,23 +259,23 @@ function complexityExercise1(n) {
     return count;
 }
 ```
-*   **Diagnostic:** Outer loop runs \\(\log N\\) times (as `i` multiplies by 2 each step) [cite: 65, 66]. Inner loop runs strictly \\(N\\) times.
-*   **Time Complexity:** **\\(\mathcal{O}(N \log N)\\)** [cite: 71].
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Diagnostic:** Outer loop runs log N times (as `i` multiplies by 2 each step). Inner loop runs strictly N times.
+*   **Time Complexity:** **O(N log N)**.
+*   **Space Complexity:** **O(1)**.
 
 #### Snippet 2:
 ```javascript
 function complexityExercise2(arr) {
     if (arr.length <= 1) return arr;
-    const mid = Math.floor(arr.length / 2); // [cite: 155]
-    const left = complexityExercise2(arr.slice(0, mid)); // [cite: 70]
-    const right = complexityExercise2(arr.slice(mid)); // [cite: 70]
+    const mid = Math.floor(arr.length / 2); //
+    const left = complexityExercise2(arr.slice(0, mid)); //
+    const right = complexityExercise2(arr.slice(mid)); //
     return merge(left, right); 
 }
 ```
-*   **Diagnostic:** Divide and Conquer Tree heights depth represents standard Merge Sort recursive structure [cite: 199, 202].
-*   **Time Complexity:** **\\(\mathcal{O}(N \log N)\\)** [cite: 199, 202].
-*   **Space Complexity:** **\\(\mathcal{O}(N)\\)** due to auxiliary slices and result arrays [cite: 125, 203].
+*   **Diagnostic:** Divide and Conquer Tree heights depth represents standard Merge Sort recursive structure.
+*   **Time Complexity:** **O(N log N)**.
+*   **Space Complexity:** **O(N)** due to auxiliary slices and result arrays.
 
 ---
 
@@ -289,7 +289,7 @@ function buggyBinarySearch(arr, target) {
     let end = arr.length - 1;
 
     while (start <= end) {
-        const mid = (start + end) / 2; // BUG 1: Decimal float values! JS doesn't have native integer division [cite: 54, 155].
+        const mid = (start + end) / 2; // BUG 1: Decimal float values! JS doesn't have native integer division.
         if (arr[mid] === target) {
             return mid;
         } else if (arr[mid] < target) {
@@ -302,8 +302,8 @@ function buggyBinarySearch(arr, target) {
 }
 ```
 
-*   **🐞 Bug Explanation:** JS mein `(start + end) / 2` float returns kar sakta hai (e.g. `2.5`). Floating coordinates use karne se array indexing output array bounds mismatch or logic loops runtime errors trigger karta hai [cite: 54].
-*   **🛠️ Fixed Code:** Use `Math.floor()` to keep coordinates integer bounds safely [cite: 54, 155].
+*   **🐞 Bug Explanation:** JS mein `(start + end) / 2` float returns kar sakta hai (e.g. `2.5`). Floating coordinates use karne se array indexing output array bounds mismatch or logic loops runtime errors trigger karta hai.
+*   **🛠️ Fixed Code:** Use `Math.floor()` to keep coordinates integer bounds safely.
 
 ```javascript
 function correctBinarySearch(arr, target) {
@@ -311,7 +311,7 @@ function correctBinarySearch(arr, target) {
     let end = arr.length - 1;
 
     while (start <= end) {
-        const mid = Math.floor((start + end) / 2); // FIXED [cite: 54, 155]
+        const mid = Math.floor((start + end) / 2); // FIXED
         if (arr[mid] === target) {
             return mid;
         } else if (arr[mid] < target) {
@@ -328,7 +328,7 @@ function correctBinarySearch(arr, target) {
 
 ## SECTION 4: THE SDE PROBLEM-SOLVING PRACTICE BANK (50+ WORKED MIXED PROBLEMS)
 
-Is section mein hum problem titles mein koi pattern ya algorithm name leak nahi karenge bacho [cite: 13]. Hum direct problem concepts deconstruct karenge aur optimal coordinates formulate karenge.
+Is section mein hum problem titles mein koi pattern ya algorithm name leak nahi karenge bacho. Hum direct problem concepts deconstruct karenge aur optimal coordinates formulate karenge.
 
 ---
 
@@ -338,22 +338,22 @@ Is section mein hum problem titles mein koi pattern ya algorithm name leak nahi 
 Humein ek integer array `height` diya gaya hai jahan index borders represent linear horizontal points, aur values vertical storage limits represent karti hain. Humein do boundaries coordinate pick karne hain jo maximum water contain kar sakein.
 
 #### 2. Constraints:
-*   \\(N \le 10^5\\) (Forces \\(\mathcal{O}(N)\\) optimal limit [cite: 72]).
+*   N <= 10^5 (Forces O(N) optimal limit).
 
 #### 3. Examples:
-`height =` \\(\rightarrow\\) Output: `49`.
+`height =` → Output: `49`.
 
 #### 4. Brute Force:
-Har edge pairs coordinate combinations loop traverse karke global max calculate karna. Complexity: \\(\mathcal{O}(N^2)\\) [cite: 72].
+Har edge pairs coordinate combinations loop traverse karke global max calculate karna. Complexity: O(N^2).
 
 #### 5. Bottleneck:
 Redundant inner coordinates validations.
 
 #### 6. Observation:
-Area limit strictly depends on the shorter border boundary and horizontal width distance [cite: 523]. Width ko maximum rakhne ke liye hum left and right bounds start pointers coordinate se processing explore karenge. Left border agar right se smaller hai, toh search spacing optimize karne ke liye left pointer ko inline narrow change shift karenge [cite: 523]!
+Area limit strictly depends on the shorter border boundary and horizontal width distance. Width ko maximum rakhne ke liye hum left and right bounds start pointers coordinate se processing explore karenge. Left border agar right se smaller hai, toh search spacing optimize karne ke liye left pointer ko inline narrow change shift karenge!
 
 #### 7. Pattern:
-Two Pointers Convergence [cite: 288, 523, 538].
+Two Pointers Convergence.
 
 #### 8. JavaScript Code:
 ```javascript
@@ -368,7 +368,7 @@ function maxArea(height) {
         const area = width * currentHeight;
         maxWater = Math.max(maxWater, area);
 
-        // Slide the pointer pointing to the shorter vertical bound [cite: 523]
+        // Slide the pointer pointing to the shorter vertical bound
         if (height[left] < height[right]) {
             left++;
         } else {
@@ -388,8 +388,8 @@ Input: ``
 *   Returns `49`. Correct!
 
 #### 10. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(N)\\)** [cite: 273].
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Time Complexity:** **O(N)**.
+*   **Space Complexity:** **O(1)**.
 
 #### 11. SDE Follow-ups:
 *What if heights values contain decimals or updates are done on edges?* Two pointers maintains dynamic boundary scanning property correctly.
@@ -402,27 +402,27 @@ Input: ``
 Humein ek string `S` di gayi hai bacho. Humein find out karni hai length of longest contiguous substring jisme characters duplicate na hon.
 
 #### 2. Constraints:
-*   \\(N \le 10^5\\).
+*   N <= 10^5.
 
 #### 3. Examples:
-`S = "abcabcbb"` \\(\rightarrow\\) Output: `3` (Substring: `"abc"`).
+`S = "abcabcbb"` → Output: `3` (Substring: `"abc"`).
 
 #### 4. Brute Force:
-Explore all substring configurations and count character uniqueness. Complexity: \\(\mathcal{O}(N^3)\\) [cite: 273].
+Explore all substring configurations and count character uniqueness. Complexity: O(N^3).
 
 #### 5. Bottleneck:
 Redundant loops traversing sliding letters limits.
 
 #### 6. Observation:
-Hum index locations store maps generate kar sakte hain. Jab duplicate mile, left pointer ko index location matching target coordinate par slide jump kar do [cite: 351, 524, 539].
+Hum index locations store maps generate kar sakte hain. Jab duplicate mile, left pointer ko index location matching target coordinate par slide jump kar do.
 
 #### 7. Pattern:
-Sliding Window using hash map character index tracking [cite: 304, 351, 524, 539].
+Sliding Window using hash map character index tracking.
 
 #### 8. JavaScript Code:
 ```javascript
 function lengthOfLongestSubstring(s) {
-    const charMap = new Map(); // Store active elements character index [cite: 351]
+    const charMap = new Map(); // Store active elements character index
     let start = 0;
     let maxLength = 0;
 
@@ -430,12 +430,12 @@ function lengthOfLongestSubstring(s) {
         const currentChar = s[end];
 
         if (charMap.has(currentChar)) {
-            // Push start boundary past previous duplicate coordinate [cite: 524]
+            // Push start boundary past previous duplicate coordinate
             start = Math.max(start, charMap.get(currentChar) + 1);
         }
 
         charMap.set(currentChar, end);
-        maxLength = Math.max(maxLength, end - start + 1); // Record max [cite: 524]
+        maxLength = Math.max(maxLength, end - start + 1); // Record max
     }
 
     return maxLength;
@@ -448,8 +448,8 @@ Input: `"abcabcbb"`
 *   `end = 3` (val `a`): Duplicate found! `start` updates to `charMap.get('a') + 1 = 1`. `charMap` updates to `{'a': 3}`, `maxLength = 3`.
 
 #### 10. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(N)\\)** [cite: 273].
-*   **Space Complexity:** **\\(\mathcal{O}(\min(N, \Sigma))\\)** where \\(\Sigma\\) is character dictionary constraints size [cite: 125].
+*   **Time Complexity:** **O(N)**.
+*   **Space Complexity:** **O(min(N, Σ))** where Σ is character dictionary constraints size.
 
 ---
 
@@ -459,19 +459,19 @@ Input: `"abcabcbb"`
 Humein ek sorted array `nums` diya hai. Humein is array ko in-place filter/deduplicate karna hai so that har elements max to max do instances tak overlap/repeat kar sake. Remaining elements count limits array size boundaries tak compress karni hai.
 
 #### 2. Constraints:
-*   \\(N \le 10^5\\). In-place manipulation forced (Space \\(\mathcal{O}(1)\\)) [cite: 125].
+*   N <= 10^5. In-place manipulation forced (Space O(1)).
 
 #### 3. Examples:
-`nums =` \\(\rightarrow\\) Output size: `5`, modified array sequence bounds: ``.
+`nums =` → Output size: `5`, modified array sequence bounds: ``.
 
 #### 4. Brute Force:
-Delete excess elements and shift remaining right elements inline. Complexity: \\(\mathcal{O}(N^2)\\) due to array shifting ops [cite: 121, 273].
+Delete excess elements and shift remaining right elements inline. Complexity: O(N^2) due to array shifting ops.
 
 #### 5. Observation:
-Since array is sorted, we can use pointer index offsets. We write first two elements safely. For any index \\(i \ge 2\\), `nums[i]` should be included in the modified prefix only if it is strictly greater than `nums[prefixIndex - 2]`.
+Since array is sorted, we can use pointer index offsets. We write first two elements safely. For any index i >= 2, `nums[i]` should be included in the modified prefix only if it is strictly greater than `nums[prefixIndex - 2]`.
 
 #### 6. Pattern:
-Two-Pointer Index Offset Sweep [cite: 288, 538].
+Two-Pointer Index Offset Sweep.
 
 #### 7. JavaScript Code:
 ```javascript
@@ -491,8 +491,8 @@ function removeDuplicates(nums) {
 ```
 
 #### 8. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(N)\\)** [cite: 273].
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** strictly in-place [cite: 125].
+*   **Time Complexity:** **O(N)**.
+*   **Space Complexity:** **O(1)** strictly in-place.
 
 ---
 
@@ -502,10 +502,10 @@ function removeDuplicates(nums) {
 Humein ek sorted integer array `nums` aur target value `target` diya gaya hai bacho. Humein check karna hai ki kya do distinct elements array mein available hain jinka addition exact target ke parameters fit kare.
 
 #### 2. Examples:
-`nums =`, `target = 9` \\(\rightarrow\\) Output: ``.
+`nums =`, `target = 9` → Output: ``.
 
 #### 3. Observation:
-Kyunki array already sorted hai, we can leverage sorting properties. Standard linear scanning outer loops optimization with hashing works, but we can do it in constant auxiliary space (\\(\mathcal{O}(1)\\)) usingTwo Pointer convergences [cite: 125, 288, 538]!
+Kyunki array already sorted hai, we can leverage sorting properties. Standard linear scanning outer loops optimization with hashing works, but we can do it in constant auxiliary space (O(1)) usingTwo Pointer convergences!
 
 #### 4. JavaScript Code:
 ```javascript
@@ -518,29 +518,29 @@ function twoSumSorted(nums, target) {
         if (currentSum === target) {
             return [left, right];
         } else if (currentSum < target) {
-            left++; // Sum is too small, increase lower boundary [cite: 288]
+            left++; // Sum is too small, increase lower boundary
         } else {
-            right--; // Sum is too big, decrease higher boundary [cite: 288]
+            right--; // Sum is too big, decrease higher boundary
         }
     }
     return [];
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 5: THE ROTATIONAL SEARCH DETECTOR
 
 #### 1. Understand:
-Humein ek sorted rotated array `nums` (unique elements) aur target `target` diya hai. Humein array indices levels par search run karna hai in \\(\mathcal{O}(\log N)\\) logarithmic boundaries [cite: 521, 533].
+Humein ek sorted rotated array `nums` (unique elements) aur target `target` diya hai. Humein array indices levels par search run karna hai in O(log N) logarithmic boundaries.
 
 #### 2. Examples:
-`nums =`, `target = 0` \\(\rightarrow\\) Output index: `4` [cite: 118].
+`nums =`, `target = 0` → Output index: `4`.
 
 #### 3. Observation:
-Pure sorted line search is binary search [cite: 521]. Rotated sorted components have an amazing property: **At any mid pivot point, at least one half must be strictly sorted** [cite: 141]!
+Pure sorted line search is binary search. Rotated sorted components have an amazing property: **At any mid pivot point, at least one half must be strictly sorted**!
 1. Check if left half `[start...mid]` is sorted.
 2. If yes, verify if target lies within its boundaries. Else, search right.
 3. Apply reverse logic on the other half.
@@ -552,23 +552,23 @@ function searchRotated(nums, target) {
     let end = nums.length - 1;
 
     while (start <= end) {
-        const mid = Math.floor((start + end) / 2); // [cite: 54, 155]
+        const mid = Math.floor((start + end) / 2); //
         if (nums[mid] === target) return mid;
 
-        // Is left half sorted? [cite: 141]
+        // Is left half sorted?
         if (nums[start] <= nums[mid]) {
             if (target >= nums[start] && target < nums[mid]) {
-                end = mid - 1; // Search left bounds [cite: 141]
+                end = mid - 1; // Search left bounds
             } else {
-                start = mid + 1; // Search right bounds [cite: 141]
+                start = mid + 1; // Search right bounds
             }
         } 
-        // Right half must be sorted! [cite: 141]
+        // Right half must be sorted!
         else {
             if (target > nums[mid] && target <= nums[end]) {
-                start = mid + 1; // Search right bounds [cite: 141]
+                start = mid + 1; // Search right bounds
             } else {
-                end = mid - 1; // Search left bounds [cite: 141]
+                end = mid - 1; // Search left bounds
             }
         }
     }
@@ -576,14 +576,14 @@ function searchRotated(nums, target) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(\log N)\\)** [cite: 521, 533], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(log N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 6: THE PIVOTAL BOUNDARY RESOLVER
 
 #### 1. Understand:
-Humein ek sorted rotated array (unique elements) diya hai. Humein is array ka minimum element discover karna hai in \\(\mathcal{O}(\log N)\\) time limit [cite: 521, 533].
+Humein ek sorted rotated array (unique elements) diya hai. Humein is array ka minimum element discover karna hai in O(log N) time limit.
 
 #### 2. JavaScript Code:
 ```javascript
@@ -592,20 +592,20 @@ function findMinRotated(nums) {
     let end = nums.length - 1;
 
     while (start < end) {
-        const mid = Math.floor((start + end) / 2); // [cite: 54, 155]
+        const mid = Math.floor((start + end) / 2); //
 
-        // Minimum must lie in unsorted right partition [cite: 141]
+        // Minimum must lie in unsorted right partition
         if (nums[mid] > nums[end]) {
-            start = mid + 1; // [cite: 141]
+            start = mid + 1; //
         } else {
-            end = mid; // Search space includes mid [cite: 141]
+            end = mid; // Search space includes mid
         }
     }
     return nums[start];
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(\log N)\\)** [cite: 521, 533], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(log N)**, Space: **O(1)**.
 
 ---
 
@@ -615,10 +615,10 @@ function findMinRotated(nums) {
 Distinct element array `candidates` aur a total target integer `target` diya hai. Humein array configurations combinations output generate karna hai jiska addition exact `target` matching points touch kare. Single values infinite repetition can be used!
 
 #### 2. Constraints:
-*   \\(N \le 30\\), `target` is small.
+*   N <= 30, `target` is small.
 
 #### 3. Examples:
-`candidates =`, `target = 7` \\(\rightarrow\\) Output combinations list: `[,]`.
+`candidates =`, `target = 7` → Output combinations list: `[,]`.
 
 #### 4. Observation:
 Choice based decision configurations. At each step we either include candidate elements and continue matching recursively (without incrementing indices to allow dynamic reuse) or skip the current element and transition index.
@@ -630,17 +630,17 @@ function combinationSum(candidates, target) {
 
     const backtrack = (index, currentSum, currentPath) => {
         if (currentSum === target) {
-            result.push([...currentPath]); // Found valid configuration! [cite: 41, 158]
+            result.push([...currentPath]); // Found valid configuration!
             return;
         }
         if (currentSum > target || index === candidates.length) {
-            return; // Pruning excess boundaries [cite: 41]
+            return; // Pruning excess boundaries
         }
 
         // Action 1: Include current coordinate element (index is not incremented!)
         currentPath.push(candidates[index]);
         backtrack(index, currentSum + candidates[index], currentPath);
-        currentPath.pop(); // Backtrack pop [cite: 37]
+        currentPath.pop(); // Backtrack pop
 
         // Action 2: Exclude element, increment boundary index
         backtrack(index + 1, currentSum, currentPath);
@@ -651,14 +651,14 @@ function combinationSum(candidates, target) {
 }
 ```
 
-*   **Complexity:** Time: Exponential \\(\mathcal{O}(2^{\text{target}})\\), Space: recursion stacks limits \\(\mathcal{O}(\text{target})\\) [cite: 125, 250, 424].
+*   **Complexity:** Time: Exponential O(2^{target}), Space: recursion stacks limits O(target).
 
 ---
 
 ### PROBLEM 8: THE PEAK BOUNDARY SCANNER
 
 #### 1. Understand:
-Humein ek integer array `nums` diya hai jahan elements cyclic levels par values graph peaks generate karte hain. Peak element is that element which is strictly greater than its adjacent neighbors (`nums[i] > nums[i-1]` and `nums[i] > nums[i+1]`). Return peak node index in \\(\mathcal{O}(\log N)\\) [cite: 521, 533].
+Humein ek integer array `nums` diya hai jahan elements cyclic levels par values graph peaks generate karte hain. Peak element is that element which is strictly greater than its adjacent neighbors (`nums[i] > nums[i-1]` and `nums[i] > nums[i+1]`). Return peak node index in O(log N).
 
 #### 2. JavaScript Code:
 ```javascript
@@ -667,7 +667,7 @@ function findPeakElement(nums) {
     let end = nums.length - 1;
 
     while (start < end) {
-        const mid = Math.floor((start + end) / 2); // [cite: 54, 155]
+        const mid = Math.floor((start + end) / 2); //
         
         // If mid is in descending trend, peak must be on left partition
         if (nums[mid] > nums[mid + 1]) {
@@ -680,19 +680,19 @@ function findPeakElement(nums) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(\log N)\\)** [cite: 521, 533], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(log N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 9: THE BALANCED BRACKETS EXAMINER
 
 #### 1. Understand:
-Humein string sequence contain brackets symbols `()[]{}` diya gaya hai. Confirm bracket state structure valid balance constraints satisfy karta hai ya nahi bacho [cite: 440].
+Humein string sequence contain brackets symbols `()[]{}` diya gaya hai. Confirm bracket state structure valid balance constraints satisfy karta hai ya nahi bacho.
 
 #### 2. JavaScript Code:
 ```javascript
 function isValidParentheses(s) {
-    const stack = []; // [cite: 324, 342, 379]
+    const stack = []; //
     const bracketMap = {
         ')': '(',
         '}': '{',
@@ -701,20 +701,20 @@ function isValidParentheses(s) {
 
     for (let char of s) {
         if (char === '(' || char === '{' || char === '[') {
-            stack.push(char); // Save open state [cite: 271, 324, 342]
+            stack.push(char); // Save open state
         } else {
-            // Pop top and compare with matching configuration [cite: 324, 342]
-            const topElement = stack.pop(); // [cite: 324, 342]
+            // Pop top and compare with matching configuration
+            const topElement = stack.pop(); //
             if (topElement !== bracketMap[char]) {
-                return false; // Mismatched configuration! [cite: 271]
+                return false; // Mismatched configuration!
             }
         }
     }
-    return stack.length === 0; // Perfectly balanced! [cite: 271, 324]
+    return stack.length === 0; // Perfectly balanced!
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(N)\\)** [cite: 125, 273].
+*   **Complexity:** Time: **O(N)**, Space: **O(N)**.
 
 ---
 
@@ -726,21 +726,21 @@ Humein binary 2D matrix grid coordinate array di gayi hai jahan `1` represents l
 #### 2. JavaScript Code:
 ```javascript
 function numIslands(grid) {
-    if (!grid || grid.length === 0) return 0; // [cite: 28, 244]
+    if (!grid || grid.length === 0) return 0; //
     
     let islandsCount = 0;
     const rows = grid.length;
     const cols = grid.length;
 
     const dfsSink = (r, c) => {
-        // Boundary limit checkpoints [cite: 28, 244]
+        // Boundary limit checkpoints
         if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] === '0') {
             return;
         }
 
         grid[r][c] = '0'; // Sink current land visited coordinate to avoid loop overlaps
 
-        // Explore 4 directions [cite: 424]
+        // Explore 4 directions
         dfsSink(r + 1, c);
         dfsSink(r - 1, c);
         dfsSink(r, c + 1);
@@ -751,7 +751,7 @@ function numIslands(grid) {
         for (let c = 0; c < cols; c++) {
             if (grid[r][c] === '1') {
                 islandsCount++;
-                dfsSink(r, c); // Sink entire island using DFS [cite: 424]
+                dfsSink(r, c); // Sink entire island using DFS
             }
         }
     }
@@ -760,17 +760,17 @@ function numIslands(grid) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(R \times C)\\)** [cite: 273], Space: **\\(\mathcal{O}(R \times C)\\)** recursive call stacks [cite: 125, 250].
+*   **Complexity:** Time: **O(R × C)**, Space: **O(R × C)** recursive call stacks.
 
 ---
 
 ### PROBLEM 11: THE SHORTEST DELAY NETWORK TRAVELER
 
 #### 1. Understand:
-Humein network delays graph array values di gayi hain where `times[i] = [u, v, w]` coordinates vertices connection delay travel time define karte hain. Target single-source starting node coordinates se optimal minimum delay values path search find out karna hai, such that all vertices nodes are visited [cite: 14].
+Humein network delays graph array values di gayi hain where `times[i] = [u, v, w]` coordinates vertices connection delay travel time define karte hain. Target single-source starting node coordinates se optimal minimum delay values path search find out karna hai, such that all vertices nodes are visited.
 
 #### 2. Observation:
-Single Source Shortest Path weight minimization [cite: 14]. Use Dijkstra's Algorithm with Priority Queue optimization [cite: 14, 538].
+Single Source Shortest Path weight minimization. Use Dijkstra's Algorithm with Priority Queue optimization.
 
 #### 3. JavaScript Code:
 ```javascript
@@ -784,12 +784,12 @@ function networkDelayTime(times, n, k) {
     const distances = new Array(n + 1).fill(Infinity);
     distances[k] = 0;
 
-    // Priority Queue simulated simple coordinates min selection array [cite: 582, 597]
+    // Priority Queue simulated simple coordinates min selection array
     const pQueue = [{ node: k, dist: 0 }];
 
     while (pQueue.length > 0) {
-        pQueue.sort((a, b) => a.dist - b.dist); // Sort greedily by weight cost [cite: 315, 333, 581]
-        const { node, dist } = pQueue.shift(); // Poll [cite: 335]
+        pQueue.sort((a, b) => a.dist - b.dist); // Sort greedily by weight cost
+        const { node, dist } = pQueue.shift(); // Poll
 
         if (dist > distances[node]) continue;
 
@@ -798,7 +798,7 @@ function networkDelayTime(times, n, k) {
             const nextNode = neighbor.to;
             const edgeWeight = neighbor.cost;
 
-            // Relaxation check [cite: 581]
+            // Relaxation check
             if (distances[node] + edgeWeight < distances[nextNode]) {
                 distances[nextNode] = distances[node] + edgeWeight;
                 pQueue.push({ node: nextNode, dist: distances[nextNode] });
@@ -816,19 +816,19 @@ function networkDelayTime(times, n, k) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(E + V \log V)\\)** average, Space: **\\(\mathcal{O}(V + E)\\)** [cite: 125, 538].
+*   **Complexity:** Time: **O(E + V log V)** average, Space: **O(V + E)**.
 
 ---
 
 ### PROBLEM 12: THE UNIQUE ESCAPE DECISION TREE
 
 #### 1. Understand:
-Robot `M x N` matrix borders grid start coordinates `(0,0)` par stable hai. Target bottom-right limits escape path search find out karna hai. Single steps movements are either down or right strictly [cite: 987, 1006].
+Robot `M x N` matrix borders grid start coordinates `(0,0)` par stable hai. Target bottom-right limits escape path search find out karna hai. Single steps movements are either down or right strictly.
 
 #### 2. JavaScript Code (Tabulation DP Space Optimized):
 ```javascript
 function uniquePaths(m, n) {
-    // DP array represents previous row computation counts [cite: 315]
+    // DP array represents previous row computation counts
     const dp = new Array(n).fill(1);
 
     for (let r = 1; r < m; r++) {
@@ -841,7 +841,7 @@ function uniquePaths(m, n) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(M \times N)\\)**, Space: **\\(\mathcal{O}(N)\\)** [cite: 125].
+*   **Complexity:** Time: **O(M × N)**, Space: **O(N)**.
 
 ---
 
@@ -853,7 +853,7 @@ Humein ek string `S` di gayi hai bacho. Humein find out karni hai longest contig
 #### 2. JavaScript Code:
 ```javascript
 function longestPalindrome(s) {
-    if (!s || s.length < 1) return ""; // [cite: 28, 244]
+    if (!s || s.length < 1) return ""; //
     let start = 0;
     let end = 0;
 
@@ -862,7 +862,7 @@ function longestPalindrome(s) {
             left--;
             right++;
         }
-        return right - left - 1; // Return width [cite: 121]
+        return right - left - 1; // Return width
     };
 
     for (let i = 0; i < s.length; i++) {
@@ -871,23 +871,23 @@ function longestPalindrome(s) {
         const len = Math.max(len1, len2);
 
         if (len > (end - start)) {
-            start = i - Math.floor((len - 1) / 2); // [cite: 54, 155]
-            end = i + Math.floor(len / 2); // [cite: 54, 155]
+            start = i - Math.floor((len - 1) / 2); //
+            end = i + Math.floor(len / 2); //
         }
     }
 
-    return s.substring(start, end + 1); // [cite: 71, 111]
+    return s.substring(start, end + 1); //
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N^2)\\)**, Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N^2)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 14: THE CYCLIC NODE POINTER
 
 #### 1. Understand:
-Linked list coordinate nodes pointers list di gayi hai. Cyclic node pointer intersection track confirm karna hai bacho [cite: 441].
+Linked list coordinate nodes pointers list di gayi hai. Cyclic node pointer intersection track confirm karna hai bacho.
 
 #### 2. JavaScript Code:
 ```javascript
@@ -899,27 +899,27 @@ function hasCycle(head) {
 
     while (fast && fast.next) {
         slow = slow.next;
-        fast = fast.next.next; // Moves twice as fast! [cite: 441]
+        fast = fast.next.next; // Moves twice as fast!
 
         if (slow === fast) {
-            return true; // Cycle detected [cite: 441]
+            return true; // Cycle detected
         }
     }
     return false;
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)**, Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 15: THE LARGEST K PARTITION SPLIT
 
 #### 1. Understand:
-Unsorted array `nums` aur target range pointer `K` ke specifications limit mein `k`-th largest value find out karni hai bacho [cite: 319, 337].
+Unsorted array `nums` aur target range pointer `K` ke specifications limit mein `k`-th largest value find out karni hai bacho.
 
 #### 2. Observation:
-Standard Sorting takes \\(\mathcal{O}(N \log N)\\) [cite: 54, 290]. optimal results can be achieved using Min-Heap of size `K` strictly [cite: 211, 299, 317, 332].
+Standard Sorting takes O(N log N). optimal results can be achieved using Min-Heap of size `K` strictly.
 
 #### 3. JavaScript Code (Clean Ad-hoc MinHeap based optimal approach):
 ```javascript
@@ -942,7 +942,7 @@ class AdHocMinHeap {
     bubbleUp() {
         let idx = this.heap.length - 1;
         while (idx > 0) {
-            let parentIdx = Math.floor((idx - 1) / 2); // [cite: 54, 155]
+            let parentIdx = Math.floor((idx - 1) / 2); //
             if (this.heap[idx] < this.heap[parentIdx]) {
                 [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
                 idx = parentIdx;
@@ -974,14 +974,14 @@ function findKthLargest(nums, k) {
     for (let num of nums) {
         minHeap.push(num);
         if (minHeap.size() > k) {
-            minHeap.pop(); // Pop smallest, preserving K largest elements [cite: 211, 299, 317, 332]
+            minHeap.pop(); // Pop smallest, preserving K largest elements
         }
     }
     return minHeap.peek(); // Root holds Kth largest!
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N \log K)\\)** [cite: 211, 299, 317, 332], Space: **\\(\mathcal{O}(K)\\)** [cite: 125, 212].
+*   **Complexity:** Time: **O(N log K)**, Space: **O(K)**.
 
 ---
 
@@ -994,10 +994,10 @@ Robber consecutive house values `nums` steal operations run karta hai bacho. Adj
 ```javascript
 function rob(nums) {
     if (nums.length === 0) return 0;
-    if (nums.length === 1) return nums; // [cite: 28, 244]
+    if (nums.length === 1) return nums; //
 
-    let prev2 = 0; // i-2 state [cite: 48]
-    let prev1 = nums; // i-1 state [cite: 48]
+    let prev2 = 0; // i-2 state
+    let prev1 = nums; // i-1 state
 
     for (let i = 1; i < nums.length; i++) {
         const currentCost = Math.max(prev1, nums[i] + prev2); // Transition: skip or rob!
@@ -1009,14 +1009,14 @@ function rob(nums) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 17: THE STEPWISE COIN OPTIMIZER
 
 #### 1. Understand:
-Humein step cost indices array `cost` di gayi hai jahan `cost[i]` individual step pay cost limits defines. We can climb 1 or 2 steps on payments [cite: 23]. Find min cost to reach top levels.
+Humein step cost indices array `cost` di gayi hai jahan `cost[i]` individual step pay cost limits defines. We can climb 1 or 2 steps on payments. Find min cost to reach top levels.
 
 #### 2. JavaScript Code:
 ```javascript
@@ -1034,7 +1034,7 @@ function minCostClimbingStairs(cost) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)**, Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
@@ -1044,41 +1044,41 @@ function minCostClimbingStairs(cost) {
 Unsigned integer coordinate `n` has bit representations. Count total numbers of active `1` bits.
 
 #### 2. Observation:
-Brian Kernighan bit clearing optimization bitwise intersection trick clears the lowest set bit to zero instantly: `n = n & (n - 1)` [cite: 32]!
+Brian Kernighan bit clearing optimization bitwise intersection trick clears the lowest set bit to zero instantly: `n = n & (n - 1)`!
 
 #### 3. JavaScript Code:
 ```javascript
 function hammingWeight(n) {
     let count = 0;
     while (n !== 0) {
-        n = n & (n - 1); // Clears the lowest set bit [cite: 32]
+        n = n & (n - 1); // Clears the lowest set bit
         count++;
     }
     return count;
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(\text{Set Bits})\\)** (max 32 ops), Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(Set Bits)** (max 32 ops), Space: **O(1)**.
 
 ---
 
 ### PROBLEM 19: THE DUPLICATE XOR DETECTOR
 
 #### 1. Understand:
-Humein ek non-empty array of integers `nums` diya hai. Every element appears twice except for one. find that single one. Linear time, constant space [cite: 125].
+Humein ek non-empty array of integers `nums` diya hai. Every element appears twice except for one. find that single one. Linear time, constant space.
 
 #### 2. JavaScript Code:
 ```javascript
 function singleNumber(nums) {
     let uniqueAccumulator = 0;
     for (let num of nums) {
-        uniqueAccumulator ^= num; // XOR identity cancels identical values! [cite: 32]
+        uniqueAccumulator ^= num; // XOR identity cancels identical values!
     }
     return uniqueAccumulator;
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
@@ -1090,7 +1090,7 @@ Contiguous integers array `nums` aur target parameter `K` ke specification level
 #### 2. JavaScript Code:
 ```javascript
 function subarraySum(nums, k) {
-    const map = new Map(); // Store prefix sum occurrences counts [cite: 351, 539]
+    const map = new Map(); // Store prefix sum occurrences counts
     map.set(0, 1);
     let runningSum = 0;
     let occurrences = 0;
@@ -1102,49 +1102,49 @@ function subarraySum(nums, k) {
             occurrences += map.get(runningSum - k);
         }
 
-        map.set(runningSum, (map.get(runningSum) || 0) + 1); // [cite: 351]
+        map.set(runningSum, (map.get(runningSum) || 0) + 1); //
     }
 
     return occurrences;
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(N)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(N)**.
 
 ---
 
 ### PROBLEM 21: THE DYNAMIC VALUE BOUNDARY REMOVER
 
 #### 1. Understand:
-Linked list coordinate head node sequence di gayi hai. Remove the `N`-th node from end parameters in one single pass [cite: 416, 522].
+Linked list coordinate head node sequence di gayi hai. Remove the `N`-th node from end parameters in one single pass.
 
 #### 2. JavaScript Code:
 ```javascript
 function removeNthFromEnd(head, n) {
-    const dummy = new ListNode(0); // [cite: 380]
+    const dummy = new ListNode(0); //
     dummy.next = head;
     let fast = dummy;
     let slow = dummy;
 
-    // Step 1: Push fast pointer N steps ahead [cite: 304]
+    // Step 1: Push fast pointer N steps ahead
     for (let i = 0; i <= n; i++) {
         fast = fast.next;
     }
 
-    // Step 2: Traverse together until fast reaches end [cite: 304]
+    // Step 2: Traverse together until fast reaches end
     while (fast !== null) {
         fast = fast.next;
-        slow = slow.next; // [cite: 304]
+        slow = slow.next; //
     }
 
-    // Step 3: Remove target node [cite: 281]
+    // Step 3: Remove target node
     slow.next = slow.next.next;
 
     return dummy.next;
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 302], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
@@ -1158,16 +1158,16 @@ Interval boundaries coordinate ranges array `intervals` diya hai. Merge overlapp
 function merge(intervals) {
     if (intervals.length <= 1) return intervals;
 
-    intervals.sort((a, b) => a - b); // [cite: 315, 333]
-    const mergedResult = [intervals];
+    intervals.sort((a, b) => a[0] - b[0]); // Sort by start value
+    const mergedResult = [intervals[0]];
 
     for (let i = 1; i < intervals.length; i++) {
         const lastMerged = mergedResult[mergedResult.length - 1];
         const currentInterval = intervals[i];
 
-        // Overlap checkpoint
-        if (currentInterval <= lastMerged) {
-            lastMerged = Math.max(lastMerged, currentInterval); // Stretch interval
+        // Overlap checkpoint: does current interval's start fall within last merged interval?
+        if (currentInterval[0] <= lastMerged[1]) {
+            lastMerged[1] = Math.max(lastMerged[1], currentInterval[1]); // Stretch interval's end
         } else {
             mergedResult.push(currentInterval);
         }
@@ -1177,19 +1177,19 @@ function merge(intervals) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N \log N)\\)** [cite: 308], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N log N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 23: THE GREEDY STEP JUMP EXAMINER
 
 #### 1. Understand:
-Positive step integers array target indices `nums` diya hai. Determine if we can greedily reach final index coordinates [cite: 985, 1004].
+Positive step integers array target indices `nums` diya hai. Determine if we can greedily reach final index coordinates.
 
 #### 2. JavaScript Code:
 ```javascript
 function canJump(nums) {
-    let destinationGoal = nums.length - 1; // Pull goalpost backwards [cite: 257]
+    let destinationGoal = nums.length - 1; // Pull goalpost backwards
 
     for (let i = nums.length - 2; i >= 0; i--) {
         if (i + nums[i] >= destinationGoal) {
@@ -1200,32 +1200,32 @@ function canJump(nums) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(1)\\)** [cite: 125].
+*   **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
 ### PROBLEM 24: THE LEVEL-BY-LEVEL SPREADER
 
 #### 1. Understand:
-Tree root coordinates nodes given levels structure. Traverse and group elements level order [cite: 331].
+Tree root coordinates nodes given levels structure. Traverse and group elements level order.
 
 #### 2. JavaScript Code:
 ```javascript
 function levelOrder(root) {
     const result = [];
-    if (!root) return result; // [cite: 329]
+    if (!root) return result; //
 
-    const queue = [root]; // BFS dynamic tracker queue [cite: 305, 324]
+    const queue = [root]; // BFS dynamic tracker queue
 
     while (queue.length > 0) {
-        const currentLevelSize = queue.length; // Lock active level size [cite: 305, 324]
+        const currentLevelSize = queue.length; // Lock active level size
         const currentLevelElements = [];
 
         for (let i = 0; i < currentLevelSize; i++) {
-            const currentNode = queue.shift(); // Dequeue [cite: 335]
+            const currentNode = queue.shift(); // Dequeue
             currentLevelElements.push(currentNode.val);
 
-            // Populate child nodes [cite: 324]
+            // Populate child nodes
             if (currentNode.left) queue.push(currentNode.left);
             if (currentNode.right) queue.push(currentNode.right);
         }
@@ -1235,22 +1235,22 @@ function levelOrder(root) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** [cite: 273], Space: **\\(\mathcal{O}(N)\\)** [cite: 125, 212].
+*   **Complexity:** Time: **O(N)**, Space: **O(N)**.
 
 ---
 
 ### PROBLEM 25: THE LONGEST METRIC SEQUENCE
 
 #### 1. Understand:
-Humein ek unsorted integers array `nums` diya hai. Humein longest contiguous sequence chain length find out karni hai, order structure irrelevant [cite: 177, 330].
+Humein ek unsorted integers array `nums` diya hai. Humein longest contiguous sequence chain length find out karni hai, order structure irrelevant.
 
 #### 2. Examples:
-`nums =` \\(\rightarrow\\) Output length: `4` (Sequence: ``).
+`nums =` → Output length: `4` (Sequence: ``).
 
 #### 3. JavaScript Code (Set lookup based linear design):
 ```javascript
 function longestConsecutive(nums) {
-    const numSet = new Set(nums); // Remove duplicates and optimize lookup [cite: 308, 333]
+    const numSet = new Set(nums); // Remove duplicates and optimize lookup
     let longestStreak = 0;
 
     for (let num of nums) {
@@ -1271,13 +1271,13 @@ function longestConsecutive(nums) {
 }
 ```
 
-*   **Complexity:** Time: **\\(\mathcal{O}(N)\\)** as each element is processed at most twice, Space: **\\(\mathcal{O}(N)\\)** [cite: 125, 273].
+*   **Complexity:** Time: **O(N)** as each element is processed at most twice, Space: **O(N)**.
 
 ---
 
 ## SECTION 5: 25 "UNSEEN" PRACTICE CHALLENGES (WITHOUT LABELS)
 
-**Arey bacho! Ab is final section mein hum coordinates par parde dal rahe hain.** Koi topic description, pattern, ya hints pehle se leak nahi kiya jayega [cite: 13]. Har question ko timing intervals (20-45 Mins) set karke self-diagnostic cycle ke sath solve karo!
+**Arey bacho! Ab is final section mein hum coordinates par parde dal rahe hain.** Koi topic description, pattern, ya hints pehle se leak nahi kiya jayega. Har question ko timing intervals (20-45 Mins) set karke self-diagnostic cycle ke sath solve karo!
 
 ---
 
@@ -1327,7 +1327,7 @@ Given a singly linked list. Return an array of next greater element values. For 
 Given a set of unique positive integers. Find if there exists a split partition such that both subsets sum to identical value.
 
 #### Problem 39: The Matrix Zero Flood Sweep
-Given an $M \times N$ matrix. If an element is 0, set its entire row and column to 0. Do it in-place.
+Given an $M × N$ matrix. If an element is 0, set its entire row and column to 0. Do it in-place.
 
 #### Problem 40: The Directed Dependency Course Tracker
 Given total courses $N$ and array parameters representation of dependencies edges. Return order list sequence to complete all courses. Return empty array on deadlock/cyclic states.
@@ -1355,7 +1355,7 @@ Given two strings `S` and `T`. Find minimum substring window length in `S` that 
 Given dictionary database list and word inputs `beginWord`, `endWord`. Find shortest transformation steps count to mutate start word to end word.
 
 #### Problem 47: The N-Queens Placement Tracker
-Place $N$ queens on $N \times N$ chessboard such that no two queens attack each other. Return all valid board layout configurations.
+Place $N$ queens on $N × N$ chessboard such that no two queens attack each other. Return all valid board layout configurations.
 
 #### Problem 48: The Point-Range XOR query Segment Tree
 Given array of size $N$. Handle point updates and range bitwise XOR queries in logarithmic boundaries concurrently.
@@ -1376,9 +1376,9 @@ Design high performance data structure supporting constant-time median lookups o
 
 *   [ ] **Clarify inputs/outputs boundary values**: Ask about empty arrays, negative values, and sizes of data types.
 *   [ ] **Write 2-3 custom test cases**: Naive examples often hide deep edge case insights.
-*   [ ] **Do the basic Math of constraints**: Match input size boundaries against the \\(10^8\\) operations rule to eliminate slow paradigms upfront [cite: 71, 72].
-*   [ ] **Formulate brute force first**: Never sit silent; write down the naive solution immediately to prove logical capability [cite: 41].
-*   [ ] **Identify and attack the bottleneck**: Is it a nested search scan? Replace it with Hash Map lookup or sorting [cite: 315, 380, 539].
+*   [ ] **Do the basic Math of constraints**: Match input size boundaries against the 10^8 operations rule to eliminate slow paradigms upfront.
+*   [ ] **Formulate brute force first**: Never sit silent; write down the naive solution immediately to prove logical capability.
+*   [ ] **Identify and attack the bottleneck**: Is it a nested search scan? Replace it with Hash Map lookup or sorting.
 *   [ ] **Draft the code on paper/whiteboard first**: Clear coding structures prevent messy syntax mistakes in compiler editors.
 *   [ ] **Explain the optimization cycle out loud**: Keep the interviewer aligned with your thoughts at every pivot point.
 
@@ -1396,22 +1396,20 @@ Design high performance data structure supporting constant-time median lookups o
            ┌────────────┴────────────┐                       ┌────────────┴────────────┐
            ▼ YES                     ▼ NO                    ▼ YES                     ▼ NO
      Use Binary Search/        Use Two Pointers        Use Hash Map/             Do we need min/max?
-     Segment Trees             or Sliding Window       Set lookup                │
-     [cite: 202, 521, 538]     [cite: 524, 538]        [cite: 308, 351, 539]     ┌─┴─────────────────────┐
+     Segment Trees             or Sliding Window       Set lookup                │     ┌─┴─────────────────────┐
                                                                                  ▼ YES                   ▼ NO
                                                                            Use Heaps             Use Stack or Graph
-                                                                           [cite: 211, 299]      [cite: 324, 350]
 ```
 
 ---
 
 ### ⚠️ THE TOP 5 CLASSIC THINKING MISTAKES
 
-1.  **The "Greedy" Tunnel Vision:** Assuming greedy optimization works on arbitrary subset/coin combinations [cite: 41, 301]. Always cross-check with small custom cases.
-2.  **Float Pointer Mismatch:** Forgetting JS dynamic divisions float issues and not using `Math.floor()` during binary partitioning indexes calculations [cite: 54, 155].
-3.  **The String Immutability Overlook:** Creating quadratic time expansions by repeatedly concatenating string segments inside loops [cite: 306, 331]. Convert strings to arrays first if modifications are heavy [cite: 306, 331]!
+1.  **The "Greedy" Tunnel Vision:** Assuming greedy optimization works on arbitrary subset/coin combinations. Always cross-check with small custom cases.
+2.  **Float Pointer Mismatch:** Forgetting JS dynamic divisions float issues and not using `Math.floor()` during binary partitioning indexes calculations.
+3.  **The String Immutability Overlook:** Creating quadratic time expansions by repeatedly concatenating string segments inside loops. Convert strings to arrays first if modifications are heavy!
 4.  **OutOfBound Overflow:** Accessing `i - 1` or `i + 1` indices in sliding sweeps without adding boundary validations.
-5.  **Memory Stack Overflow:** Running deeply nested recursive calls on skewed height trees without memoization or tail optimization [cite: 125, 250, 315].
+5.  **Memory Stack Overflow:** Running deeply nested recursive calls on skewed height trees without memoization or tail optimization.
 
 ---
 
@@ -1419,11 +1417,11 @@ Design high performance data structure supporting constant-time median lookups o
 
 When pitching your solution to an interviewer, use this exact Hinglish structure:
 
-> *"Sir, pehle hum brute-force approach ko dekh sakte hain jisme hum nested loop se transitions compare karenge [cite: 41], par iski complexity quadratic ($\mathcal{O}(N^2)$) hogi jo large scale boundaries par pass nahi karegi [cite: 72].*
+> *"Sir, pehle hum brute-force approach ko dekh sakte hain jisme hum nested loop se transitions compare karenge, par iski complexity quadratic ($O(N^2)$) hogi jo large scale boundaries par pass nahi karegi.*
 >
-> *Is complexity ko reduce karne ke liye hum yeh observe kar sakte hain ki agar data already sorted order mein hai, toh hum optimal boundaries find karne ke liye Two Pointers model ka use kar sakte hain [cite: 288, 538].*
+> *Is complexity ko reduce karne ke liye hum yeh observe kar sakte hain ki agar data already sorted order mein hai, toh hum optimal boundaries find karne ke liye Two Pointers model ka use kar sakte hain.*
 >
-> *Is optimized approach se humara execution time strictly linear ($\mathcal{O}(N)$) ho jayega aur space complexity constant ($\mathcal{O}(1)$) ho jayegi [cite: 125, 273]. Chaliye iska clean, modular JS implementation blackboard par build karte hain bacho!"*
+> *Is optimized approach se humara execution time strictly linear ($O(N)$) ho jayega aur space complexity constant ($O(1)$) ho jayegi. Chaliye iska clean, modular JS implementation blackboard par build karte hain bacho!"*
 
 ---
 **Arey bacho! Humare register ka blackboard aur target whiteboard completely update aur clean hai!** 

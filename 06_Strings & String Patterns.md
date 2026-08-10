@@ -91,7 +91,7 @@ for (let i = 0; i < n; i++) {
     str += "a"; // HAR STEP PAR BRAND NEW STRING ALLOCATE HOTI HAI!
 }
 ```
-Har step par purani string copy hoti hai naye block mein. Is loop ki overall complexity **\\(\mathcal{O}(n^2)\\)** ho jati hai! 😱
+Har step par purani string copy hoti hai naye block mein. Is loop ki overall complexity **O(n^2)** ho jati hai! 😱
 
 ### The Optimized "String-Building" Pattern:
 SDE interviews mein complexity ko linear rakhne ke liye hum humesha **Array Conversion Pattern** use karte hain:
@@ -130,8 +130,8 @@ function replaceFirstChar(str, newChar) {
     return charArray.join(""); // O(n)
 }
 ```
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)**.
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space.
+*   **Time Complexity:** **O(n)**.
+*   **Space Complexity:** **O(n)** auxiliary space.
 
 ---
 
@@ -141,17 +141,17 @@ DSA aur development ke liye, in built-in methods ke complexities aur behaviors b
 
 | Method | Syntax | Complexity (Time / Space) | Does it mutate? | Mechanism / Under-the-hood behavior |
 | :--- | :--- | :--- | :--- | :--- |
-| **`charAt`** | `str.charAt(i)` | **\\(\mathcal{O}(1)\\) / \\(\mathcal{O}(1)\\)** | No | Return character at specified index offset. |
-| **`includes`** | `str.includes(sub)` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(1)\\)** | No | Linear scan to check membership of substring. |
-| **`indexOf`** | `str.indexOf(sub)` | **\\(\mathcal{O}(n \cdot m)\\) / \\(\mathcal{O}(1)\\)** | No | Returns starting index of substring, else `-1`. |
-| **`slice`** | `str.slice(start, end)` | **\\(\mathcal{O}(k)\\) / \\(\mathcal{O}(k)\\)** | No | Returns substring from `start` to `end` index (non-inclusive). Supports negative indexes. |
-| **`substring`** | `str.substring(s, e)` | **\\(\mathcal{O}(k)\\) / \\(\mathcal{O}(k)\\)** | No | Similar to slice, but swaps arguments if `start > end`. |
-| **`split`** | `str.split(delimiter)` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(n)\\)** | No | Splits string into an array of substrings. |
-| **`join`** | `arr.join(delimiter)` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(n)\\)** | No | Array method. Joins array elements into a string. |
-| **`trim`** | `str.trim()` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(n)\\)** | No | Removes leading & trailing whitespaces. |
-| **`toLowerCase`** | `str.toLowerCase()` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(n)\\)** | No | Converts all characters to lowercase. |
-| **`toUpperCase`** | `str.toUpperCase()` | **\\(\mathcal{O}(n)\\) / \\(\mathcal{O}(n)\\)** | No | Converts all characters to uppercase. |
-| **`concat`** | `str1.concat(str2)` | **\\(\mathcal{O}(n + m)\\) / \\(\mathcal{O}(n + m)\\)** | No | Appends strings together. Same as `+` operator. |
+| **`charAt`** | `str.charAt(i)` | **O(1) / O(1)** | No | Return character at specified index offset. |
+| **`includes`** | `str.includes(sub)` | **O(n) / O(1)** | No | Linear scan to check membership of substring. |
+| **`indexOf`** | `str.indexOf(sub)` | **O(n · m) / O(1)** | No | Returns starting index of substring, else `-1`. |
+| **`slice`** | `str.slice(start, end)` | **O(k) / O(k)** | No | Returns substring from `start` to `end` index (non-inclusive). Supports negative indexes. |
+| **`substring`** | `str.substring(s, e)` | **O(k) / O(k)** | No | Similar to slice, but swaps arguments if `start > end`. |
+| **`split`** | `str.split(delimiter)` | **O(n) / O(n)** | No | Splits string into an array of substrings. |
+| **`join`** | `arr.join(delimiter)` | **O(n) / O(n)** | No | Array method. Joins array elements into a string. |
+| **`trim`** | `str.trim()` | **O(n) / O(n)** | No | Removes leading & trailing whitespaces. |
+| **`toLowerCase`** | `str.toLowerCase()` | **O(n) / O(n)** | No | Converts all characters to lowercase. |
+| **`toUpperCase`** | `str.toUpperCase()` | **O(n) / O(n)** | No | Converts all characters to uppercase. |
+| **`concat`** | `str1.concat(str2)` | **O(n + m) / O(n + m)** | No | Appends strings together. Same as `+` operator. |
 
 ---
 
@@ -185,13 +185,13 @@ Interview room mein baithe ho aur string ka question saamne aaya. Kaunsa brahmas
      └─ No  ==> Frequency Counter (Array/Map)              └─ No  ==> Subsequence (DP)
 ```
 
-1.  **Frequency Counting Pattern \\(\rightarrow\\) Think Hashing / Static ASCII Array:**
+1.  **Frequency Counting Pattern → Think Hashing / Static ASCII Array:**
     *   *Clues:* "Anagrams", "character counts", "rearrangements", "frequencies comparisons".
-2.  **Two Pointers Pattern \\(\rightarrow\\) Think Opposite Direction Convergence:**
+2.  **Two Pointers Pattern → Think Opposite Direction Convergence:**
     *   *Clues:* "Palindrome checking", "reversing characters", "checking boundary symmetries".
-3.  **Sliding Window Pattern \\(\rightarrow\\) Think Dynamic Boundaries:**
+3.  **Sliding Window Pattern → Think Dynamic Boundaries:**
     *   *Clues:* "Longest substring with...", "minimum window substring containing...", "longest continuous unique character span".
-4.  **Hashing Pattern (Rolling Hash) \\(\rightarrow\\) Think Rabin-Karp / Pattern Matching:**
+4.  **Hashing Pattern (Rolling Hash) → Think Rabin-Karp / Pattern Matching:**
     *   *Clues:* "Find substring pattern in a huge text stream in constant time".
 
 ---
@@ -207,9 +207,9 @@ Interview room mein baithe ho aur string ka question saamne aaya. Kaunsa brahmas
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Palindrome ka matlab hai ki string ko aage se padho ya peeche se, wo bilkul same honi chahiye.
-*   **Example:** `"A man, a plan, a canal: Panama"` \\(\rightarrow\\) Alphanumeric conversion ke baad: `"amanaplanacanalpanama"`. Peeche se reverse karo toh bhi `"amanaplanacanalpanama"`. Output: `true`.
+*   **Example:** `"A man, a plan, a canal: Panama"` → Alphanumeric conversion ke baad: `"amanaplanacanalpanama"`. Peeche se reverse karo toh bhi `"amanaplanacanalpanama"`. Output: `true`.
 *   **Brute Force:** Pure alphanumeric string ko filter karo, use reverse karke ek naye string variable mein store karo (`filtered.split('').reverse().join('')`) aur compare karo.
-    *   *Bottleneck:* Reversing process humesha \\(\mathcal{O}(n)\\) extra space aur copy computations leta hai.
+    *   *Bottleneck:* Reversing process humesha O(n) extra space aur copy computations leta hai.
 *   **Optimal Approach (Two Pointers - Opposite Ends):**
     Filter karne ke baad, do pointers betha do: `left = 0` aur `right = len - 1`. Dono directions se elements ko compare karte huye inward move karo. Agar kisi bhi step par match fail ho, toh instantly return `false`.
 
@@ -235,14 +235,14 @@ function isPalindrome(s) {
 
 #### Dry Run on `"No 'x' in 'Nixon'"`:
 *   Alphanumeric Cleaning: `"noxinnixon"`
-*   `left = 0` (`'n'`), `right = 9` (`'n'`) \\(\rightarrow\\) Same! `left++`, `right--`
-*   `left = 1` (`'o'`), `right = 8` (`'o'`) \\(\rightarrow\\) Same! `left++`, `right--`
+*   `left = 0` (`'n'`), `right = 9` (`'n'`) → Same! `left++`, `right--`
+*   `left = 1` (`'o'`), `right = 8` (`'o'`) → Same! `left++`, `right--`
 *   ... continues smoothly until center is met.
 *   Returns `true`. Correct!
 
 #### Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)** since we scan the cleaned string once.
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space for storing the cleaned alphanumeric representation.
+*   **Time Complexity:** **O(n)** since we scan the cleaned string once.
+*   **Space Complexity:** **O(n)** auxiliary space for storing the cleaned alphanumeric representation.
 
 ---
 
@@ -251,16 +251,16 @@ function isPalindrome(s) {
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Anagram ka matlab hai ki kya hum dono strings ke character frequencies ko rearrange karke ek doosre ke bilkul identical bana sakte hain.
-*   **Example:** `s = "anagram"`, `t = "nagaram"` \\(\rightarrow\\) Dono mein `'a'` teen baar hai, `'n'` ek baar, `'g'` ek baar, `'r'` ek baar, `'m'` ek baar. Output: `true`.
+*   **Example:** `s = "anagram"`, `t = "nagaram"` → Dono mein `'a'` teen baar hai, `'n'` ek baar, `'g'` ek baar, `'r'` ek baar, `'m'` ek baar. Output: `true`.
 *   **Brute Force (Sorting):** Dono strings ko split karke alphabetically sort karo aur fir match karo.
     ```javascript
     let sortedS = s.split("").sort().join(""); // O(n log n)
     ```
-    *   *Bottleneck:* Sorting takes **\\(\mathcal{O}(n \log n)\\)** time complexity.
-*   **Better Approach (Hash Map):** Count character frequencies using a Map. Space: \\(\mathcal{O}(k)\\).
+    *   *Bottleneck:* Sorting takes **O(n log n)** time complexity.
+*   **Better Approach (Hash Map):** Count character frequencies using a Map. Space: O(k).
 *   **Optimal Approach (Static Frequency Array Optimization 💡):**
     Kyunki question mein characters lowercase English letters (`a-z`) tak hi bound hote hain, hum extra map overheads se bachne ke liye **26-size ka static integer array** use kar sakte hain! ASCII arithmetic se har character ka relative index instantly calculate ho jata hai:
-    \\[\text{Index of char} = \text{char.charCodeAt}(0) - \text{`a'.charCodeAt}(0)\\]
+    \\[Index of char = char.charCodeAt(0) - `a'.charCodeAt(0)\\]
 
 ```javascript
 function isAnagram(s, t) {
@@ -286,14 +286,14 @@ function isAnagram(s, t) {
 
 #### Dry Run on `s = "rat", t = "car"`:
 *   Initial count array: `[0, 0, ..., 0]` (size 26)
-*   `i = 0`: `'r'` incremented, `'c'` decremented \\(\rightarrow\\) `count = 1`, `count = -1`
-*   `i = 1`: `'a'` incremented, `'a'` decremented \\(\rightarrow\\) `count = 0`
-*   `i = 2`: `'t'` incremented, `'r'` decremented \\(\rightarrow\\) `count = 1`, `count = 0`
-*   Count validation loop detects non-zero bucket `count = -1` \\(\rightarrow\\) Returns `false`. Correct!
+*   `i = 0`: `'r'` incremented, `'c'` decremented → `count = 1`, `count = -1`
+*   `i = 1`: `'a'` incremented, `'a'` decremented → `count = 0`
+*   `i = 2`: `'t'` incremented, `'r'` decremented → `count = 1`, `count = 0`
+*   Count validation loop detects non-zero bucket `count = -1` → Returns `false`. Correct!
 
 #### Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)** linear time scan.
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** constant space auxiliary because bucket size is strictly fixed at 26!
+*   **Time Complexity:** **O(n)** linear time scan.
+*   **Space Complexity:** **O(1)** constant space auxiliary because bucket size is strictly fixed at 26!
 
 ---
 
@@ -302,9 +302,9 @@ function isAnagram(s, t) {
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Humein ek aisi longest continuous window (substring) ki length dhoondhni hai jismein saare characters unique hon.
-*   **Example:** `"abcabcbb"` \\(\rightarrow\\) Longest unique span `"abc"` hai (length = 3).
+*   **Example:** `"abcabcbb"` → Longest unique span `"abc"` hai (length = 3).
 *   **Brute Force:** Nested loops chalakar saare possible substrings generate karo, aur har substring ke characters ki uniqueness ko check karo.
-    *   *Bottleneck:* Substrings generation ki complexity **\\(\mathcal{O}(n^2)\\)** ya check lagane par **\\(\mathcal{O}(n^3)\\)** ho jati hai.
+    *   *Bottleneck:* Substrings generation ki complexity **O(n^2)** ya check lagane par **O(n^3)** ho jati hai.
 *   **Optimal Approach (Sliding Window + Set/Map):**
     Hum ek dynamic window maintain karenge jiske boundaries `left` aur `right` pointers se control honge.
     *   Hum `right` pointer ko aage badhakar window ko expand karenge aur characters ko `Set` mein track karenge.
@@ -345,8 +345,8 @@ function lengthOfLongestSubstring(s) {
 *   Returns `3`. Correct!
 
 #### Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(n)\\)**. (Dono `left` aur `right` pointers string ko maximum ek-ek baar hi traverse karenge).
-*   **Space Complexity:** **\\(\mathcal{O}(\min(n, k))\\)** where \\(k\\) is the alphabet size (maximum size of the hash set representation).
+*   **Time Complexity:** **O(n)**. (Dono `left` aur `right` pointers string ko maximum ek-ek baar hi traverse karenge).
+*   **Space Complexity:** **O(min(n, k))** where k is the alphabet size (maximum size of the hash set representation).
 
 ---
 
@@ -355,7 +355,7 @@ function lengthOfLongestSubstring(s) {
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Humein string ka wo sabse pehla character dhoondhna hai jiska overall frequency count exactly `1` ho.
-*   **Example:** `"leetcode"` \\(\rightarrow\\) `'l'` is index 0, frequency is 1. Output: `0`.
+*   **Example:** `"leetcode"` → `'l'` is index 0, frequency is 1. Output: `0`.
 *   **Optimal Approach (Two-Pass Frequency Mapping):**
     1.  *First Pass:* String ko scan karke frequencies count karo (array of size 26 or Map).
     2.  *Second Pass:* String ke indexes ko index `0` se end tak sequentially scan karo, aur frequency lookup karo. Jis character ki frequency pehle `1` milegi, uska index return kar do!
@@ -379,7 +379,7 @@ function firstUniqChar(s) {
     return -1;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(n)\\)** (two independent linear passes), Space: **\\(\mathcal{O}(1)\\)** auxiliary space.
+*   **Complexity:** Time: **O(n)** (two independent linear passes), Space: **O(1)** auxiliary space.
 
 ---
 
@@ -393,9 +393,9 @@ Pattern:  [ A B C E ]          (Length M)
 ```
 
 1.  **Naive String Search:**
-    Hum text ke har possible index `i` par `pattern` ke characters ko compare karte hain. Agar mismatch ho, toh loop badhakar `i + 1` par alignment check karte hain. Worst case complexity turns to **\\(\mathcal{O}(N \times M)\\)**.
+    Hum text ke har possible index `i` par `pattern` ke characters ko compare karte hain. Agar mismatch ho, toh loop badhakar `i + 1` par alignment check karte hain. Worst case complexity turns to **O(N × M)**.
 2.  **SDE Level Intuition: Advanced Matching Algorithms (Full detail later in advanced structures):**
-    *   **KMP Algorithm (Knuth-Morris-Pratt):** Naive search mein jab shift mismatched hota hai, hum humesha starting characters ko discard kar dete hain. KMP **LPS (Longest Prefix Suffix) array** ke concept se backtracking ko avoid karta hai, aur skip logic se complexity ko linear **\\(\mathcal{O}(N + M)\\)** kar deta hai.
+    *   **KMP Algorithm (Knuth-Morris-Pratt):** Naive search mein jab shift mismatched hota hai, hum humesha starting characters ko discard kar dete hain. KMP **LPS (Longest Prefix Suffix) array** ke concept se backtracking ko avoid karta hai, aur skip logic se complexity ko linear **O(N + M)** kar deta hai.
     *   **Rabin-Karp Algorithm:** Yeh **Rolling Hash** ka use karta hai. Har window segment ka mathematical hash generate hota hai. Match hone par hi deep character check hota hai, jisse dynamic lookups average linear time mein solve ho jate hain.
 
 ---

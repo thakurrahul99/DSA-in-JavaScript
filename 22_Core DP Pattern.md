@@ -1,8 +1,8 @@
 **Arey bacho! Jaldi se apni-apni seats par baith jao aur blackboard par dhyan seedhe focus karo.** 
 
-Pichle chapter mein humne **Dynamic Programming (Chapter 21)** ke basic mental model ko unlock kiya tha. Humne seekha ki kaise normal recursion jab andhon ki tarah baar-baar same calculations karta hai (Overlapping Subproblems), toh hum ek **Memory Shield (Cache)** lagakar use protect karte hain [cite: 303, 503]. Humne seekha ki kaise hum State, Choice, Transition, aur Base Case ke framework se bade-bade recursive problems ko chote parts mein break karte hain [cite: 271, 303].
+Pichle chapter mein humne **Dynamic Programming (Chapter 21)** ke basic mental model ko unlock kiya tha. Humne seekha ki kaise normal recursion jab andhon ki tarah baar-baar same calculations karta hai (Overlapping Subproblems), toh hum ek **Memory Shield (Cache)** lagakar use protect karte hain. Humne seekha ki kaise hum State, Choice, Transition, aur Base Case ke framework se bade-bade recursive problems ko chote parts mein break karte hain.
 
-Lekin bacho, interview room mein jab tum baithoge, toh interviewer tumse direct standard Fibonacci nahi puchega [cite: 699]. Woh tumhe ek complex problem statement dega, aur tumhe khud pehchanna padega ki isme kaunsa **DP Pattern** fit hota hai [cite: 271, 359]!
+Lekin bacho, interview room mein jab tum baithoge, toh interviewer tumse direct standard Fibonacci nahi puchega. Woh tumhe ek complex problem statement dega, aur tumhe khud pehchanna padega ki isme kaunsa **DP Pattern** fit hota hai!
 
 Aaj hum dimaag ke saare kapde kholkar, top 5 most common interview DP patterns ko basic se lekar advanced (SDE-level) tak deeply breakdown karenge. Hum har pattern ko decode karenge, transition formulas ko mathematically derive karenge, aur un common JavaScript reference traps se bachenge jo aksar code ko crash kar dete hain.
 
@@ -21,14 +21,14 @@ Bacho, 1D DP tab use hota hai jab hum ek single linear array ya sequence mein aa
                       [ dp[i-1] ] ──┘
 ```
 
-Chalo direct pichle chapter ke **House Robber (LeetCode 198)** ke concept ko ek level upar lekar chalte hain aur iske dhasu variant ko decode karte hain [cite: 405, 412].
+Chalo direct pichle chapter ke **House Robber (LeetCode 198)** ke concept ko ek level upar lekar chalte hain aur iske dhasu variant ko decode karte hain.
 
 ---
 
 ### House Robber II (LeetCode 213) — Cyclic 1D DP 🏠🔄
 
 #### 🧠 Understand:
-Pichle House Robber problem mein ghar ek seedhi line mein the [cite: 427, 763]. Lekin is baar **saare ghar circular arrangement** mein hain! Iska matlab, pehla ghar (`House 0`) aur aakhri ghar (`House n-1`) aapas mein padosi (neighbors) hain! Tum dono mein ek sath chori nahi kar sakte.
+Pichle House Robber problem mein ghar ek seedhi line mein the. Lekin is baar **saare ghar circular arrangement** mein hain! Iska matlab, pehla ghar (`House 0`) aur aakhri ghar (`House n-1`) aapas mein padosi (neighbors) hain! Tum dono mein ek sath chori nahi kar sakte.
 
 ```
                          Circular Houses Grid:
@@ -56,7 +56,7 @@ Chalo is cyclic dependency ko simple linear subproblems mein break karte hain!
     *   **Rob current house `i`:** Pichle padosi ko skip karo, so total = `nums[i] + dp[i-2]`.
     *   **Skip current house `i`:** Pichle ghar tak jo max loot mili wahi carry forward karo, so total = `dp[i-1]`.
 3.  **Transition kya hai?** 
-    \\[dp[i] = \max(dp[i-1], \text{nums}[i] + dp[i-2])\\]
+    \\[dp[i] = max(dp[i-1], nums[i] + dp[i-2])\\]
 4.  **Base Case kya hai?**
     *   `dp[start] = nums[start]`
     *   `dp[start+1] = max(nums[start], nums[start+1])`
@@ -69,7 +69,7 @@ Chalo is cyclic dependency ko simple linear subproblems mein break karte hain!
 function robCircular(nums) {
     const n = nums.length;
     if (n === 0) return 0;
-    if (n === 1) return nums; // Standard edge case handling [cite: 44]
+    if (n === 1) return nums; // Standard edge case handling
 
     // Run standard linear house robber on both sliced options
     return Math.max(
@@ -81,7 +81,7 @@ function robCircular(nums) {
 function robLinear(nums, start, end) {
     if (start === end) return nums[start];
     
-    // Space Optimization: We only need two variables instead of a full DP array! [cite: 47, 48]
+    // Space Optimization: We only need two variables instead of a full DP array!
     let prev2 = nums[start];
     let prev1 = Math.max(nums[start], nums[start + 1]);
 
@@ -107,20 +107,20 @@ Maan lo `nums =`, `n = 3`.
     *   `prev1 = max(3, 2) = 3`
     *   Returns `3`.
 *   **Global Max:** `max(3, 3) = 3`.
-*   **Complexity:** Time: **\\(O(n)\\)**, Space: **\\(O(1)\\)** auxiliary. Beautiful!
+*   **Complexity:** Time: **O(n)**, Space: **O(1)** auxiliary. Beautiful!
 
 ---
 
 ## PATTERN 2: GRID DP (2D STATE SPACE NAVIGATION)
 
-Bacho, Grid DP ke problems mein humare paas ek 2D matrix/grid hoti hai, aur humein top-left corner se bottom-right corner tak move karna hota hai, ya fir cells par choices banakar min/max parameters evaluate karne hote hain [cite: 50, 416].
+Bacho, Grid DP ke problems mein humare paas ek 2D matrix/grid hoti hai, aur humein top-left corner se bottom-right corner tak move karna hota hai, ya fir cells par choices banakar min/max parameters evaluate karne hote hain.
 
 ---
 
 ### Unique Paths II (LeetCode 63) — Grid with Obstacles 🚧
 
 #### 🧠 Understand:
-Humein ek `m x n` size ki matrix grid di gayi hai. Hum sirf **Down (Niche)** aur **Right (Aage)** move kar sakte hain [cite: 416, 767]. Grid mein kuch cells par obstacles (`1`) hain jahan se jana completely blocked hai. Humein start `(0,0)` se end `(m-1, n-1)` tak ke total unique paths count karne hain [cite: 416, 767].
+Humein ek `m x n` size ki matrix grid di gayi hai. Hum sirf **Down (Niche)** aur **Right (Aage)** move kar sakte hain. Grid mein kuch cells par obstacles (`1`) hain jahan se jana completely blocked hai. Humein start `(0,0)` se end `(m-1, n-1)` tak ke total unique paths count karne hain.
 
 ```
                          Grid Navigation Matrix:
@@ -143,7 +143,7 @@ Humein ek `m x n` size ki matrix grid di gayi hai. Hum sirf **Down (Niche)** aur
     *   Pichle Row se niche aakar: `(i-1, j)`
     *   Pichle Column se right aakar: `(i, j-1)`
 3.  **Transition kya hai?**
-    *   Agar current cell `grid[i][j] === 1` (obstacle), toh `dp[i][j] = 0` (unreachable) [cite: 533].
+    *   Agar current cell `grid[i][j] === 1` (obstacle), toh `dp[i][j] = 0` (unreachable).
     *   Else:
         \\[dp[i][j] = dp[i-1][j] + dp[i][j-1]\\]
 4.  **Base Case kya hai?**  
@@ -180,7 +180,7 @@ function uniquePathsWithObstacles(obstacleGrid) {
     // If starting cell or ending cell has an obstacle, paths are impossible!
     if (obstacleGrid === 1 || obstacleGrid[m - 1][n - 1] === 1) return 0;
 
-    // Space Optimized: Create a 1D DP table of size n [cite: 47, 48]
+    // Space Optimized: Create a 1D DP table of size n
     const dp = new Array(n).fill(0);
     
     // Base Case initialization
@@ -189,7 +189,7 @@ function uniquePathsWithObstacles(obstacleGrid) {
     for (let r = 0; r < m; r++) {
         for (let c = 0; c < n; c++) {
             if (obstacleGrid[r][c] === 1) {
-                dp[c] = 0; // Blocked cell, paths become 0 [cite: 533]
+                dp[c] = 0; // Blocked cell, paths become 0
             } else if (c > 0) {
                 // dp[c] = dp[c] (value from previous row) + dp[c-1] (current row left cell value)
                 dp[c] += dp[c - 1]; 
@@ -217,32 +217,32 @@ Let's trace on Grid: `[ ,,  ]`, `m = 3, n = 3`.
     *   `c = 1`: `obstacleGrid === 0`. `dp += dp => 0 + 1 = 1`. `dp =`
     *   `c = 2`: `obstacleGrid === 0`. `dp += dp => 1 + 1 = 2`. `dp =`
 *   **Returns:** `dp = 2`. Correct output!
-*   **Complexity:** Time: **\\(O(m \times n)\\)**, Space: **\\(O(n)\\)** auxiliary. Fully optimized!
+*   **Complexity:** Time: **O(m × n)**, Space: **O(n)** auxiliary. Fully optimized!
 
 ---
 
 ## PATTERN 3: KNAPSACK PATTERN (0/1 KNAPSACK & SUBSET DECOMPOSITION)
 
-Bacho, Knapsack DP ka core concept bada simple hai: "Humein kuch items diye hain, aur ek defined **Capacity** di hai [cite: 412, 771]. Har item ke liye humare paas binary decision choice hoti hai—ya toh us item ko **Le lo (Take)** ya fir **Chod do (Skip)** [cite: 30, 271]."
+Bacho, Knapsack DP ka core concept bada simple hai: "Humein kuch items diye hain, aur ek defined **Capacity** di hai. Har item ke liye humare paas binary decision choice hoti hai—ya toh us item ko **Le lo (Take)** ya fir **Chod do (Skip)**."
 
 ---
 
 ### 0/1 Knapsack Problem (Standard SDE Blueprint 🎒)
 
 #### 🧠 Understand:
-Humein `N` items ke values aur weights diye hain. Humein unhe ek bag (knapsack) mein dalna hai jiski max capacity `W` hai [cite: 412, 771]. Goal hai value maximize karna bina weight limit cross kiye [cite: 412].
+Humein `N` items ke values aur weights diye hain. Humein unhe ek bag (knapsack) mein dalna hai jiski max capacity `W` hai. Goal hai value maximize karna bina weight limit cross kiye.
 
 ---
 
 #### ✏️ Deriving the States (The 5 Questions):
 1.  **`dp[i][w]` ka matlab kya hai?**  
-    `dp[i][w]` represent karta hai **maximum value** jo hum nikal sakte hain considering elements from index `0 to i` with a strictly remaining bag capacity `w` [cite: 412].
+    `dp[i][w]` represent karta hai **maximum value** jo hum nikal sakte hain considering elements from index `0 to i` with a strictly remaining bag capacity `w`.
 2.  **Choice kya hai?**  
     Har item `i` par humare paas 2 choices hain:
-    *   **Skip item `i`:** Capacity same rahegi, value change nahi hogi \\(\rightarrow\\) `dp[i-1][w]`.
-    *   **Take item `i` (only if weight[i] <= w):** Capacity kam ho jayegi, value badh jayegi \\(\rightarrow\\) `values[i] + dp[i-1][w - weights[i]]`.
+    *   **Skip item `i`:** Capacity same rahegi, value change nahi hogi → `dp[i-1][w]`.
+    *   **Take item `i` (only if weight[i] <= w):** Capacity kam ho jayegi, value badh jayegi → `values[i] + dp[i-1][w - weights[i]]`.
 3.  **Transition kya hai?**
-    \\[dp[i][w] = \max(dp[i-1][w], \text{values}[i] + dp[i-1][w - \text{weights}[i]])\\]
+    \\[dp[i][w] = max(dp[i-1][w], values[i] + dp[i-1][w - weights[i]])\\]
 4.  **Base Case kya hai?**  
     If index `i < 0` ya remaining capacity `w === 0`, value generated is `0`.
 5.  **Answer kahan milega?**  
@@ -256,11 +256,11 @@ Bacho, dhyan se socho! `dp[i][w]` ko calculate karne ke liye humein sirf pichli 
 ```javascript
 function knapsack01(values, weights, W) {
     const n = values.length;
-    // dp[w] stores max value generated for bag capacity w [cite: 412, 771]
+    // dp[w] stores max value generated for bag capacity w
     const dp = new Array(W + 1).fill(0);
 
     for (let i = 0; i < n; i++) {
-        // Reverse loop is mandatory to prevent reuse of same item in 0/1 Knapsack! [cite: 412]
+        // Reverse loop is mandatory to prevent reuse of same item in 0/1 Knapsack!
         for (let w = W; w >= weights[i]; w--) {
             dp[w] = Math.max(dp[w], values[i] + dp[w - weights[i]]);
         }
@@ -269,14 +269,14 @@ function knapsack01(values, weights, W) {
     return dp[W];
 }
 ```
-*   **Complexity:** Time: **\\(O(N \times W)\\)**, Space: **\\(O(W)\\)** auxiliary.
+*   **Complexity:** Time: **O(N × W)**, Space: **O(W)** auxiliary.
 
 ---
 
 ### Partition Equal Subset Sum (LeetCode 416)
 
 #### 🧠 Understand:
-Humein ek positive integers ka array `nums` diya hai. Humein batana hai ki kya hum is array ko **do parts (subsets)** mein partition kar sakte hain jinka elements sum strictly equal ho [cite: 493].
+Humein ek positive integers ka array `nums` diya hai. Humein batana hai ki kya hum is array ko **do parts (subsets)** mein partition kar sakte hain jinka elements sum strictly equal ho.
 
 ```
                      Partition Equal Subset Sum:
@@ -298,10 +298,10 @@ Humein ek positive integers ka array `nums` diya hai. Humein batana hai ki kya h
     `dp[i][j]` is a **boolean state** (`true/false`) jo batata hai ki kya array index `0 to i` tak ke elements se target sum `j` banana possible hai.
 2.  **Choice kya hai?**  
     Index `i` ke element `nums[i]` par khade hokar 2 choices hain:
-    *   **Skip element `i`:** Target sum pichle elements se hi banana hoga \\(\rightarrow\\) `dp[i-1][j]`.
-    *   **Take element `i`:** Remaining target sum banayenge \\(\rightarrow\\) `dp[i-1][j - nums[i]]`.
+    *   **Skip element `i`:** Target sum pichle elements se hi banana hoga → `dp[i-1][j]`.
+    *   **Take element `i`:** Remaining target sum banayenge → `dp[i-1][j - nums[i]]`.
 3.  **Transition kya hai?**
-    \\[dp[i][j] = dp[i-1][j] \text{ OR } dp[i-1][j - \text{nums}[i]]\\]
+    \\[dp[i][j] = dp[i-1][j]  OR  dp[i-1][j - nums[i]]\\]
 4.  **Base Case kya hai?**  
     *   If target sum `j === 0`, return `true` (empty subset can always form sum 0).
     *   If `index < 0` but target sum `j > 0`, return `false`.
@@ -313,13 +313,13 @@ Humein ek positive integers ka array `nums` diya hai. Humein batana hai ki kya h
 #### 💻 JavaScript Code (Optimized to 1D Array):
 ```javascript
 function canPartition(nums) {
-    const totalSum = nums.reduce((acc, curr) => acc + curr, 0); // [cite: 48]
+    const totalSum = nums.reduce((acc, curr) => acc + curr, 0); //
     
     // Odd sum cannot be partitioned equally
     if (totalSum % 2 !== 0) return false;
 
     const target = totalSum / 2;
-    // dp[j] is true if sum j is possible [cite: 412, 771]
+    // dp[j] is true if sum j is possible
     const dp = new Array(target + 1).fill(false);
     
     // Base Case: Sum 0 is always possible
@@ -337,22 +337,22 @@ function canPartition(nums) {
     return dp[target];
 }
 ```
-*   **Complexity:** Time: **\\(O(N \times \text{target})\\)**, Space: **\\(O(\text{target})\\)** auxiliary. Super clean!
+*   **Complexity:** Time: **O(N × target)**, Space: **O(target)** auxiliary. Super clean!
 
 ---
 
 ## PATTERN 4: UNBOUNDED KNAPSACK (REUSABLE CHOICE MATCH)
 
-Bacho, Unbounded Knapsack aur 0/1 Knapsack mein strictly ek hi difference hai [cite: 412, 771]. 
-*   **0/1 Knapsack:** Har item ko hum sirf **ek hi baar** use kar sakte hain [cite: 412]. Isiliye looping hamesha **reverse index** par chalti hai [cite: 412]!
-*   **Unbounded Knapsack:** Humein har item ki **unlimited supply** di hoti hai [cite: 412]! Hum ek hi item ko baar-baar reuse kar sakte hain [cite: 412]. Isiliye loop ka direction dynamic forwarding (left-to-right) ho jata hai [cite: 412]!
+Bacho, Unbounded Knapsack aur 0/1 Knapsack mein strictly ek hi difference hai. 
+*   **0/1 Knapsack:** Har item ko hum sirf **ek hi baar** use kar sakte hain. Isiliye looping hamesha **reverse index** par chalti hai!
+*   **Unbounded Knapsack:** Humein har item ki **unlimited supply** di hoti hai! Hum ek hi item ko baar-baar reuse kar sakte hain. Isiliye loop ka direction dynamic forwarding (left-to-right) ho jata hai!
 
 ---
 
 ### Coin Change II (LeetCode 518) — Total Number of Ways
 
 #### 🧠 Understand:
-Humein ek array `coins` aur ek `amount` diya hai [cite: 276]. Humein total ways (combinations) count karne hain jisse hum coins ko unlimted times use karke woh target amount bana sakein [cite: 276].
+Humein ek array `coins` aur ek `amount` diya hai. Humein total ways (combinations) count karne hain jisse hum coins ko unlimted times use karke woh target amount bana sakein.
 
 ---
 
@@ -382,8 +382,8 @@ Bacho, dhyan se whiteboard par bani in do algorithms ko dekho, ye pure technical
               }                                            }
           }                                            }
 ```
-*   **Coins Outside Loop (Combination):** Jab coin loop bahar hota hai, toh pehle coin `2` ke saare options explore ho kar block honge, fir coin `5` explore hoga. Isse hamesha sorted unique groups banenge jaise `` and never duplicate as ``. This returns **Combinations** (Coin Change II) [cite: 276, 734]!
-*   **Amount Outside Loop (Permutations):** Jab amount loop bahar hota hai, toh har amount `j` ke liye saare coins dobara line se scan hote hain. Isse duplicate arrays combinations generate honge jaise `` and ``. This returns **Permutations / Total arrangements** (Combination Sum IV) [cite: 412, 734]!
+*   **Coins Outside Loop (Combination):** Jab coin loop bahar hota hai, toh pehle coin `2` ke saare options explore ho kar block honge, fir coin `5` explore hoga. Isse hamesha sorted unique groups banenge jaise `` and never duplicate as ``. This returns **Combinations** (Coin Change II)!
+*   **Amount Outside Loop (Permutations):** Jab amount loop bahar hota hai, toh har amount `j` ke liye saare coins dobara line se scan hote hain. Isse duplicate arrays combinations generate honge jaise `` and ``. This returns **Permutations / Total arrangements** (Combination Sum IV)!
 
 ---
 
@@ -407,20 +407,20 @@ function change(amount, coins) {
     return dp[amount]; // Final state
 }
 ```
-*   **Complexity:** Time: **\\(O(\text{amount} \times N)\\)**, Space: **\\(O(\text{amount})\\)** auxiliary table [cite: 192].
+*   **Complexity:** Time: **O(amount × N)**, Space: **O(amount)** auxiliary table.
 
 ---
 
 ## PATTERN 5: SUBSEQUENCE / SEQUENCE DP (TWO STRING ALIGNMENTS)
 
-Bacho, Sequence DP ke problems mein humein do strings ya sequences diye hote hain, aur hum unke indices ko character-by-character align aur compare karke choices banate hain [cite: 412, 425].
+Bacho, Sequence DP ke problems mein humein do strings ya sequences diye hote hain, aur hum unke indices ko character-by-character align aur compare karke choices banate hain.
 
 ---
 
-### Longest Common Subsequence (LeetCode 1143) [cite: 412, 425]
+### Longest Common Subsequence (LeetCode 1143)
 
 #### 🧠 Understand:
-Humein do strings `text1` aur `text2` di gayi hain [cite: 75]. Humein in dono ke beech ka **Longest Common Subsequence (LCS)** ka count return karna hai [cite: 412, 425]. Subsequence ka matlab hai characters ka wahi sequence jo original string mein bikhra ho par order strictly maintain kare (jaise `abc` is a subsequence of `axbxc`) [cite: 81].
+Humein do strings `text1` aur `text2` di gayi hain. Humein in dono ke beech ka **Longest Common Subsequence (LCS)** ka count return karna hai. Subsequence ka matlab hai characters ka wahi sequence jo original string mein bikhra ho par order strictly maintain kare (jaise `abc` is a subsequence of `axbxc`).
 
 ```
                      LCS Visualization Table:
@@ -441,10 +441,10 @@ Humein do strings `text1` aur `text2` di gayi hain [cite: 75]. Humein in dono ke
     `dp[i][j]` represent karta hai **LCS length** considering substring `text1[0...i-1]` and `text2[0...j-1]`.
 2.  **Choice kya hai?**  
     Pointers index `i` on `text1` and `j` on `text2` par khade hokar:
-    *   **If characters match (`text1[i-1] === text2[j-1]`):** Dono pointers ko safe move karo, match size 1 se increment hoga \\(\rightarrow\\) `1 + dp[i-1][j-1]` [cite: 119].
-    *   **If characters mismatch:** Ek pointer ko skip karke check karo, and take maximum \\(\rightarrow\\) `max(dp[i-1][j], dp[i][j-1])` [cite: 119].
+    *   **If characters match (`text1[i-1] === text2[j-1]`):** Dono pointers ko safe move karo, match size 1 se increment hoga → `1 + dp[i-1][j-1]`.
+    *   **If characters mismatch:** Ek pointer ko skip karke check karo, and take maximum → `max(dp[i-1][j], dp[i][j-1])`.
 3.  **Transition kya hai?**
-    \\[\text{dp}[i][j] = \begin{cases} 1 + \text{dp}[i-1][j-1] & \text{if } \text{text1}[i-1] == \text{text2}[j-1] \\ \max(\text{dp}[i-1][j], \text{dp}[i][j-1]) & \text{otherwise} \end{cases}\\]
+    \\[dp[i][j] = \begin{cases} 1 + dp[i-1][j-1] & if  text1[i-1] == text2[j-1] \\ max(dp[i-1][j], dp[i][j-1]) & otherwise \end{cases}\\]
 4.  **Base Case kya hai?**  
     If length of any string is `0` (`i === 0` or `j === 0`), LCS is `0`.
 5.  **Answer kahan milega?**  
@@ -469,9 +469,9 @@ function longestCommonSubsequence(text1, text2) {
     for (let i = 1; i <= m; i++) {
         for (let j = 1; j <= n; j++) {
             if (text1[i - 1] === text2[j - 1]) {
-                dp[i][j] = 1 + dp[i - 1][j - 1]; // Elements match [cite: 119]
+                dp[i][j] = 1 + dp[i - 1][j - 1]; // Elements match
             } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]); // Mismatch [cite: 119]
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]); // Mismatch
             }
         }
     }
@@ -516,9 +516,9 @@ Let's trace `text1 = "abc"`, `text2 = "ac"`. `m = 3, n = 2`.
     *   `text1 === text2` ('c' === 'c'). Push 'c'. Move to (2, 1).
     *   `text1 !== text2` ('b' !== 'a'). `dp (1) >= dp (0)`. Move to (1, 1).
     *   `text1 === text2` ('a' === 'a'). Push 'a'. Move to (0, 0).
-    *   Loop terminates. Reverse array `['c', 'a']` \\(\rightarrow\\) `['a', 'c']`.
+    *   Loop terminates. Reverse array `['c', 'a']` → `['a', 'c']`.
     *   Outputs sequence: `"ac"`. Absolutely beautiful!
-*   **Complexity:** Time: **\\(O(m \times n)\\)**, Space: **\\(O(m \times n)\\)**.
+*   **Complexity:** Time: **O(m × n)**, Space: **O(m × n)**.
 
 ---
 
@@ -528,9 +528,9 @@ Bacho, whiteboard par bani is comparative breakdown matrix sheets ko dhyan se di
 
 | Dynamic Battle | First Competitor | Second Competitor | The Core Difference (Winning Rule) |
 | :--- | :--- | :--- | :--- |
-| **0/1 vs. Unbounded** [cite: 412, 771] | **0/1 Knapsack:** Items are strictly unique [cite: 412]. | **Unbounded Knapsack:** Items have infinite supplies [cite: 412]. | 0/1 uses reverse loops (`W to weights[i]`) [cite: 412]; Unbounded uses forward loops (`coin to amount`) [cite: 412]. |
-| **Subsequence vs. Substring** [cite: 412] | **Subsequence:** Characters order must match [cite: 81]. | **Substring:** Characters must be strictly continuous. | Subsequence matches inherit diagonally (`1+dp[i-1][j-1]`) [cite: 119]; Substring mismatch resets state immediately to `0`. |
-| **2D DP vs. Space Optimized** | **2D Array:** Full tabular matrices [cite: 308]. | **1D Array:** Optimized running variables [cite: 47, 48]. | 2D preserves past states history; 1D only keeps what's necessary for the immediate step [cite: 47, 48]. |
+| **0/1 vs. Unbounded** | **0/1 Knapsack:** Items are strictly unique. | **Unbounded Knapsack:** Items have infinite supplies. | 0/1 uses reverse loops (`W to weights[i]`); Unbounded uses forward loops (`coin to amount`). |
+| **Subsequence vs. Substring** | **Subsequence:** Characters order must match. | **Substring:** Characters must be strictly continuous. | Subsequence matches inherit diagonally (`1+dp[i-1][j-1]`); Substring mismatch resets state immediately to `0`. |
+| **2D DP vs. Space Optimized** | **2D Array:** Full tabular matrices. | **1D Array:** Optimized running variables. | 2D preserves past states history; 1D only keeps what's necessary for the immediate step. |
 
 ---
 
@@ -544,7 +544,7 @@ Bacho, whiteboard par bani is comparative breakdown matrix sheets ko dhyan se di
         ┌────────────────────────────────┼────────────────────────────────┐
   1. Comparing Sequences           2. Reuse / Infinite              3. Multi-Choices
   Two strings, LCS, edit-          "Unlimited supply",              "Should I take or
-  distance -> LCS DP [cite: 412].          Unbounded Knapsack [cite: 412, 771].     skip?" -> Knapsack [cite: 271, 412].
+  distance -> LCS DP.          Unbounded Knapsack.     skip?" -> Knapsack.
 ```
 
 ---
@@ -555,20 +555,20 @@ Bacho, whiteboard par bani is comparative breakdown matrix sheets ko dhyan se di
 
 ---
 
-### Problem A (Medium): Longest Increasing Subsequence (LeetCode 300) [cite: 402, 412]
+### Problem A (Medium): Longest Increasing Subsequence (LeetCode 300)
 *Unsorted integer array ka strictly increasing subsequence ki maximum length return karo.*
 
 #### 🧠 Diagnostics:
-*   *Choices Analysis:* Kya hum do sequences compare kar rahe hain? Nahi, sirf ek sequence hai [cite: 412, 771]!
-*   *Observation:* Har index `i` par, humara selection constraint kis pe depend karta hai? Pichle saare indices `j < i` par! Agar `nums[i] > nums[j]`, toh hum `dp[j] + 1` se length badha sakte hain [cite: 412].
-*   *Pattern Choice:* **LIS DP Variant (quadratic \\(O(n^2)\\) baseline) [cite: 412, 425]**!
+*   *Choices Analysis:* Kya hum do sequences compare kar rahe hain? Nahi, sirf ek sequence hai!
+*   *Observation:* Har index `i` par, humara selection constraint kis pe depend karta hai? Pichle saare indices `j < i` par! Agar `nums[i] > nums[j]`, toh hum `dp[j] + 1` se length badha sakte hain.
+*   *Pattern Choice:* **LIS DP Variant (quadratic O(n^2) baseline)**!
 
 ```javascript
 function lengthOfLIS(nums) {
     if (nums.length === 0) return 0;
     
     const n = nums.length;
-    // dp[i] holds length of LIS ending at index i [cite: 412, 771]
+    // dp[i] holds length of LIS ending at index i
     const dp = new Array(n).fill(1); 
     let maxLIS = 1;
 
@@ -584,7 +584,7 @@ function lengthOfLIS(nums) {
     return maxLIS;
 }
 ```
-*   **Complexity:** Time: **\\(O(n^2)\\)** [cite: 511], Space: **\\(O(n)\\)** auxiliary.
+*   **Complexity:** Time: **O(n^2)**, Space: **O(n)** auxiliary.
 
 ---
 
@@ -593,17 +593,17 @@ function lengthOfLIS(nums) {
 #### 🧠 Diagnostics:
 *   *Choices Analysis:* Humein integers array aur ek `target` diya hai. Har number ke pehle hum `+` ya `-` sign lagakar target sum banana chahte hain.
 *   *Mathematical Observation:*
-    Maan lo humne kuch elements ko positive liya (Subset \\(S_1\\)) aur kuch ko negative (Subset \\(S_2\\)).
-    \\[\text{Sum}(S_1) - \text{Sum}(S_2) = \text{target}\\]
-    \\[\text{Sum}(S_1) + \text{Sum}(S_2) = \text{TotalSum}\\]
+    Maan lo humne kuch elements ko positive liya (Subset S_1) aur kuch ko negative (Subset S_2).
+    \\[Sum(S_1) - Sum(S_2) = target\\]
+    \\[Sum(S_1) + Sum(S_2) = TotalSum\\]
     Dono ko add karo:
-    \\[2 \cdot \text{Sum}(S_1) = \text{TotalSum} + \text{target} \implies \text{Sum}(S_1) = \frac{\text{TotalSum} + \text{target}}{2}\\]
-*   *The Magic:* Yeh problem strictly convert ho gayi **Subset Sum Problem (Knapsack)** mein [cite: 412]! Humein ek subset dhoondhna hai jiska target sum \\(\frac{\text{TotalSum} + \text{target}}{2}\\) ho [cite: 412]!
-*   *Pattern Choice:* **0/1 Knapsack (Subset Sum Variant) [cite: 412, 771]**!
+    \\[2 · Sum(S_1) = TotalSum + target => Sum(S_1) = TotalSum + target/2\\]
+*   *The Magic:* Yeh problem strictly convert ho gayi **Subset Sum Problem (Knapsack)** mein! Humein ek subset dhoondhna hai jiska target sum TotalSum + target/2 ho!
+*   *Pattern Choice:* **0/1 Knapsack (Subset Sum Variant)**!
 
 ```javascript
 function findTargetSumWays(nums, target) {
-    const totalSum = nums.reduce((acc, curr) => acc + curr, 0); // [cite: 48]
+    const totalSum = nums.reduce((acc, curr) => acc + curr, 0); //
     
     // Boundary conditions
     if (Math.abs(target) > totalSum) return 0;
@@ -612,7 +612,7 @@ function findTargetSumWays(nums, target) {
     const subsetTarget = (totalSum + target) / 2;
     if (subsetTarget < 0) return 0;
 
-    // dp[j] stores number of ways to make sum j [cite: 412, 771]
+    // dp[j] stores number of ways to make sum j
     const dp = new Array(subsetTarget + 1).fill(0);
     dp = 1; // Base case
 
@@ -626,7 +626,7 @@ function findTargetSumWays(nums, target) {
     return dp[subsetTarget];
 }
 ```
-*   **Complexity:** Time: **\\(O(N \times \text{subsetTarget})\\)**, Space: **\\(O(\text{subsetTarget})\\)** auxiliary.
+*   **Complexity:** Time: **O(N × subsetTarget)**, Space: **O(subsetTarget)** auxiliary.
 
 ---
 
@@ -635,26 +635,26 @@ function findTargetSumWays(nums, target) {
 Technical evaluation tests mein in 3 classic bugs se hamesha bacho:
 
 1.  **Shared nested array row references:**
-    JavaScript array initialization par `Array(r).fill(Array(c))` likh dena [cite: 308]. Hamesha `Array.from` pattern se separate independent rows construct karein.
+    JavaScript array initialization par `Array(r).fill(Array(c))` likh dena. Hamesha `Array.from` pattern se separate independent rows construct karein.
 2.  **Wrong Loop Direction in Knapsack Variants:**
-    0/1 Knapsack ko forward directions (`0 to W`) mein loop out kar dena [cite: 412]. Isse single element multiple times select hokar unbounded ban jata hai [cite: 412]! 0/1 mein strictly **reverse direction loop** chalayein [cite: 412].
+    0/1 Knapsack ko forward directions (`0 to W`) mein loop out kar dena. Isse single element multiple times select hokar unbounded ban jata hai! 0/1 mein strictly **reverse direction loop** chalayein.
 3.  **Accidental Floating Point Divisors:**
-    Indices calculations par decimal math operations use karna. JavaScript standard floating division follow karta hai, so index float check bypass karne ke liye hamesha `Math.floor` or similar explicit truncation options apply karein [cite: 41, 132, 284].
+    Indices calculations par decimal math operations use karna. JavaScript standard floating division follow karta hai, so index float check bypass karne ke liye hamesha `Math.floor` or similar explicit truncation options apply karein.
 
 ---
 
 ## CHAPTER END SUMMARY
 
 ### Completed Concepts:
-* Standard 1D and cyclic subproblems boundary splits [cite: 308, 412, 771].
-* Safe multi-dimensional array mapping blocks in V8 environments [cite: 308].
-* 0/1 vs. Unbounded loops direction properties [cite: 412, 771].
-* Sequence alignment dynamic comparisons (LCS, LIS, Subset sums) [cite: 412, 425].
+* Standard 1D and cyclic subproblems boundary splits.
+* Safe multi-dimensional array mapping blocks in V8 environments.
+* 0/1 vs. Unbounded loops direction properties.
+* Sequence alignment dynamic comparisons (LCS, LIS, Subset sums).
 
 ### Mastered DP Patterns:
-* **The 1D Optimized previous states** shift pointers mechanics [cite: 47, 48].
-* **Combinations vs Permutations loop alignments** [cite: 412, 734].
-* **LCS Back-trace pointers reconstruction walkway** [cite: 412, 425].
+* **The 1D Optimized previous states** shift pointers mechanics.
+* **Combinations vs Permutations loop alignments**.
+* **LCS Back-trace pointers reconstruction walkway**.
 
 ---
 

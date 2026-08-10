@@ -1,14 +1,14 @@
 **Arey bacho! Jaldi se apni seats par baith jao aur whiteboard par apna dhyan seedhe focus karo.**  
 
-Pichle chapter mein humne **Heaps & Priority Queues (Chapter 16)** ko poore dhasu tarike se seekha aur dekha ki kaise dynamic elements ke stream mein se absolute minimum ya maximum ko instantly **\\(\mathcal{O}(1)\\)** mein fetch aur **\\(\mathcal{O}(\log n)\\)** mein delete kiya jata hai [cite: 516, 563, 631]. 
+Pichle chapter mein humne **Heaps & Priority Queues (Chapter 16)** ko poore dhasu tarike se seekha aur dekha ki kaise dynamic elements ke stream mein se absolute minimum ya maximum ko instantly **O(1)** mein fetch aur **O(log n)** mein delete kiya jata hai. 
 
-Lekin beta, aaj hum computer science ke ek behad dilchasp, creative aur dynamic design paradigm ko kholne ja rahe hain. Ise hum kehte hain—**Greedy Algorithms** [cite: 34, 270, 419]!
+Lekin beta, aaj hum computer science ke ek behad dilchasp, creative aur dynamic design paradigm ko kholne ja rahe hain. Ise hum kehte hain—**Greedy Algorithms**!
 
-*"Sir, humne pichle chapters mein searching aur sorting to seekh li [cite: 283, 285]. Lekin jab real-world optimization problems aati hain, jahan humein maximum profit ya minimum cost nikalna ho, toh hum kaise sochte hain?"*
+*"Sir, humne pichle chapters mein searching aur sorting to seekh li. Lekin jab real-world optimization problems aati hain, jahan humein maximum profit ya minimum cost nikalna ho, toh hum kaise sochte hain?"*
 
 Bacho, jab life mein ya programming mein humare paas bohot saare choices hote hain, toh sabse pehli natural human tendency kya hoti hai? **"Jo abhi is moment par sabse best lag raha hai, use turant lapak lo (grab it)!"** 
 
-Isi "greedy" nature ko jab hum code mein convert karte hain, toh use Greedy Paradigm kehte hain [cite: 34, 419]. Aaj hum greedy algorithms ko bilkul zero se shuru karke interview level tak le kar jayenge, aur ye seekhenge ki iske decisions ke peeche ka maths aur logic kaam kaise karta hai.
+Isi "greedy" nature ko jab hum code mein convert karte hain, toh use Greedy Paradigm kehte hain. Aaj hum greedy algorithms ko bilkul zero se shuru karke interview level tak le kar jayenge, aur ye seekhenge ki iske decisions ke peeche ka maths aur logic kaam kaise karta hai.
 
 Apna pen aur register nikal lo, aur dhyan whiteboard par lagao! 🚀
 
@@ -17,10 +17,10 @@ Apna pen aur register nikal lo, aur dhyan whiteboard par lagao! 🚀
 ## 1. THE FOUNDATIONS OF GREEDY: LOCAL VS. GLOBAL OPTIMUM
 
 ### Greedy Algorithm Kya Hai? 🧠
-Greedy algorithm ek aisa algorithmic design pattern hai jo kisi problem ko solve karne ke liye **har ek step par sabse best local choice (local optimum)** banata hai, bina aage ki future consequences ki parwah kiye [cite: 34, 419]. 
+Greedy algorithm ek aisa algorithmic design pattern hai jo kisi problem ko solve karne ke liye **har ek step par sabse best local choice (local optimum)** banata hai, bina aage ki future consequences ki parwah kiye. 
 
 Iska operational philosophy behad simple hai:
-> **"Har point par jo locally optimal choice hai, use select karte jao, aur umeed karo ki aakhir mein humein globally optimal (absolute best) solution mil jayega!"** [cite: 34, 419]
+> **"Har point par jo locally optimal choice hai, use select karte jao, aur umeed karo ki aakhir mein humein globally optimal (absolute best) solution mil jayega!"**
 
 ```
                               THE GREEDY CHOICE PATH
@@ -44,15 +44,15 @@ Maan lo tum ek pahad par khade ho aur raat ka andhera hai. Tumhara goal hai paha
               /  \                 /      \
              /____\_______________/________\
 ```
-Isi tarah, **har problem greedy se solve nahi hoti!** Greedy choice tabhi kaam karti hai jab local choices future decisions ko blocks na karein [cite: 34, 419].
+Isi tarah, **har problem greedy se solve nahi hoti!** Greedy choice tabhi kaam karti hai jab local choices future decisions ko blocks na karein.
 
 ---
 
 ### The Two Pillars of Greedy Correctness 🏛️
-Kisi bhi problem par greedy algorithm lagane se pehle, usme do properties ka hona mandatory hai [cite: 270]:
+Kisi bhi problem par greedy algorithm lagane se pehle, usme do properties ka hona mandatory hai:
 
-1. **Greedy Choice Property:** Hum local decisions ke basis par choice bana sakte hain bina future subproblems ke results ka wait kiye [cite: 34, 419]. Yaani, humara current step decision future choices ke options ko damage nahi karega.
-2. **Optimal Substructure:** Agar ek bade problem ka globally optimal solution, uske chote-chote subproblems ke optimal solutions se milkar bana ho, toh use optimal substructure kehte hain [cite: 270, 295].
+1. **Greedy Choice Property:** Hum local decisions ke basis par choice bana sakte hain bina future subproblems ke results ka wait kiye. Yaani, humara current step decision future choices ke options ko damage nahi karega.
+2. **Optimal Substructure:** Agar ek bade problem ka globally optimal solution, uske chote-chote subproblems ke optimal solutions se milkar bana ho, toh use optimal substructure kehte hain.
 
 ---
 
@@ -62,10 +62,10 @@ Bacho, dhyan se is comparative matrix ko dekho, ye interviews mein interviewer k
 
 | Parameter | Brute Force 🌋 | Greedy Algorithms 🏔️ | Dynamic Programming (DP) 🎯 |
 | :--- | :--- | :--- | :--- |
-| **Operational Philosophy** | Saare possible options ko check karo aur best select karo [cite: 34, 388]. | Har step par bina future soche best local choice uthao [cite: 34, 419]. | Subproblems ko solve karke unka result memoize karo aur combine karo [cite: 34, 295]. |
-| **Decision Making** | Exhaustive (Explores all paths) [cite: 34, 388]. | One-shot (No backtracking) [cite: 34, 419]. | Explores overlapping subproblems and chooses globally [cite: 34, 295]. |
-| **Time Complexity** | Highly expensive, usually **Exponential** (e.g., \\(\mathcal{O}(2^n)\\)). | Super fast, usually **\\(\mathcal{O}(n \log n)\\)** (sorting cost) ya **\\(\mathcal{O}(n)\\)** [cite: 370]. | Balanced, usually **Polynomial** (e.g., \\(\mathcal{O}(n \cdot W)\\)) [cite: 639]. |
-| **Guarantee of Global Optimum** | Always guaranteed (since it checks everything) [cite: 34, 388]. | **Not always!** Sirf tabhi jab greedy choice prove ho sake [cite: 4, 326]. | Always guaranteed (if optimal substructure exists) [cite: 295]. |
+| **Operational Philosophy** | Saare possible options ko check karo aur best select karo. | Har step par bina future soche best local choice uthao. | Subproblems ko solve karke unka result memoize karo aur combine karo. |
+| **Decision Making** | Exhaustive (Explores all paths). | One-shot (No backtracking). | Explores overlapping subproblems and chooses globally. |
+| **Time Complexity** | Highly expensive, usually **Exponential** (e.g., O(2^n)). | Super fast, usually **O(n log n)** (sorting cost) ya **O(n)**. | Balanced, usually **Polynomial** (e.g., O(n · W)). |
+| **Guarantee of Global Optimum** | Always guaranteed (since it checks everything). | **Not always!** Sirf tabhi jab greedy choice prove ho sake. | Always guaranteed (if optimal substructure exists). |
 
 ---
 
@@ -75,25 +75,25 @@ Bacho, dhyan se is comparative matrix ko dekho, ye interviews mein interviewer k
 #### Case 1 (Greedy Works Perfectly):
 * Denominations available: `` Rs coins.
 * Target change required: **Rs 18**.
-* **Greedy Choice:** Humesha sabse bada coin select karo jo target se chota ya barabar ho [cite: 270].
-  1. Pick `10` Rs coin \\(\rightarrow\\) Remaining = `8` Rs.
-  2. Pick `5` Rs coin \\(\rightarrow\\) Remaining = `3` Rs.
-  3. Pick `2` Rs coin \\(\rightarrow\\) Remaining = `1` Rs.
-  4. Pick `1` Rs coin \\(\rightarrow\\) Remaining = `0` Rs.
+* **Greedy Choice:** Humesha sabse bada coin select karo jo target se chota ya barabar ho.
+  1. Pick `10` Rs coin → Remaining = `8` Rs.
+  2. Pick `5` Rs coin → Remaining = `3` Rs.
+  3. Pick `2` Rs coin → Remaining = `1` Rs.
+  4. Pick `1` Rs coin → Remaining = `0` Rs.
   * Total Coins Used: `4` coins (``). This is the absolute minimum!
 
 #### Case 2 (Greedy Fails Horribly ❌):
 * Denominations available: `` Rs coins.
 * Target change required: **Rs 11**.
 * **Greedy Choice Run:**
-  1. Pick largest coin `9` Rs \\(\rightarrow\\) Remaining = `2` Rs.
-  2. Pick `1` Rs coin \\(\rightarrow\\) Remaining = `1` Rs.
-  3. Pick `1` Rs coin \\(\rightarrow\\) Remaining = `0` Rs.
+  1. Pick largest coin `9` Rs → Remaining = `2` Rs.
+  2. Pick `1` Rs coin → Remaining = `1` Rs.
+  3. Pick `1` Rs coin → Remaining = `0` Rs.
   * Total Coins Used by Greedy: `3` coins (``).
 * **The Global Optimum (DP / Brute Force):**
   * We could have selected `` coins!
   * Total Coins Used: **`2` coins**!
-  * *Why did Greedy fail?* Kyunki `9` Rs coin uthane ki locally optimal choice ne future subproblem (`11 - 9 = 2`) ko damage kar diya aur use limited coins mein resolve nahi hone diya. Yahan humein **Dynamic Programming** lagana padta [cite: 34].
+  * *Why did Greedy fail?* Kyunki `9` Rs coin uthane ki locally optimal choice ne future subproblem (`11 - 9 = 2`) ko damage kar diya aur use limited coins mein resolve nahi hone diya. Yahan humein **Dynamic Programming** lagana padta.
 
 ---
 
@@ -106,15 +106,15 @@ Bacho, dhyan se is comparative matrix ko dekho, ye interviews mein interviewer k
 ### PROBLEM 1 (Easy): Assign Cookies (LeetCode 455)
 
 #### 1. Understand:
-Humein do arrays diye hain: `g` (Greed factors of children) aur `s` (Size of cookies). Har bache \\(i\\) ko kam se kam `g[i]` size ki cookie chahiye. Agar cookie size `s[j] >= g[i]`, toh wo bacha khush ho jayega. Humari goal hai **maximum number of children** ko satisfy karna.
+Humein do arrays diye hain: `g` (Greed factors of children) aur `s` (Size of cookies). Har bache i ko kam se kam `g[i]` size ki cookie chahiye. Agar cookie size `s[j] >= g[i]`, toh wo bacha khush ho jayega. Humari goal hai **maximum number of children** ko satisfy karna.
 
 #### 2. Brute Force Idea:
 Har ek bache ke greed factor ko array `s` mein search karo, aur pehli suitable cookie jo mile, use pick kar lo.
-* **Why expensive?** Har choice par humein scan karna padega, jisse duplicates manage karna complex ho jayega aur time complexity \\(\mathcal{O}(n^2)\\) ho jayegi.
+* **Why expensive?** Har choice par humein scan karna padega, jisse duplicates manage karna complex ho jayega aur time complexity O(n^2) ho jayegi.
 
 #### 3. SDE Observation:
 * Agar hum chote greed wale bache ko choti cookie se satisfy kar dein, toh badi cookies bade greed wale bacho ke liye safe bachengi!
-* Iske liye hum dono arrays (`g` aur `s`) ko **Sort** kar denge [cite: 270]. Sorting ke baad hamara rasta bilkul linear ho jata hai.
+* Iske liye hum dono arrays (`g` aur `s`) ko **Sort** kar denge. Sorting ke baad hamara rasta bilkul linear ho jata hai.
 
 #### 4. Greedy Choice:
 Sort both arrays ascending. Assign the smallest possible cookie that can satisfy the current child.
@@ -124,12 +124,12 @@ Sort both arrays ascending. Assign the smallest possible cookie that can satisfy
 #### 5. JavaScript Implementation:
 ```javascript
 function findContentChildren(g, s) {
-    // Step 1: Sort children's greed factors and cookie sizes ascending [cite: 59, 285]
+    // Step 1: Sort children's greed factors and cookie sizes ascending
     g.sort((a, b) => a - b);
     s.sort((a, b) => a - b);
 
-    let childPtr = 0; // Pointer for children [cite: 518]
-    let cookiePtr = 0; // Pointer for cookies [cite: 518]
+    let childPtr = 0; // Pointer for children
+    let cookiePtr = 0; // Pointer for cookies
 
     // Step 2: Traverse linearly
     while (childPtr < g.length && cookiePtr < s.length) {
@@ -145,7 +145,7 @@ function findContentChildren(g, s) {
 ```
 
 #### 6. Line-by-Line Explanation:
-* `g.sort((a, b) => a - b)`: Greedy sorting step jo elements ko unke scale ke hisab se align karta hai [cite: 59, 285].
+* `g.sort((a, b) => a - b)`: Greedy sorting step jo elements ko unke scale ke hisab se align karta hai.
 * `if (s[cookiePtr] >= g[childPtr])`: Agar cookie ka size greed se bada ya barabar hai, iska matlab child content ho gaya. Hum child pointer ko aage badha dete hain.
 * `cookiePtr++`: Agar cookie choti thi ya allocate ho gayi, use hum aage badha kar agle choice par jate hain.
 
@@ -159,15 +159,15 @@ function findContentChildren(g, s) {
 * Returns `childPtr = 1`. Absolutely correct!
 
 #### 8. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n \log n + m \log m)\\)** dominated by the sorting steps of both arrays [cite: 59, 285].
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary (in-place sorting).
+* **Time Complexity:** **O(n log n + m log m)** dominated by the sorting steps of both arrays.
+* **Space Complexity:** **O(1)** auxiliary (in-place sorting).
 
 ---
 
 ### PROBLEM 2 (Medium): Fractional Knapsack Problem
 
 #### 1. Understand:
-Humein \\(N\\) items diye hain, jinka `weight` aur `value` diya hai. Humein ek Knapsack (bag) diya hai jiski capacity `W` hai. Hum items ko **fractionally (tukdo mein)** bhi cut karke bag mein daal sakte hain. Goal hai bag mein maximum value generate karna.
+Humein N items diye hain, jinka `weight` aur `value` diya hai. Humein ek Knapsack (bag) diya hai jiski capacity `W` hai. Hum items ko **fractionally (tukdo mein)** bhi cut karke bag mein daal sakte hain. Goal hai bag mein maximum value generate karna.
 
 ```
                      Fractional Knapsack Strategy:
@@ -204,7 +204,7 @@ function getFractionalKnapsack(W, items) {
     items.sort((a, b) => {
         const ratioA = a.value / a.weight;
         const ratioB = b.value / b.weight;
-        return ratioB - ratioA; // Descending Sort [cite: 59, 285]
+        return ratioB - ratioA; // Descending Sort
     });
 
     let currentWeight = 0; // Current weight inside bag
@@ -244,17 +244,17 @@ function getFractionalKnapsack(W, items) {
 * Returns `totalValue = 240`. Absolutely perfect!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n \log n)\\)** dominated by ratio sorting [cite: 59, 285].
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary if sorting occurs in-place.
+* **Time Complexity:** **O(n log n)** dominated by ratio sorting.
+* **Space Complexity:** **O(1)** auxiliary if sorting occurs in-place.
 
 ---
 
 ### PROBLEM 3 (Medium): Activity Selection / Interval Scheduling (Earliest Finishing Activity)
 
-Bacho, dhyan se suno. Interval based problems (Activity selection, Non-overlapping intervals, ya meeting scheduling) SDE interviews ke top-tier greedy patterns hain. Inhe solve karne ki hum ek standard technique seekhenge [cite: 270, 326].
+Bacho, dhyan se suno. Interval based problems (Activity selection, Non-overlapping intervals, ya meeting scheduling) SDE interviews ke top-tier greedy patterns hain. Inhe solve karne ki hum ek standard technique seekhenge.
 
 #### 1. Understand:
-Humein \\(N\\) activities di gayi hain unke `start` aur `end` timings ke sath. Ek computer par ek waqt mein sirf ek hi activity run ho sakti hai. Humari goal hai **maximum number of activities** ko perform karna.
+Humein N activities di gayi hain unke `start` aur `end` timings ke sath. Ek computer par ek waqt mein sirf ek hi activity run ho sakti hai. Humari goal hai **maximum number of activities** ko perform karna.
 
 ```
                   Activities:
@@ -262,7 +262,7 @@ Humein \\(N\\) activities di gayi hain unke `start` aur `end` timings ke sath. E
 ```
 
 #### 2. Brute Force:
-Saare possible combinations subsets generate karo aur validation checks chalao. Size \\(N\\) ke array ke liye combinations complexity **\\(\mathcal{O}(2^n)\\)** ho jayegi [cite: 511].
+Saare possible combinations subsets generate karo aur validation checks chalao. Size N ke array ke liye combinations complexity **O(2^n)** ho jayegi.
 
 #### 3. Greedy Choice Observation:
 *"Sir, hum activities ko kis index key par sort karein?"*
@@ -303,7 +303,7 @@ function selectMaxActivities(activities) {
         // If current activity starts AFTER or AT the end of the last selected activity
         if (current.start >= lastSelectedEnd) {
             count++;
-            lastSelectedEnd = current.end; // Update ending boundary [cite: 518]
+            lastSelectedEnd = current.end; // Update ending boundary
         }
     }
 
@@ -316,16 +316,16 @@ function selectMaxActivities(activities) {
 * After sorting by end time ascending:
   * `A1:`, `A2:`, `A3:`, `A4:`, `A5:` (already sorted!)
 * Execution:
-  * Select `A1` \\(\rightarrow\\) `count = 1`, `lastSelectedEnd = 4`.
-  * **i = 1 (`A2:`):** `start (3) < lastSelectedEnd (4)` \\(\rightarrow\\) Overlap! Skip.
-  * **i = 2 (`A3:`):** `start (0) < lastSelectedEnd (4)` \\(\rightarrow\\) Overlap! Skip.
-  * **i = 3 (`A4:`):** `start (5) >= lastSelectedEnd (4)` \\(\rightarrow\\) Select! `count = 2`, `lastSelectedEnd = 7`.
-  * **i = 4 (`A5:`):** `start (8) >= lastSelectedEnd (7)` \\(\rightarrow\\) Select! `count = 3`, `lastSelectedEnd = 9`.
+  * Select `A1` → `count = 1`, `lastSelectedEnd = 4`.
+  * **i = 1 (`A2:`):** `start (3) < lastSelectedEnd (4)` → Overlap! Skip.
+  * **i = 2 (`A3:`):** `start (0) < lastSelectedEnd (4)` → Overlap! Skip.
+  * **i = 3 (`A4:`):** `start (5) >= lastSelectedEnd (4)` → Select! `count = 2`, `lastSelectedEnd = 7`.
+  * **i = 4 (`A5:`):** `start (8) >= lastSelectedEnd (7)` → Select! `count = 3`, `lastSelectedEnd = 9`.
 * Returns `count = 3` (`A1, A4, A5`). Correct output!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n \log n)\\)** dominated by end time sorting [cite: 59, 285].
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Time Complexity:** **O(n log n)** dominated by end time sorting.
+* **Space Complexity:** **O(1)** auxiliary.
 
 ---
 
@@ -343,7 +343,7 @@ Humein intervals di gayi hain. Humein **minimum number of intervals** ko remove 
 #### 3. SDE Observation:
 *Yeh directly Activity Selection problem ka mirror image hai bacho!*  
 Max non-overlapping intervals calculate kar lo (`selectMaxActivities`). Total intervals mein se use subtract kar do, toh humein humari minimum removals mil jayegi!
-\\[\text{Min Removals} = \text{Total Intervals} - \text{Max Non-Overlapping Intervals}\\]
+\\[Min Removals = Total Intervals - Max Non-Overlapping Intervals\\]
 
 ---
 
@@ -352,24 +352,24 @@ Max non-overlapping intervals calculate kar lo (`selectMaxActivities`). Total in
 function eraseOverlapIntervals(intervals) {
     if (intervals.length <= 1) return 0;
 
-    // Step 1: Sort by interval end times ascending [cite: 59, 285]
-    intervals.sort((a, b) => a - b);
+    // Step 1: Sort by interval end times ascending (index 1 of each pair)
+    intervals.sort((a, b) => a[1] - b[1]);
 
     let nonOverlappingCount = 1;
-    let end = intervals;
+    let end = intervals[0][1]; // Track the end time of the last kept interval
 
     for (let i = 1; i < intervals.length; i++) {
         // If current interval starts at or after the previous non-overlapping end
-        if (intervals[i] >= end) {
+        if (intervals[i][0] >= end) {
             nonOverlappingCount++;
-            end = intervals[i]; // Move end pointer
+            end = intervals[i][1]; // Move end pointer
         }
     }
 
     return intervals.length - nonOverlappingCount; // Removals needed
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n \log n)\\)**, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n log n)**, Space: **O(1)** auxiliary.
 
 ---
 
@@ -386,7 +386,7 @@ Humein meeting intervals di gayi hain. Humein check karna hai ki in saari meetin
 ```
 
 #### 3. Optimal Approach (The Event-Line Sweeping Pointer Technique 💡):
-* Hum meeting start times aur end times ko alag-alag arrays mein split kar lenge aur dono ko independently ascending order mein sort kar lenge [cite: 59, 285]!
+* Hum meeting start times aur end times ko alag-alag arrays mein split kar lenge aur dono ko independently ascending order mein sort kar lenge!
 * Hum start pointer `s` aur end pointer `e` chalakar check karenge:
   * Agar koi meeting shuru ho rahi hai isse pehle ki koi pichli meeting khatam ho (`start[s] < end[e]`), toh humein ek **naya meeting room allocate** karna padega (`roomsCount++`).
   * Agar koi meeting khatam ho jaye (`start[s] >= end[e]`), toh humein naya room nahi chahiye, hum purana room reuse kar sakte hain (`e++` shift, and we don't increase active rooms count).
@@ -398,8 +398,8 @@ Humein meeting intervals di gayi hain. Humein check karna hai ki in saari meetin
 function minMeetingRooms(intervals) {
     if (intervals.length === 0) return 0;
 
-    const starts = intervals.map(interval => interval).sort((a, b) => a - b);
-    const ends = intervals.map(interval => interval).sort((a, b) => a - b);
+    const starts = intervals.map(interval => interval[0]).sort((a, b) => a - b);
+    const ends = intervals.map(interval => interval[1]).sort((a, b) => a - b);
 
     let startPtr = 0;
     let endPtr = 0;
@@ -421,46 +421,46 @@ function minMeetingRooms(intervals) {
     return maxRoomsNeeded;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n \log n)\\)**, Space: **\\(\mathcal{O}(n)\\)** to hold extracted start/end coordinate arrays.
+* **Complexity:** Time: **O(n log n)**, Space: **O(n)** to hold extracted start/end coordinate arrays.
 
 ---
 
 ### PROBLEM 6 (Medium): Jump Game I (LeetCode 55)
 
 #### 1. Understand:
-Humein ek integer array `nums` diya hai. Humein index `0` se start karke aakhir (index `n-1`) tak pahunchna hai. `nums[i]` represent karta hai ki us index se hum maximum kitne kadam (jumps) aage chal sakte hain [cite: 387, 404].
+Humein ek integer array `nums` diya hai. Humein index `0` se start karke aakhir (index `n-1`) tak pahunchna hai. `nums[i]` represent karta hai ki us index se hum maximum kitne kadam (jumps) aage chal sakte hain.
 
 #### 2. Brute Force Idea:
 Recursion se saare possible step choices explore karo.
-* **Complexity:** **\\(\mathcal{O}(3^n)\\)** or exponential backtracking paths [cite: 387, 404].
+* **Complexity:** **O(3^n)** or exponential backtracking paths.
 
 #### 3. Optimal Approach (The Forward Greedy Maximizer 💡):
-* Hum hamesha track karenge ek value: **`maxReachable`** (hum max kis index tak chalaang laga sakte hain) [cite: 518]!
+* Hum hamesha track karenge ek value: **`maxReachable`** (hum max kis index tak chalaang laga sakte hain)!
 * Har index `i` par jaakar:
-  * Agar hum kisi aise index par bhatak gaye jo `maxReachable` ke aage hai (`i > maxReachable`), toh aage jana impossible hai! Return `false` [cite: 513].
+  * Agar hum kisi aise index par bhatak gaye jo `maxReachable` ke aage hai (`i > maxReachable`), toh aage jana impossible hai! Return `false`.
   * Har valid step par `maxReachable` ko optimize update karte raho:
-    \\[\text{maxReachable} = \max(\text{maxReachable}, i + \text{nums}[i])\\] [cite: 513]
-  * Agar `maxReachable` end boundary ko touch kar jaye, toh return `true` [cite: 513].
+    \\[maxReachable = max(maxReachable, i + nums[i])\\]
+  * Agar `maxReachable` end boundary ko touch kar jaye, toh return `true`.
 
 ---
 
 #### 4. JavaScript Code:
 ```javascript
 function canJump(nums) {
-    let maxReachable = 0; // Tracks the absolute farthest index we can reach [cite: 518]
+    let maxReachable = 0; // Tracks the absolute farthest index we can reach
 
     for (let i = 0; i < nums.length; i++) {
         // If current index is unreachable, we are trapped!
         if (i > maxReachable) {
-            return false; // [cite: 513]
+            return false; //
         }
         
         // Update our maximum reach limits globally
-        maxReachable = Math.max(maxReachable, i + nums[i]); // [cite: 513]
+        maxReachable = Math.max(maxReachable, i + nums[i]); //
         
         // Optimizing Early exit: if we can already reach the end of array
         if (maxReachable >= nums.length - 1) {
-            return true; // [cite: 513]
+            return true; //
         }
     }
     return true;
@@ -474,8 +474,8 @@ function canJump(nums) {
   * Since `maxReachable (4) >= end (4)`, returns `true` instantly! Absolutely correct!
 
 #### 6. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** linear single-pass checks.
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Time Complexity:** **O(n)** linear single-pass checks.
+* **Space Complexity:** **O(1)** auxiliary.
 
 ---
 
@@ -485,7 +485,7 @@ function canJump(nums) {
 Jump Game I ke continuous check ke sath, is baar humein **minimum number of jumps** nikalni hain jo end index tak pahunchne mein lagengi. (Assume solution always exists).
 
 #### 2. DP vs. Greedy Solution (Why Greedy works? 💡):
-* *DP Approach:* Hum har index par minimum jumps recursively compute karke memoize karte hain, which takes quadratic time **\\(\mathcal{O}(n^2)\\)** [cite: 34, 295].
+* *DP Approach:* Hum har index par minimum jumps recursively compute karke memoize karte hain, which takes quadratic time **O(n^2)**.
 * *Greedy Approach:* Hum jumps ko range-by-range evaluate karenge BFS logic ki tarah!
   * Hum current jump ki boundary `currentEnd` aur next potential jump ki limits `farthest` track karenge.
   * Jab hum chalte-chalte `currentEnd` (purani jumps boundary limit) par pahunchenge, toh hum jumps count ko barha denge (`jumps++`) aur boundary ko `farthest` par update kar denge!
@@ -519,14 +519,14 @@ function jump(nums) {
     return jumps;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n)**, Space: **O(1)** auxiliary.
 
 ---
 
 ### PROBLEM 8 (Medium): Gas Station (LeetCode 134)
 
 #### 1. Understand:
-Humein circular track par \\(N\\) gas stations diye hain. arrays `gas` (petrol available) aur `cost` (petrol needed to go to next station) diye hain. Humein starting station dhoondhna hai jahan se hum bina fuel khatam kiye poora circular tour complete kar sakein.
+Humein circular track par N gas stations diye hain. arrays `gas` (petrol available) aur `cost` (petrol needed to go to next station) diye hain. Humein starting station dhoondhna hai jahan se hum bina fuel khatam kiye poora circular tour complete kar sakein.
 
 #### 2. SDE Observation:
 1. **Total Fuel Validation:** Agar pooray journey mein `totalGas < totalCost` ho jaye, toh journey complete karna mathematically impossible hai (Return `-1`).
@@ -559,14 +559,14 @@ function canCompleteCircuit(gas, cost) {
     return totalGas >= totalCost ? startStation : -1;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)** linear sweep, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n)** linear sweep, Space: **O(1)** auxiliary.
 
 ---
 
 ### PROBLEM 9 (Medium): Job Sequencing with Deadlines
 
 #### 1. Understand:
-Humein \\(N\\) jobs di gayi hain. Har job ke paas ek `deadline` hai (jis time limits tak job complete ho jana chahiye) aur ek `profit` hai jo execute karne par milega. Har job ko complete hone mein exactly `1` unit time lagta hai. Maximum profit generate karne ka schedule return karo.
+Humein N jobs di gayi hain. Har job ke paas ek `deadline` hai (jis time limits tak job complete ho jana chahiye) aur ek `profit` hai jo execute karne par milega. Har job ko complete hone mein exactly `1` unit time lagta hai. Maximum profit generate karne ka schedule return karo.
 
 ```
                   Jobs: J1(Dead:4, Profit:20), J2(Dead:1, Profit:10), J3(Dead:1, Profit:40)
@@ -581,7 +581,7 @@ Humesha highest profit wale jobs ko pick karo aur unhe unki **deadline ke absolu
 ```javascript
 function jobScheduling(jobs) {
     // Step 1: Sort jobs descending based on their profit values
-    jobs.sort((a, b) => b.profit - a.profit); // [cite: 59, 285]
+    jobs.sort((a, b) => b.profit - a.profit); //
 
     // Find maximum deadline to define timeline range limits
     const maxDeadline = Math.max(...jobs.map(job => job.deadline));
@@ -595,7 +595,7 @@ function jobScheduling(jobs) {
         // Try scheduling job from its maximum deadline slot backward to start
         for (let slot = job.deadline; slot > 0; slot--) {
             if (schedule[slot] === -1) { // If slot is empty
-                schedule[slot] = job.id; // Occupy slot [cite: 470]
+                schedule[slot] = job.id; // Occupy slot
                 totalProfit += job.profit;
                 jobsScheduledCount++;
                 break;
@@ -606,7 +606,7 @@ function jobScheduling(jobs) {
     return { totalProfit, jobsScheduledCount };
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n \log n + n \cdot \text{maxDeadline})\\)** which degrades to quadratic in worst cases, Space: **\\(\mathcal{O}(\text{maxDeadline})\\)** for timeline storage.
+* **Complexity:** Time: **O(n log n + n · maxDeadline)** which degrades to quadratic in worst cases, Space: **O(maxDeadline)** for timeline storage.
 
 ---
 
@@ -616,7 +616,7 @@ function jobScheduling(jobs) {
 Humein railway station par trains ke `arrival` aur `departure` times diye hain. Humein station par required **minimum platforms** ka count nikalna hai taaki koi train crash/wait na kare.
 
 #### 2. Optimal Sweeping Pointer Approach 💡:
-* arrival times aur departure times dono ko separately sort kar do [cite: 59, 285]!
+* arrival times aur departure times dono ko separately sort kar do!
 * arrival ko traverse karte waqt pointer se compare karo:
   * Agar train arrives before departure (`arr[i] <= dep[depPtr]`), we need one more platform (`platformsNeeded++`).
   * Else, platform gets vacated (`platformsNeeded--`, `depPtr++`).
@@ -626,7 +626,7 @@ Humein railway station par trains ke `arrival` aur `departure` times diye hain. 
 #### 3. JavaScript Code:
 ```javascript
 function findPlatform(arr, dep) {
-    // Sort arrival and departure times separately ascending [cite: 59, 285]
+    // Sort arrival and departure times separately ascending
     arr.sort((a, b) => a - b);
     dep.sort((a, b) => a - b);
 
@@ -651,7 +651,7 @@ function findPlatform(arr, dep) {
     return maxPlatforms;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n \log n)\\)**, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n log n)**, Space: **O(1)** auxiliary.
 
 ---
 
@@ -666,8 +666,8 @@ function findPlatform(arr, dep) {
 
 #### 🧠 Diagnostics:
 * *Choices Analysis:* Kya DP ki zaroorat hai? Kya humein saare combinations subsets recursion se check karne hain?
-* *Observation:* Hum linearly single pointer sweep ke dauran hamesha **minimum price seen so far** track kar sakte hain [cite: 518]! Har din ka maximum profit us din ki price aur minimum price ka difference hoga.
-* *Paradigm Choice:* **Greedy Single-Pass** [cite: 404, 418, 513]!
+* *Observation:* Hum linearly single pointer sweep ke dauran hamesha **minimum price seen so far** track kar sakte hain! Har din ka maximum profit us din ki price aur minimum price ka difference hoga.
+* *Paradigm Choice:* **Greedy Single-Pass**!
 
 ```javascript
 function maxProfit(prices) {
@@ -675,19 +675,19 @@ function maxProfit(prices) {
     let maxProfitValue = 0;
 
     for (let price of prices) {
-        minPrice = Math.min(minPrice, price); // Greedy choice: smallest price so far [cite: 518]
+        minPrice = Math.min(minPrice, price); // Greedy choice: smallest price so far
         maxProfitValue = Math.max(maxProfitValue, price - minPrice); // Profit maximized
     }
 
     return maxProfitValue;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+* **Complexity:** Time: **O(n)**, Space: **O(1)**.
 
 ---
 
 ### Problem B: 0/1 Knapsack Problem (No Fractions Allowed)
-*Fractional Knapsack ki tarah hi, par is baar items ko split/cut nahi kiya ja sakta. Ya toh item ko poora lo (1), ya use chodo (0) [cite: 387, 400].*
+*Fractional Knapsack ki tarah hi, par is baar items ko split/cut nahi kiya ja sakta. Ya toh item ko poora lo (1), ya use chodo (0).*
 
 #### 🧠 Diagnostics:
 * *Choices Analysis:* Kya Value/Weight ratio sorting lag sakti hai?
@@ -695,8 +695,8 @@ function maxProfit(prices) {
   * Ratios: `I1 = 10, I2 = 10, I3 = 10`.
   * Sorting leaves them in any order. If we pick `I1`, remaining space = 1 (cannot take `I2` or `I3`). Total Value = **30**.
   * Optimal Solution: Pick `I2` and `I3`. Weight = `2+2=4`, Value = `20+20=40`.
-  * *Why did Greedy fail?* Kyunki items split nahi ho sakte, toh humein binary choices check karni padegi overlapping subproblems ke limits par [cite: 270].
-* *Paradigm Choice:* **Dynamic Programming (DP)** [cite: 34, 270, 295]! (Greedy is completely invalid here).
+  * *Why did Greedy fail?* Kyunki items split nahi ho sakte, toh humein binary choices check karni padegi overlapping subproblems ke limits par.
+* *Paradigm Choice:* **Dynamic Programming (DP)**! (Greedy is completely invalid here).
 
 ---
 
@@ -715,7 +715,7 @@ Interview room mein dhyan se questions ko padhkar in check cues ko find out karn
 
 1. **Optimization Keywords:** Jab question explicitly maximum profit ya minimum cost fetch karne ko bole.
 2. **One-Way Decisions:** Agar tumne ek decision bana liya, toh use backtracking se repair karne ki zaroorat nahi honi chahiye.
-3. **Sorting simplifies everything:** Agar data ko sort karne ke baad decisions automatic intuitive direct paths par fit ho rahe hain, toh 99% greedy approach lagti hai [cite: 270].
+3. **Sorting simplifies everything:** Agar data ko sort karne ke baad decisions automatic intuitive direct paths par fit ho rahe hain, toh 99% greedy approach lagti hai.
 
 ---
 
@@ -726,30 +726,30 @@ Technical evaluation tests mein in classic bugs se hamesha bacho bacho:
 1. **Greedy Guesswork without Edge Cases verification:**
    Bina logic aur proof ke directly greedy guess kar lena. Humesha do ya teen custom inputs arrays banyein and identify karein ki kya current choice future selections ko blocks toh nahi kar rahi.
 2. **Incorrect Sorting Key selection:**
-   Interval problems mein intervals ko start time par sort kar dena ya random attributes par sorting sequence implement karna [cite: 270, 326].
+   Interval problems mein intervals ko start time par sort kar dena ya random attributes par sorting sequence implement karna.
 3. **Confusing Greedy with DP scenarios:**
-   0/1 Knapsack ya exact coin changes par bina fractions check kiye greedily items scan check perform karna, jisse solutions completely fail ho jate hain [cite: 34].
+   0/1 Knapsack ya exact coin changes par bina fractions check kiye greedily items scan check perform karna, jisse solutions completely fail ho jate hain.
 
 ---
 
 ## CHAPTER END SUMMARY
 
 ### Completed Concepts:
-* Greedy paradigm choice properties and local-to-global optimal substructures [cite: 270, 419].
-* Fractional division algorithms and per-unit scale value ratios [cite: 388, 419].
-* Line events sweeping pointers strategies on resource intervals allocations [cite: 518].
-* Jump Games linear maximizer logic to bypass backtrack constraints [cite: 387, 404].
+* Greedy paradigm choice properties and local-to-global optimal substructures.
+* Fractional division algorithms and per-unit scale value ratios.
+* Line events sweeping pointers strategies on resource intervals allocations.
+* Jump Games linear maximizer logic to bypass backtrack constraints.
 
 ### Mastered Greedy Patterns:
-* **Sort-by-End-Time index keys** for scheduling and activity selections [cite: 270, 326].
+* **Sort-by-End-Time index keys** for scheduling and activity selections.
 * **Forward range boundary maximizers** on jump paths.
 * **Bilateral sweeping lists checks** for platform allocations.
 
 ---
 
 ### SDE Practice Roadmap:
-1. Complete *Assign Cookies* on LeetCode 455 [cite: 270].
-2. Solve *Non-overlapping Intervals* (LeetCode 435) with end-sorting rules [cite: 326].
+1. Complete *Assign Cookies* on LeetCode 455.
+2. Solve *Non-overlapping Intervals* (LeetCode 435) with end-sorting rules.
 3. Build *Fractional Knapsack* manually and trace step outcomes.
 
 ---

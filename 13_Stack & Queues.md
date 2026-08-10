@@ -82,17 +82,17 @@ class ArrayStack {
 ```
 
 > **Why Array is Suitable for Stack?**  
-> Array ke end mein element ko push karna ya pop karna hamesha **\\(\mathcal{O}(1)\\) Amortized Time** leta hai kyunki isme memory shift nahi karni padti. Isiliye array-based stack super-fast behave karta hai.
+> Array ke end mein element ko push karna ya pop karna hamesha **O(1) Amortized Time** leta hai kyunki isme memory shift nahi karni padti. Isiliye array-based stack super-fast behave karta hai.
 
 ---
 
 ### B. Stack Implementation using Linked List 🔗
 
 *Agar array itna mast hai toh Linked List se kyun implement karein?*  
-Kyunki array dynamic resize hote waqt background mein elements ko copy karta hai, jisse temporary latency spike ho sakti hai. Linked List based stack bina resizing overhead ke strictly **\\(\mathcal{O}(1)\\)** operations guarantee karta hai.
+Kyunki array dynamic resize hote waqt background mein elements ko copy karta hai, jisse temporary latency spike ho sakti hai. Linked List based stack bina resizing overhead ke strictly **O(1)** operations guarantee karta hai.
 
 **The Link Pointer Design:**  
-Linked List mein push/pop ko \\(\mathcal{O}(1)\\) rakhne ke liye hum hamesha insertions aur deletions list ke **Head (Top)** par hi perform karte hain. Agar hum tail par karenge, toh pop karne ke liye linear traversal check chalana padega, jo use \\(\mathcal{O}(n)\\) bana dega.
+Linked List mein push/pop ko O(1) rakhne ke liye hum hamesha insertions aur deletions list ke **Head (Top)** par hi perform karte hain. Agar hum tail par karenge, toh pop karne ke liye linear traversal check chalana padega, jo use O(n) bana dega.
 
 ```javascript
 class Node {
@@ -146,7 +146,7 @@ class LinkedListStack {
 
 | Feature | Array-Based Stack | Linked List-Based Stack |
 | :--- | :--- | :--- |
-| **Push/Pop Complexity** | **Amortized \\(\mathcal{O}(1)\\)**. Resizing par \\(\mathcal{O}(n)\\) spike ho sakta hai. | **Strictly \\(\mathcal{O}(1)\\)** in all scenarios. |
+| **Push/Pop Complexity** | **Amortized O(1)**. Resizing par O(n) spike ho sakta hai. | **Strictly O(1)** in all scenarios. |
 | **Memory Allocation** | Contiguous chunk of memory allocated.. | Non-contiguous, scattered dynamic memory heap allocation. |
 | **Memory Overhead** | Low. Local elements are stored without pointer links. | High. Har node ke sath extra `next` pointer memory allocation hold hoti hai. |
 
@@ -174,7 +174,7 @@ Humein brackets ki ek string `s` di gayi hai jismein round `'()'`, curly `'{'}'`
 
 #### 3. Brute Force:
 String par loop chalakar continuous substrings swap replacements tab tak replace karte raho jab tak ki saare balanced sets `()` `[]` `{}` replace na ho jayein. Agar replacing end par string blank ho jaye toh balanced, warna invalid.
-*   **Time Complexity:** **\\(\mathcal{O}(n^2)\\)** because each string replacement takes linear copy sweeps.
+*   **Time Complexity:** **O(n^2)** because each string replacement takes linear copy sweeps.
 *   **Bottleneck:** Nested order mismatch and backtracking constraints ko sequential check scan resolve nahi kar pata.
 
 #### 4. SDE Observation (Pavitra Stack Pattern 💡):
@@ -231,27 +231,27 @@ function isValidParentheses(s) {
 
 #### 8. Complete Dry Run on `s = "([{}])"`:
 * **Initial State:** `stack = []`.
-* `char = '('`: Opening bracket, push \\(\rightarrow\\) `stack = ['(']`.
-* `char = '['`: Opening bracket, push \\(\rightarrow\\) `stack = ['(', '[']`.
-* `char = '{'`: Opening bracket, push \\(\rightarrow\\) `stack = ['(', '[', '{']`.
+* `char = '('`: Opening bracket, push → `stack = ['(']`.
+* `char = '['`: Opening bracket, push → `stack = ['(', '[']`.
+* `char = '{'`: Opening bracket, push → `stack = ['(', '[', '{']`.
 * `char = '}'`: Closing bracket. `bracketMap['}'] = '{'`.
-  * Pop from stack \\(\rightarrow\\) `topElement = '{'`.
+  * Pop from stack → `topElement = '{'`.
   * `topElement === '{'`? Yes. Pop matches. `stack = ['(', '[']`.
 * `char = ']'`: Closing bracket. `bracketMap[']'] = '['`.
-  * Pop from stack \\(\rightarrow\\) `topElement = '['`.
+  * Pop from stack → `topElement = '['`.
   * Match? Yes. `stack = ['(']`.
 * `char = ')'`: Closing bracket. `bracketMap[')'] = '('`.
-  * Pop from stack \\(\rightarrow\\) `topElement = '('`.
+  * Pop from stack → `topElement = '('`.
   * Match? Yes. `stack = []`.
-* Loop ends. `stack.length === 0` \\(\rightarrow\\) Returns `true` (Correct!).
+* Loop ends. `stack.length === 0` → Returns `true` (Correct!).
 
 #### 9. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** linear sweep pass.
-* **Space Complexity:** **\\(\mathcal{O}(n)\\)** worst case space to store opening characters inside stack.
+* **Time Complexity:** **O(n)** linear sweep pass.
+* **Space Complexity:** **O(n)** worst case space to store opening characters inside stack.
 
 #### 10. Edge Cases:
-* Only closing brackets `"]]]"` \\(\rightarrow\\) Handled cleanly via empty checks. Returns `false`.
-* Odd length `"({["` \\(\rightarrow\\) Returns `false` at stack length evaluation steps.
+* Only closing brackets `"]]]"` → Handled cleanly via empty checks. Returns `false`.
+* Odd length `"({["` → Returns `false` at stack length evaluation steps.
 
 ---
 
@@ -289,8 +289,8 @@ Isi system logic ko computer science mein **FIFO (First In, First Out)** kehte h
 ### A. Queue using Array: The Naive vs. The Shift Problem 🚨
 
 Standard array mein enqueue ko hum easily `push()` se handle kar lete hain. Dequeue ke liye hum `shift()` use karte hain.
-*   **Naive Array Enqueue (`push`):** \\(\mathcal{O}(1)\\).
-*   **Naive Array Dequeue (`shift`):** **\\(\mathcal{O}(n)\\)**.
+*   **Naive Array Enqueue (`push`):** O(1).
+*   **Naive Array Dequeue (`shift`):** **O(n)**.
 
 ```javascript
 class NaiveQueue {
@@ -307,7 +307,7 @@ class NaiveQueue {
 
 ### B. Efficient Array Queue (Index Pointer Implementation) 🚀
 
-Dequeue ko constant time **\\(\mathcal{O}(1)\\)** par drop karne ke liye, hum actually elements ko arrays se shift karke delete nahi karenge! Hum array intact rakhenge aur bas ek **`frontPointer` (index tracker)** pointer shift karenge.
+Dequeue ko constant time **O(1)** par drop karne ke liye, hum actually elements ko arrays se shift karke delete nahi karenge! Hum array intact rakhenge aur bas ek **`frontPointer` (index tracker)** pointer shift karenge.
 
 ```
                Queue Internals (Index Pointer):
@@ -362,7 +362,7 @@ class EfficientQueue {
 
 ### C. Queue using Linked List 🔗
 
-Queue ko linked list ke zariye strictly **\\(\mathcal{O}(1)\\)** memory footprint optimization ke sath implement karne ke liye hum **`head` (front)** aur **`tail` (rear)** dono pointers track karte hain.
+Queue ko linked list ke zariye strictly **O(1)** memory footprint optimization ke sath implement karne ke liye hum **`head` (front)** aur **`tail` (rear)** dono pointers track karte hain.
 
 *   `enqueue` means appending elements to `tail`: `tail.next = newNode`.
 *   `dequeue` means deleting elements from `head`: `head = head.next`.
@@ -435,12 +435,12 @@ Normal fixed-size array queue mein agar elements aage se delete ho rahe hon, toh
 ```
 
 Circular Queue ko array ke zariye implement karne ke liye hum strictly modulo coordinate logic use karte hain:
-\\[\text{indexIncrement} = (\text{pointer} + 1) \pmod{\text{Capacity}}\\]
+\\[indexIncrement = (pointer + 1) \pmod{Capacity}\\]
 
 ---
 
 ### E. Deque (Double-Ended Queue) ↔️
-*   **Concept:** Ek aisi linear collection jahan hum elements ko insert aur delete dono direction—yaani **Front** aur **Back** dono side se—constant time **\\(\mathcal{O}(1)\\)** mein execute kar sakte hain.
+*   **Concept:** Ek aisi linear collection jahan hum elements ko insert aur delete dono direction—yaani **Front** aur **Back** dono side se—constant time **O(1)** mein execute kar sakte hain.
 *   **JS Equivalence:** standard JS array with in-built `push`, `pop`, `shift`, `unshift` acts logically as a Deque.
 
 ---
@@ -500,7 +500,7 @@ class MyQueue {
     }
 }
 ```
-* **Why Amortized \\(\mathcal{O}(1)\\)?** Har element stack 1 se stack 2 mein maximum ek hi baar move hota hai. Single element strictly limited operations se pass hota hai, isiliye heavy scale par operations amortized strictly standard constant behave karte hain.
+* **Why Amortized O(1)?** Har element stack 1 se stack 2 mein maximum ek hi baar move hota hai. Single element strictly limited operations se pass hota hai, isiliye heavy scale par operations amortized strictly standard constant behave karte hain.
 
 ---
 
@@ -519,9 +519,9 @@ Ab aate hain beta is poor chapter ke sabse crucial, important, aur maximum inter
 Agar hum kisi Monotonic Increasing Stack `` mein ek naya element **`15`** push karna chahte hain, toh stack rule break ho jayega (kyunki 15 push hone par `30` ke upar `15` aa jayega, jo ascending sequence break kar dega).
 
 Humein stack ko preserve karne ke liye, un saare elements ko **pop (nikalna)** padega jo `15` se bade hain!
-1. Pop `30` \\(\rightarrow\\) Stack: ``.
-2. Pop `20` \\(\rightarrow\\) Stack: ``.
-3. Ab `15` safely push ho sakta hai \\(\rightarrow\\) New Stack State: ``.
+1. Pop `30` → Stack: ``.
+2. Pop `20` → Stack: ``.
+3. Ab `15` safely push ho sakta hai → New Stack State: ``.
 
 ```
                     Monotonic Stack Element Displacement:
@@ -537,16 +537,16 @@ Humein stack ko preserve karne ke liye, un saare elements ko **pop (nikalna)** p
 
 ---
 
-### Why Apparently \\(\mathcal{O}(n^2)\\) problems become Amortized \\(\mathcal{O}(n)\\)? 📐
-Unsorted arrays mein nearest greater elements nikalne ka brute force double loop checks \\(\mathcal{O}(n^2)\\) time leta hai. 
+### Why Apparently O(n^2) problems become Amortized O(n)? 📐
+Unsorted arrays mein nearest greater elements nikalne ka brute force double loop checks O(n^2) time leta hai. 
 
-Lekin Monotonic Stack lagakar yeh linear **\\(\mathcal{O}(n)\\)** ho jata hai!
+Lekin Monotonic Stack lagakar yeh linear **O(n)** ho jata hai!
 
 *"Sir, nested loop toh isme bhi chalega jab hum pop operation trigger karenge. Fir yeh O(n) kaise hua?"*
 
 Bacho, dhyan se is line ko dimaag mein betha lo:  
 **Pure code execution ke dauran, array ka har ek element stack par maximum exactly 1 baar hi push ho sakta hai, aur maximum exactly 1 baar hi pop ho sakta hai.**  
-Saare index passes elements ka absolute push/pop budget limit maximum \\(2N\\) operations hota hai. Isiliye overall computation strictly amortized linear **\\(\mathcal{O}(n)\\)** hi behave karegi!
+Saare index passes elements ka absolute push/pop budget limit maximum 2N operations hota hai. Isiliye overall computation strictly amortized linear **O(n)** hi behave karegi!
 
 ---
 
@@ -574,7 +574,7 @@ for (let i = 0; i < n; i++) {
     }
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n^2)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+* **Complexity:** Time: **O(n^2)**, Space: **O(1)**.
 * **Bottleneck:** Same future elements check scan comparison loops baar-baar redundancies trigger karte hain.
 
 ---
@@ -584,7 +584,7 @@ for (let i = 0; i < n; i++) {
 * Hum ek **Monotonic Decreasing Stack** maintain karenge.
 * Har element `arr[i]` ke liye:
   1. Pop elements from stack as long as stack top is smaller than or equal to `arr[i]`.
-  2. Pop checks complete hone par: agar stack empty bache, toh is element ke liye koi greater elements future mein nahi hai \\(\rightarrow\\) map `-1`. Else, stack ka topmost element hi iska **Next Greater Element** hai!
+  2. Pop checks complete hone par: agar stack empty bache, toh is element ke liye koi greater elements future mein nahi hai → map `-1`. Else, stack ka topmost element hi iska **Next Greater Element** hai!
   3. Current element `arr[i]` ko stack par push kar do taaki yeh left wale elements ke liye candidate greater target ban sake.
 
 ---
@@ -624,29 +624,29 @@ function nextGreaterElement(arr) {
 *   **`i = 3` (`val = 3`):**
     *   Stack empty? Yes. No pops.
     *   Stack is empty, so `result = -1`.
-    *   Push `3` \\(\rightarrow\\) `stack =`.
+    *   Push `3` → `stack =`.
 
 *   **`i = 2` (`val = 5`):**
-    *   Stack is ``. Since `3 <= 5` \\(\rightarrow\\) `stack.pop()`. Stack becomes `[]`.
+    *   Stack is ``. Since `3 <= 5` → `stack.pop()`. Stack becomes `[]`.
     *   Stack is empty, so `result = -1`.
-    *   Push `5` \\(\rightarrow\\) `stack =`.
+    *   Push `5` → `stack =`.
 
 *   **`i = 1` (`val = 1`):**
     *   Stack is ``. Top of stack `5 > 1`. No pop triggers.
     *   Stack is not empty, so `result = stack[top] = 5`.
-    *   Push `1` \\(\rightarrow\\) `stack =`.
+    *   Push `1` → `stack =`.
 
 *   **`i = 0` (`val = 2`):**
-    *   Stack is ``. Since top `1 <= 2` \\(\rightarrow\\) `stack.pop()`. Stack becomes ``.
+    *   Stack is ``. Since top `1 <= 2` → `stack.pop()`. Stack becomes ``.
     *   Since top `5 > 2`. Pop stops.
     *   `result = stack[top] = 5`.
-    *   Push `2` \\(\rightarrow\\) `stack =`.
+    *   Push `2` → `stack =`.
 
 *   **Converged Result:** `[5, 5, -1, -1]`. Absolutely correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** Amortized **\\(\mathcal{O}(n)\\)**. (Push-pop operations counts is linearly bounded).
-* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary stack storage boundaries limit.
+* **Time Complexity:** Amortized **O(n)**. (Push-pop operations counts is linearly bounded).
+* **Space Complexity:** **O(n)** auxiliary stack storage boundaries limit.
 
 ---
 
@@ -681,7 +681,7 @@ function dailyTemperatures(temperatures) {
     return answer;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)**.
+* **Complexity:** Time: **O(n)**, Space: **O(n)**.
 
 ---
 
@@ -709,7 +709,7 @@ class StockSpanner {
     }
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(1)\\)** amortized per query, Space: **\\(\mathcal{O}(n)\\)**.
+* **Complexity:** Time: **O(1)** amortized per query, Space: **O(n)**.
 
 ---
 

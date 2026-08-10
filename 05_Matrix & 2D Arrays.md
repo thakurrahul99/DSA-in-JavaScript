@@ -34,7 +34,7 @@ Ek simple linear array ko hum **1D Array** kehte hain, jo ek single horizontal l
 Matrix ke coordinate system ko dhang se samajhna zaroori hai, warna index errors ke traps mein phas jaoge:
 *   **Rows (Rows):** Horizontal lines ko rows kehte hain. Upar ke matrix mein Rows ki sankhya `3` hai (Row 0, Row 1, Row 2).
 *   **Columns (Columns):** Vertical lines ko columns kehte hain. Upar ke matrix mein Columns ki sankhya `3` hai (Col 0, Col 1, Col 2).
-*   **Dimensions:** Matrix ke size ko hum **\\(M \times N\\)** se represent karte hain, jahan \\(M\\) total rows hain aur \\(N\\) total columns.
+*   **Dimensions:** Matrix ke size ko hum **M × N** se represent karte hain, jahan M total rows hain aur N total columns.
 *   **Indexing:** Kisi bhi element ko unique tarike se access karne ke liye humein do coordinates chahiye hote hain—**Row Index (i)** aur **Column Index (j)**. Isko hum likhte hain: **`matrix[i][j]`**.
     *   *Example:* Upar ke matrix mein, `matrix` par kaunsa element hai? Row 1 aur Column 2 ka intersection dekhoge toh value milegi **`6`**.
 
@@ -121,8 +121,8 @@ Pehle Row 0 ko left to right scan karo, fir Row 1 ko, fir Row 2 ko.
         }
     }
     ```
-*   **Time Complexity:** **\\(O(R \times C)\\)**
-*   **Space Complexity:** **\\(O(1)\\)**
+*   **Time Complexity:** **O(R × C)**
+*   **Space Complexity:** **O(1)**
 
 ### B. Column-wise Traversal (Vertical scanning)
 Pehle Column 0 ko top to bottom scan karo, fir Column 1 ko, fir Column 2 ko.
@@ -149,7 +149,7 @@ Pehle Column 0 ko top to bottom scan karo, fir Column 1 ko, fir Column 2 ko.
         }
     }
     ```
-*   **Time Complexity:** **\\(O(R \times C)\\)**
+*   **Time Complexity:** **O(R × C)**
 
 ---
 
@@ -175,7 +175,7 @@ Square matrix (jahan Rows === Columns) mein do prominent diagonals hote hain:
     *   *Elements:* `(0,2)`, `(1,1)`, `(2,0)` (jaise `3`, `5`, `7`).
 
 #### Optimized Single-Loop Diagonal Traversal:
-Instead of running \\(O(n^2)\\) double loops to check diagonal filters, we can traverse in **\\(O(n)\\)**:
+Instead of running O(n^2) double loops to check diagonal filters, we can traverse in **O(n)**:
 ```javascript
 function printDiagonals(matrix) {
     let n = matrix.length;
@@ -241,8 +241,8 @@ function transposeInPlace(matrix) {
     }
 }
 ```
-*   **Time Complexity:** **\\(O(n^2)\\)** but runs half iterations.
-*   **Space Complexity:** **\\(O(1)\\) Auxiliary** space (completely in-place!).
+*   **Time Complexity:** **O(n^2)** but runs half iterations.
+*   **Space Complexity:** **O(1) Auxiliary** space (completely in-place!).
 
 ---
 
@@ -266,17 +266,17 @@ Humein ek matrix diya gaya hai jismein har row left to right sorted hai, aur har
 
 #### 2. Brute Force (Linear Scan):
 Pure grid par nested loops lagao aur ek-ek element match karo.
-*   **Time Complexity:** **\\(O(R \times C)\\)**.
+*   **Time Complexity:** **O(R × C)**.
 *   **Bottleneck:** Hum sorted properties ka use hi nahi kar rahe!
 
 #### 3. Better Approach (Binary Search Preview on 2D Space):
 Kyunki har row pichli row se continuous sequence mein badi hai, hum is poore matrix ko ek single **1D virtual sorted array** ki tarah treat kar sakte hain!
-*   Total elements of virtual array = \\(R \times C\\).
-*   Indices virtual range = \\(0\\) to \\((R \times C) - 1\\).
+*   Total elements of virtual array = R × C.
+*   Indices virtual range = 0 to (R × C) - 1.
 *   **Virtual to Real Coordinates Formula:**
     Agar virtual index `mid` hai, toh matrix mein iska row aur col coordinates kya hoga?
-    \\[\text{row} = \lfloor \text{mid} / C \rfloor\\]
-    \\[\text{col} = \text{mid} \% C\\]
+    \\[row = ⌊ mid / C ⌋\\]
+    \\[col = mid % C\\]
     *(Where C is the number of columns)*
 
 #### 4. JavaScript Code:
@@ -316,16 +316,16 @@ function searchMatrix(matrix, target) {
 *   **Step 1:** `mid = Math.floor((0 + 11) / 2) = 5`.
     *   Row: `r = Math.floor(5 / 4) = 1`. Col: `c = 5 % 4 = 1`.
     *   `matrix` is `11`.
-    *   `11 < 16` \\(\rightarrow\\) `low = 5 + 1 = 6`.
+    *   `11 < 16` → `low = 5 + 1 = 6`.
 *   **Step 2:** `mid = Math.floor((6 + 11) / 2) = 8`.
     *   Row: `r = Math.floor(8 / 4) = 2`. Col: `c = 8 % 4 = 0`.
     *   `matrix` is `23`.
-    *   `23 > 16` \\(\rightarrow\\) `high = 8 - 1 = 7`.
+    *   `23 > 16` → `high = 8 - 1 = 7`.
 *   **Step 3:** `mid = Math.floor((6 + 7) / 2) = 6`.
     *   Row: `r = Math.floor(6 / 4) = 1`. Col: `c = 6 % 4 = 2`.
     *   `matrix` is `16`.
-    *   `16 === 16` \\(\rightarrow\\) **Target Found! Returns true**.
-*   **Complexity:** Time: **\\(O(\log(R \times C))\\)**, Space: **\\(O(1)\\)**.
+    *   `16 === 16` → **Target Found! Returns true**.
+*   **Complexity:** Time: **O(log(R × C))**, Space: **O(1)**.
 
 ---
 
@@ -334,7 +334,7 @@ function searchMatrix(matrix, target) {
 SDE interviews ka sabse favourite problem jismein dynamic boundary markers set kiye jate hain.
 
 ### Problem: Spiral Matrix (LeetCode 54)
-*Given an \\(M \times N\\) matrix, return all elements of the matrix in spiral order (clockwise direction).*
+*Given an M × N matrix, return all elements of the matrix in spiral order (clockwise direction).*
 
 ```
                          1 ───► 2 ───► 3
@@ -434,15 +434,15 @@ function spiralOrder(matrix) {
 *   *Result:* ``. Absolutely correct!
 
 ### 8. Complexity:
-*   **Time Complexity:** **\\(O(R \times C)\\)** because every cell is visited exactly once.
-*   **Space Complexity:** **\\(O(1)\\) Auxiliary** space (not counting the output array space).
+*   **Time Complexity:** **O(R × C)** because every cell is visited exactly once.
+*   **Space Complexity:** **O(1) Auxiliary** space (not counting the output array space).
 
 ---
 
 ## 7. ROTATE MATRIX BY 90° (IN-PLACE TRANSFORMATION)
 
 ### Problem Statement: Rotate Image (LeetCode 48)
-*You are given an \\(N \times N\\) 2D matrix representing an image, rotate the image by 90 degrees (clockwise) in-place.*
+*You are given an N × N 2D matrix representing an image, rotate the image by 90 degrees (clockwise) in-place.*
 
 ```
                        1   2   3         7   4   1
@@ -458,7 +458,7 @@ Input: `matrix = [,,]`
 Output: `[,,]`
 
 ### 3. Brute Force (Out-Of-Place):
-Naya array create karke cells map karo: `newMat[j][n - 1 - i] = matrix[i][j]`. Space is \\(O(n^2)\\).
+Naya array create karke cells map karo: `newMat[j][n - 1 - i] = matrix[i][j]`. Space is O(n^2).
 
 ### 4. Bottleneck:
 Interviews mein strict constraint hota hai: **"In-place modify karna hai, Space complexity O(1) honi chahiye."**
@@ -517,8 +517,8 @@ function rotate(matrix) {
 ```
 
 ### 7. Complexity:
-*   **Time Complexity:** **\\(O(n^2)\\)**. (Transpose is \\(O(n^2)\\), reversing all rows is \\(O(n^2)\\)).
-*   **Space Complexity:** **\\(O(1)\\)** Auxiliary space. Perfect in-place execution!
+*   **Time Complexity:** **O(n^2)**. (Transpose is O(n^2), reversing all rows is O(n^2)).
+*   **Space Complexity:** **O(1)** Auxiliary space. Perfect in-place execution!
 
 ---
 
@@ -527,7 +527,7 @@ function rotate(matrix) {
 Ab level ko thoda aur upar lekar chalte hain.
 
 ### Concept:
-Jaise 1D array mein hum dynamic range sum queries ko **Prefix Sum (Chapter 4)** se optimize karte the, waise hi 2D matrix mein humein subgrid coordinates `(r1, c1)` se `(r2, c2)` tak ka query sum **\\(O(1)\\)** time mein calculate karna pad sakta hai.
+Jaise 1D array mein hum dynamic range sum queries ko **Prefix Sum (Chapter 4)** se optimize karte the, waise hi 2D matrix mein humein subgrid coordinates `(r1, c1)` se `(r2, c2)` tak ka query sum **O(1)** time mein calculate karna pad sakta hai.
 
 ```
                          2D prefix[i][j] represents:
@@ -542,7 +542,7 @@ Jaise 1D array mein hum dynamic range sum queries ko **Prefix Sum (Chapter 4)** 
 
 ### Construction Formula:
 Bacho, overlaps ko visualize karne ke liye hum standard inclusion-exclusion principle use karte hain:
-\\[\text{prefix}[i][j] = \text{matrix}[i][j] + \text{prefix}[i-1][j] + \text{prefix}[i][j-1] - \text{prefix}[i-1][j-1]\\]
+\\[prefix[i][j] = matrix[i][j] + prefix[i-1][j] + prefix[i][j-1] - prefix[i-1][j-1]\\]
 *(Overlapping common intersection region `prefix[i-1][j-1]` ko subtract kiya jata hai taaki double counting na ho).*
 
 ```
@@ -561,7 +561,7 @@ Bacho, overlaps ko visualize karne ke liye hum standard inclusion-exclusion prin
 
 ### Query Sum Formula:
 Kisi bhi dynamic rectangular grid `(r1, c1)` se `(r2, c2)` tak ka sum constant time mein nikalne ka formula:
-\\[\text{Area} = \text{prefix}[r2][c2] - \text{prefix}[r1-1][c2] - \text{prefix}[r2][c1-1] + \text{prefix}[r1-1][c1-1]\\]
+\\[Area = prefix[r2][c2] - prefix[r1-1][c2] - prefix[r2][c1-1] + prefix[r1-1][c1-1]\\]
 
 ```javascript
 class NumMatrix {
@@ -590,7 +590,7 @@ class NumMatrix {
     }
 }
 ```
-*   **Complexity:** Preprocessing is **\\(O(R \times C)\\)**, Query Sum runs in **\\(O(1)\\) constant time**!
+*   **Complexity:** Preprocessing is **O(R × C)**, Query Sum runs in **O(1) constant time**!
 
 ---
 
@@ -638,7 +638,7 @@ Product interview rooms mein problem padhte hi matrix ke clues decode karo:
 
 #### 🧠 Diagnostics:
 *   *Is it a square matrix?* No, rectangular parameters are allowed.
-*   *In-place possible?* No, rectangular transpose dimensions change (e.g. \\(3 \times 2 \rightarrow 2 \times 3\\)), so we must allocate a new output array.
+*   *In-place possible?* No, rectangular transpose dimensions change (e.g. 3 × 2 → 2 × 3), so we must allocate a new output array.
 
 ```javascript
 function transpose(matrix) {
@@ -656,15 +656,15 @@ function transpose(matrix) {
     return result;
 }
 ```
-*   **Complexity:** Time: **\\(O(R \times C)\\)**, Space: **\\(O(R \times C)\\)**.
+*   **Complexity:** Time: **O(R × C)**, Space: **O(R × C)**.
 
 ---
 
 ### Problem 2 (Medium): Set Matrix Zeroes (LeetCode 73)
-*Given an \\(M \times N\\) integer matrix, if an element is 0, set its entire row and column to 0's.*
+*Given an M × N integer matrix, if an element is 0, set its entire row and column to 0's.*
 
 #### 🧠 Diagnostics:
-*   *Brute Force:* Naya matrix allocate karo, zero milne par result mein updates run karo. Space: \\(O(R \times C)\\).
+*   *Brute Force:* Naya matrix allocate karo, zero milne par result mein updates run karo. Space: O(R × C).
 *   *Optimal Approach (Reference Overwriting Optimization):* Hum extra arrays are memory allocations ko bypass karke, matrix ki **first row** aur **first column** ko hi markers (flag tracking) ki tarah use kar sakte hain!
 
 ```javascript
@@ -711,7 +711,7 @@ function setZeroes(matrix) {
     }
 }
 ```
-*   **Complexity:** Time Complexity: **\\(O(R \times C)\\)**, Space Complexity: **\\(O(1)\\)** auxiliary space. Amazing optimization!
+*   **Complexity:** Time Complexity: **O(R × C)**, Space Complexity: **O(1)** auxiliary space. Amazing optimization!
 
 ---
 

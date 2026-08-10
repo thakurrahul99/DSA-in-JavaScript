@@ -29,30 +29,30 @@ Bacho, ek pro SDE banne ke liye humein algorithms ko sirf likhna nahi hai, balki
     *   *Match:* Selection Sort, Quick Sort, Heap Sort.
 
 ### B. In-Place vs. Extra-Space Sorting
-*   **In-Place Sorting:** Woh algorithms jo original input array ke andar hi swap operations karke data ko modify karte hain. Inhe execute karne ke liye koi extra helper arrays generate nahi karne padte, isiliye inki auxiliary space complexity hamesha **\\(\mathcal{O}(1)\\)** hoti hai.
+*   **In-Place Sorting:** Woh algorithms jo original input array ke andar hi swap operations karke data ko modify karte hain. Inhe execute karne ke liye koi extra helper arrays generate nahi karne padte, isiliye inki auxiliary space complexity hamesha **O(1)** hoti hai.
     *   *Match:* Bubble Sort, Selection Sort, Insertion Sort.
 *   **Extra-Space Sorting:** Jinhe partition ya subdivisions ko temporarily hold karne ke liye extra memory cells allocate karne padte hain.
-    *   *Match:* Merge Sort (requires \\(\mathcal{O}(n)\\) auxiliary memory).
+    *   *Match:* Merge Sort (requires O(n) auxiliary memory).
 
 ### C. Adaptive vs. Non-Adaptive Intuition
 *   **Adaptive Sorting:** Woh smart algorithms jo input data ke current order (agar array pehle se sorted ya partially sorted ho) ka advantage lekar computation steps ko automatically reduce kar lete hain.
-    *   *Example:* **Insertion Sort**. Agar data pehle se sorted hai, toh yeh inner comparison loop ko instantly bypass karke sirf **\\(\mathcal{O}(n)\\)** time leta hai.
+    *   *Example:* **Insertion Sort**. Agar data pehle se sorted hai, toh yeh inner comparison loop ko instantly bypass karke sirf **O(n)** time leta hai.
 *   **Non-Adaptive Sorting:** Yeh algorithms dheet hote hain! Data chahe fully sorted ho ya completely random, inka operations count hamesha fixed rehta hai.
-    *   *Example:* **Selection Sort**. Yeh sorted array par bhi har element ke liye min element dhoondhne ke liye poora scan karega, and hamesha **\\(\mathcal{O}(n^2)\\)** operations hi lega.
+    *   *Example:* **Selection Sort**. Yeh sorted array par bhi har element ke liye min element dhoondhne ke liye poora scan karega, and hamesha **O(n^2)** operations hi lega.
 
 ### D. Comparison vs. Non-Comparison Sorting
-*   **Comparison-Based:** Yeh algorithms elements ko pairwise compare karke (`a < b` or `a > b`) sorting decision lete hain. Informational theory ke mutabik, kisi bhi comparison-based algorithm ki mathematically minimum possible worst-case complexity limits **\\(\mathcal{O}(n \log n)\\)** hoti hain.
-*   **Non-Comparison-Based:** Jo array values ki mathematical properties, range boundaries, ya digits mapping ka use karke bina elements ko aapas mein compare kiye sorting execute karte hain. Yeh specific conditions mein linear time **\\(\mathcal{O}(n)\\)** ko achieve kar sakte hain.
+*   **Comparison-Based:** Yeh algorithms elements ko pairwise compare karke (`a < b` or `a > b`) sorting decision lete hain. Informational theory ke mutabik, kisi bhi comparison-based algorithm ki mathematically minimum possible worst-case complexity limits **O(n log n)** hoti hain.
+*   **Non-Comparison-Based:** Jo array values ki mathematical properties, range boundaries, ya digits mapping ka use karke bina elements ko aapas mein compare kiye sorting execute karte hain. Yeh specific conditions mein linear time **O(n)** ko achieve kar sakte hain.
     *   *Match:* Counting Sort, Radix Sort.
 
 ---
 
 ## 2. THE SIMPLER TRIAD: WHY BUBBLE, SELECTION & INSERTION STILL MATTER?
 
-Bacho, product companies ke real-world systems mein koi Bubble ya Selection Sort use nahi karta kyunki inki average complexity quadratic **\\(\mathcal{O}(n^2)\\)** hoti hai. Lekin interviews aur engineering fundamentals ke liye in teen algorithms ko padhna extreme important hai kyunki:
+Bacho, product companies ke real-world systems mein koi Bubble ya Selection Sort use nahi karta kyunki inki average complexity quadratic **O(n^2)** hoti hai. Lekin interviews aur engineering fundamentals ke liye in teen algorithms ko padhna extreme important hai kyunki:
 1.  **Algorithmic Logic Building:** Yeh recursion-free nested pointers ke flow ko samajhne ka best dhasu rasta hain.
 2.  **Visualizing Array Mutations:** Memory swaps aur in-place operations ke core behaviors inhi simple algorithms se clear hote hain.
-3.  **Low-Overhead Scenarios:** Chote datasets (jaise size \\(N < 20\\)) par complex quicksort recursive call structures ke overheads ke mukable in simple in-place runs ki cache efficiency bohot high hoti hai.
+3.  **Low-Overhead Scenarios:** Chote datasets (jaise size N < 20) par complex quicksort recursive call structures ke overheads ke mukable in simple in-place runs ki cache efficiency bohot high hoti hai.
 
 Chalo, in teen simple algorithms ko ek-ek karke master karte hain!
 
@@ -68,9 +68,9 @@ Maan lo class mein bacho ki line khadi hai heights ke basis par. Teacher line ke
 
 #### 🧠 Step-by-Step Working:
 Input Array: ``
-1.  Compare index 0 and 1 `(5, 3)`: Since `5 > 3`, swap \\(\rightarrow\\) ``.
-2.  Compare index 1 and 2 `(5, 8)`: In-order, no swap \\(\rightarrow\\) ``.
-3.  Compare index 2 and 3 `(8, 1)`: Since `8 > 1`, swap \\(\rightarrow\\) ``.
+1.  Compare index 0 and 1 `(5, 3)`: Since `5 > 3`, swap → ``.
+2.  Compare index 1 and 2 `(5, 8)`: In-order, no swap → ``.
+3.  Compare index 2 and 3 `(8, 1)`: Since `8 > 1`, swap → ``.
     *(First pass done! Max element `8` correct end point par float ho gaya).*
 4.  Agli baar loop sirf sorted range se pehle tak chalega aur duplicate updates ko block karega.
 
@@ -111,22 +111,22 @@ function bubbleSort(arr) {
 Input: `arr =`
 
 *   **Pass 1 (`i = 0`):**
-    *   `j = 0`: `arr (5) > arr (3)`? Yes \\(\rightarrow\\) Swap! `arr =`, `swapped = true`.
-    *   `j = 1`: `arr (5) > arr (8)`? No \\(\rightarrow\\) No Swap. `arr =`.
-    *   `j = 2`: `arr (8) > arr (1)`? Yes \\(\rightarrow\\) Swap! `arr =`, `swapped = true`.
+    *   `j = 0`: `arr (5) > arr (3)`? Yes → Swap! `arr =`, `swapped = true`.
+    *   `j = 1`: `arr (5) > arr (8)`? No → No Swap. `arr =`.
+    *   `j = 2`: `arr (8) > arr (1)`? Yes → Swap! `arr =`, `swapped = true`.
 *   **Pass 2 (`i = 1`):**
-    *   `j = 0`: `arr (3) > arr (5)`? No \\(\rightarrow\\) No Swap. `arr =`.
-    *   `j = 1`: `arr (5) > arr (1)`? Yes \\(\rightarrow\\) Swap! `arr =`, `swapped = true`.
+    *   `j = 0`: `arr (3) > arr (5)`? No → No Swap. `arr =`.
+    *   `j = 1`: `arr (5) > arr (1)`? Yes → Swap! `arr =`, `swapped = true`.
 *   **Pass 3 (`i = 2`):**
-    *   `j = 0`: `arr (3) > arr (1)`? Yes \\(\rightarrow\\) Swap! `arr =`, `swapped = true`.
+    *   `j = 0`: `arr (3) > arr (1)`? Yes → Swap! `arr =`, `swapped = true`.
 *   **Pass 4 (`i = 3`):**
     *   Loop limits completed! Output: ``. Absolutely correct!
 
 #### 🧠 Complexity Analysis:
 *   **Time Complexity:** 
-    *   *Best Case (Sorted Array):* **\\(\mathcal{O}(n)\\)** (Only single sequential check pass of outer loop occurs).
-    *   *Average & Worst Case (Reversed Array):* **\\(\mathcal{O}(n^2)\\)**.
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** (Auxiliary and Total in-place swaps).
+    *   *Best Case (Sorted Array):* **O(n)** (Only single sequential check pass of outer loop occurs).
+    *   *Average & Worst Case (Reversed Array):* **O(n^2)**.
+*   **Space Complexity:** **O(1)** (Auxiliary and Total in-place swaps).
 *   **Stability:** **Stable Sort**.
 *   **In-Place:** Yes.
 *   **When Useful:** Jab data pehle se lagbhag sorted ho (nearly sorted) ya array size bohot chota ho.
@@ -145,10 +145,10 @@ Maan lo cards ka pile bikhra hua hai. Tum pure pile ko scan karke sabse chota ca
 #### 🧠 Step-by-Step Working:
 Input: `arr =`
 1.  Scan index 0 to 3: Minimum element is `1` (at index 3).
-2.  Swap `1` with index 0 element `5` \\(\rightarrow\\) ``.
-3.  Scan index 1 to 3: Minimum is `3` (already at index 1). No swap required \\(\rightarrow\\) ``.
+2.  Swap `1` with index 0 element `5` → ``.
+3.  Scan index 1 to 3: Minimum is `3` (already at index 1). No swap required → ``.
 4.  Scan index 2 to 3: Minimum is `5` (at index 3).
-5.  Swap `5` with index 2 element `8` \\(\rightarrow\\) ``. Sorted!
+5.  Swap `5` with index 2 element `8` → ``. Sorted!
 
 #### 🧠 JavaScript Implementation:
 ```javascript
@@ -184,22 +184,22 @@ function selectionSort(arr) {
 Input: `arr =`
 
 *   **Iteration 1 (`i = 0`):** `minIndex = 0`.
-    *   `j = 1`: `arr (3) < arr[minIndex] (5)`? Yes \\(\rightarrow\\) `minIndex = 1`.
+    *   `j = 1`: `arr (3) < arr[minIndex] (5)`? Yes → `minIndex = 1`.
     *   `j = 2`: `arr (8) < arr[minIndex] (3)`? No.
-    *   `j = 3`: `arr (1) < arr[minIndex] (3)`? Yes \\(\rightarrow\\) `minIndex = 3`.
+    *   `j = 3`: `arr (1) < arr[minIndex] (3)`? Yes → `minIndex = 3`.
     *   End of inner loop. Swap `arr` with `arr`. Array becomes: ``.
 *   **Iteration 2 (`i = 1`):** `minIndex = 1`.
     *   `j = 2`: `arr (8) < arr[minIndex] (3)`? No.
     *   `j = 3`: `arr (5) < arr[minIndex] (3)`? No.
     *   `minIndex === 1`, no swap needed. Array: ``.
 *   **Iteration 3 (`i = 2`):** `minIndex = 2`.
-    *   `j = 3`: `arr (5) < arr[minIndex] (8)`? Yes \\(\rightarrow\\) `minIndex = 3`.
+    *   `j = 3`: `arr (5) < arr[minIndex] (8)`? Yes → `minIndex = 3`.
     *   Swap `arr` with `arr`. Array becomes: ``. Correct!
 
 #### 🧠 Complexity Analysis:
 *   **Time Complexity:** 
-    *   *Best, Average, and Worst Case:* **\\(\mathcal{O}(n^2)\\)**. (Kyunki iska nested loops count strictly data distribution par dependent nahi hota, yeh pure cycles check karega hi).
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary.
+    *   *Best, Average, and Worst Case:* **O(n^2)**. (Kyunki iska nested loops count strictly data distribution par dependent nahi hota, yeh pure cycles check karega hi).
+*   **Space Complexity:** **O(1)** auxiliary.
 *   **Stability:** **Unstable Sort**. (Symmetrical swaps diagonal shifts ko break kar dete hain).
 *   **In-Place:** Yes.
 *   **When Useful:** Jab memory writes (swaps) ki cost bohot costly ho, kyunki Selection Sort pure quadratic comparisons mein maximum size-N swaps hi execute karta hai.
@@ -218,9 +218,9 @@ Maan lo tum taash (cards) khel rahe ho. Tumhare haath mein 4 cards sorted hain: 
 #### 🧠 Step-by-Step Working:
 Input: `arr =`
 1.  Assume first element `5` is sorted. Unsorted array: ``.
-2.  Extract key `3`. Compare backward with `5`: since `5 > 3`, shift `5` to right. Insert `3` at index 0 \\(\rightarrow\\) ``.
-3.  Extract key `8`. Compare with `5`: since `5 < 8`, no shift. Insert `8` at index 2 \\(\rightarrow\\) ``.
-4.  Extract key `1`. Compare backward: shift `8`, shift `5`, shift `3`. Insert `1` at index 0 \\(\rightarrow\\) ``. Sorted!
+2.  Extract key `3`. Compare backward with `5`: since `5 > 3`, shift `5` to right. Insert `3` at index 0 → ``.
+3.  Extract key `8`. Compare with `5`: since `5 < 8`, no shift. Insert `8` at index 2 → ``.
+4.  Extract key `1`. Compare backward: shift `8`, shift `5`, shift `3`. Insert `1` at index 0 → ``. Sorted!
 
 #### 🧠 JavaScript Implementation:
 ```javascript
@@ -254,22 +254,22 @@ function insertionSort(arr) {
 Input: `arr =`
 
 *   **Pass 1 (`i = 1`, `key = 3`):** `j = 0` (`arr = 5`).
-    *   Is `j >= 0 && arr[j] (5) > key (3)`? Yes \\(\rightarrow\\) `arr = arr (5)`, `j = -1`.
+    *   Is `j >= 0 && arr[j] (5) > key (3)`? Yes → `arr = arr (5)`, `j = -1`.
     *   Loop terminates. `arr[j+1] = arr = key (3)`. Array: ``.
 *   **Pass 2 (`i = 2`, `key = 8`):** `j = 1` (`arr = 5`).
     *   Is `j >= 0 && arr (5) > key (8)`? No.
     *   Loop terminates. `arr = key (8)`. Array: ``.
 *   **Pass 3 (`i = 3`, `key = 1`):** `j = 2` (`arr = 8`).
-    *   `arr > 1` \\(\rightarrow\\) `arr = arr (8)`, `j = 1`.
-    *   `arr (5) > 1` \\(\rightarrow\\) `arr = arr (5)`, `j = 0`.
-    *   `arr (3) > 1` \\(\rightarrow\\) `arr = arr (3)`, `j = -1`.
+    *   `arr > 1` → `arr = arr (8)`, `j = 1`.
+    *   `arr (5) > 1` → `arr = arr (5)`, `j = 0`.
+    *   `arr (3) > 1` → `arr = arr (3)`, `j = -1`.
     *   Loop terminates. `arr = key (1)`. Array: ``. Correct!
 
 #### 🧠 Complexity Analysis:
 *   **Time Complexity:**
-    *   *Best Case (Already Sorted):* **\\(\mathcal{O}(n)\\)**. (Inner loop doesn't run; only outer loop sequential traversal takes place).
-    *   *Average & Worst Case (Reversed):* **\\(\mathcal{O}(n^2)\\)**.
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary.
+    *   *Best Case (Already Sorted):* **O(n)**. (Inner loop doesn't run; only outer loop sequential traversal takes place).
+    *   *Average & Worst Case (Reversed):* **O(n^2)**.
+*   **Space Complexity:** **O(1)** auxiliary.
 *   **Stability:** **Stable Sort**.
 *   **In-Place:** Yes.
 *   **When Useful:** Online streaming data streams ko live sort karne ke liye, ya dynamic systems mein nearly sorted chote input arrays par high performance executions ke liye.
@@ -369,15 +369,15 @@ function merge(left, right) {
 ```
 
 Bacho, is recurrence equation tree diagram ko dhyan se observe karo:
-1.  **Tree Depth:** Har level par elements aadhe split hote hain, toh total tree height level sequences **\\(\log_2 n\\)** tak merge ranges check trigger karegi.
-2.  **Work at each level:** Har level par merge process total **\\(\mathcal{O}(n)\\)** operations execute karti hai, chahe partitions size bohot chote hi kyun na hon.
+1.  **Tree Depth:** Har level par elements aadhe split hote hain, toh total tree height level sequences **log_2 n** tak merge ranges check trigger karegi.
+2.  **Work at each level:** Har level par merge process total **O(n)** operations execute karti hai, chahe partitions size bohot chote hi kyun na hon.
 3.  **Recurrence Relation:**
-    \\[T(n) = 2T(n/2) + \mathcal{O}(n)\\]
+    \\[T(n) = 2T(n/2) + O(n)\\]
 4.  Dono components ko multiply karne par standard mathematical result banta hai:
-    \\[\text{Total Time} = \text{Tree Height} \times \text{Work Per Level} = \mathcal{O}(n \log n)\\]
+    \\[Total Time = Tree Height × Work Per Level = O(n log n)\\]
 
-*   **Time Complexity:** Strictly **\\(\mathcal{O}(n \log n)\\)** in Best, Average, and Worst cases.
-*   **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary memory allocations slice-push tracking buckets arrays generate karne ke liye.
+*   **Time Complexity:** Strictly **O(n log n)** in Best, Average, and Worst cases.
+*   **Space Complexity:** **O(n)** auxiliary memory allocations slice-push tracking buckets arrays generate karne ke liye.
 *   **Stability:** **Stable Sort**. (Merge checks strictly stable boundary inputs preserve equality logic).
 *   **In-Place:** No. (Requires extra space).
 
@@ -447,24 +447,24 @@ function quickSort(arr) {
 ### Pathological Worst Case Breakdown 🚨:
 *   **Worst Case (Quadratic Degradation):** Agar array pehle se fully sorted (jaise ``) ya reversed sorted ho, aur hum hamesha pehle ya aakhri element ko pivot pick karein.
     *   Har partitioning step par array balanced divides ke bajay ek size `0` aur ek size `N-1` ke single lopsided segment mein tootega.
-    *   Height degradation recursive depth boundaries lines linear linear loops **\\(\mathcal{O}(n^2)\\)** tak collapse ho jayegi.
+    *   Height degradation recursive depth boundaries lines linear linear loops **O(n^2)** tak collapse ho jayegi.
     *   *The Cure:* Pick a random pivot coordinate element so pivot matches center values probabilistically.
 
 ---
 
 ### Complexity Analysis:
 *   **Time Complexity:**
-    *   *Best & Average Case:* **\\(\mathcal{O}(n \log n)\\)**.
-    *   *Worst Case:* **\\(\mathcal{O}(n^2)\\)**.
-*   **Space Complexity:** **\\(\mathcal{O}(\log n)\\)** average stack memory space recursive limits track karne.
+    *   *Best & Average Case:* **O(n log n)**.
+    *   *Worst Case:* **O(n^2)**.
+*   **Space Complexity:** **O(log n)** average stack memory space recursive limits track karne.
 *   **Stability:** **Unstable Sort**. (Diagonal partitioning values ko unsafely swap overrides kar deti hain).
-*   **In-Place:** Standard Lomuto/Hoare partition schemes are fully in-place (\\(\mathcal{O}(1)\\) auxiliary space, ignoring the recursion stack space).
+*   **In-Place:** Standard Lomuto/Hoare partition schemes are fully in-place (O(1) auxiliary space, ignoring the recursion stack space).
 
 ---
 
 ## 5. THE LINEAR CHAMPIONS: NON-COMPARISON SORTING
 
-**Dimaag ki bati jalao beta!** *"Sir, pichle mathematical graphs se humne jana ki kisi bhi comparison sort ki performance \\(\mathcal{O}(n \log n)\\) barrier ko break nahi kar sakti. Kya hum sorting ko usse bhi fast execute kar sakte hain?"*
+**Dimaag ki bati jalao beta!** *"Sir, pichle mathematical graphs se humne jana ki kisi bhi comparison sort ki performance O(n log n) barrier ko break nahi kar sakti. Kya hum sorting ko usse bhi fast execute kar sakte hain?"*
 
 **Haan bacho! Bilkul kar sakte hain.** Lekin unhe run karne ke liye comparison bypass karke spatial mathematical values mapping model use karna padta hai. Let's learn!
 
@@ -486,7 +486,7 @@ Comparison-free sorting jismein hum har unique element ke occurrence boundaries 
 #### 🧠 When it works & The Range Limitation:
 Counting Sort sirf tabhi kaam karta hai jab:
 1.  Array elements strictly **integers (non-negative)** hon.
-2.  Input range `r` (maximum element value) bohot badi na ho. Agar array ka size \\(10\\) hai par max element \\(10^9\\) hai, toh \\(10^9\\) size ka count array banana memory allocation collapse (crash) kar dega!
+2.  Input range `r` (maximum element value) bohot badi na ho. Agar array ka size 10 hai par max element 10^9 hai, toh 10^9 size ka count array banana memory allocation collapse (crash) kar dega!
 
 #### 🧠 JavaScript Implementation:
 ```javascript
@@ -521,8 +521,8 @@ function countingSort(arr) {
 ```
 
 #### 🧠 Complexity Analysis:
-*   **Time Complexity:** Strictly **\\(\mathcal{O}(n + r)\\)** in all cases (where \\(n\\) is number of elements and \\(r\\) is max value range).
-*   **Space Complexity:** **\\(\mathcal{O}(n + r)\\)** auxiliary space output and frequency tracker arrays generate karne.
+*   **Time Complexity:** Strictly **O(n + r)** in all cases (where n is number of elements and r is max value range).
+*   **Space Complexity:** **O(n + r)** auxiliary space output and frequency tracker arrays generate karne.
 *   **Stability:** **Stable Sort** (As long as built backward).
 *   **In-Place:** No.
 
@@ -591,8 +591,8 @@ function stableCountingSortForRadix(arr, exp) {
 ```
 
 #### 🧠 Complexity Analysis:
-*   **Time Complexity:** **\\(\mathcal{O}(n \times k)\\)** (where \\(k\\) is the number of digits in the largest input number).
-*   **Space Complexity:** **\\(\mathcal{O}(n + k)\\)** auxiliary allocations.
+*   **Time Complexity:** **O(n × k)** (where k is the number of digits in the largest input number).
+*   **Space Complexity:** **O(n + k)** auxiliary allocations.
 *   **Stability:** **Stable Sort**.
 *   **In-Place:** No.
 
@@ -629,8 +629,8 @@ The comparator function evaluates a return value:
 *   **Value > 0 (Positive):** `b` should be placed before `a`. (Relative order swapped).
 *   **Value === 0:** Relative order remains unchanged.
 
-*   `(a, b) => a - b` returns negative if `a < b` \\(\rightarrow\\) Ascending order sorting.
-*   `(a, b) => b - a` returns negative if `b < a` \\(\rightarrow\\) Descending order sorting.
+*   `(a, b) => a - b` returns negative if `a < b` → Ascending order sorting.
+*   `(a, b) => b - a` returns negative if `b < a` → Descending order sorting.
 
 ---
 
@@ -670,13 +670,13 @@ Whiteboard par bani is standard SDE selection cheat-sheet table ko dhang se dima
 
 | Algorithm | Best Case Time | Average Case Time | Worst Case Time | Auxiliary Space | Stable? | In-Place? | Architectural Match / When Useful? |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Bubble Sort** | **\\(\mathcal{O}(n)\\)** | \\(\mathcal{O}(n^2)\\) | \\(\mathcal{O}(n^2)\\) | **\\(\mathcal{O}(1)\\)** | **Yes** | **Yes** | Nearly-sorted small size inputs. |
-| **Selection Sort**| \\(\mathcal{O}(n^2)\\) | \\(\mathcal{O}(n^2)\\) | \\(\mathcal{O}(n^2)\\) | **\\(\mathcal{O}(1)\\)** | **No** | **Yes** | Systems where memory writes are costly. |
-| **Insertion Sort**| **\\(\mathcal{O}(n)\\)** | \\(\mathcal{O}(n^2)\\) | \\(\mathcal{O}(n^2)\\) | **\\(\mathcal{O}(1)\\)** | **Yes** | **Yes** | Online real-time streaming data elements. |
-| **Merge Sort** | **\\(\mathcal{O}(n \log n)\\)**| **\\(\mathcal{O}(n \log n)\\)**| **\\(\mathcal{O}(n \log n)\\)**| \\(\mathcal{O}(n)\\) | **Yes** | **No** | High-Performance external/disk sorting. |
-| **Quick Sort** | **\\(\mathcal{O}(n \log n)\\)**| **\\(\mathcal{O}(n \log n)\\)**| \\(\mathcal{O}(n^2)\\) | **\\(\mathcal{O}(\log n)\\)**| **No** | **Yes** | Highly balanced memory caches systems. |
-| **Counting Sort**| **\\(\mathcal{O}(n + r)\\)**| **\\(\mathcal{O}(n + r)\\)**| **\\(\mathcal{O}(n + r)\\)**| \\(\mathcal{O}(n + r)\\)| **Yes** | **No** | Keys mapped to non-negative small integer ranges. |
-| **Radix Sort** | **\\(\mathcal{O}(n \times k)\\)**| **\\(\mathcal{O}(n \times k)\\)**| **\\(\mathcal{O}(n \times k)\\)**| \\(\mathcal{O}(n + k)\\)| **Yes** | **No** | Fixed length keys (IDs, codes, strings). |
+| **Bubble Sort** | **O(n)** | O(n^2) | O(n^2) | **O(1)** | **Yes** | **Yes** | Nearly-sorted small size inputs. |
+| **Selection Sort**| O(n^2) | O(n^2) | O(n^2) | **O(1)** | **No** | **Yes** | Systems where memory writes are costly. |
+| **Insertion Sort**| **O(n)** | O(n^2) | O(n^2) | **O(1)** | **Yes** | **Yes** | Online real-time streaming data elements. |
+| **Merge Sort** | **O(n log n)**| **O(n log n)**| **O(n log n)**| O(n) | **Yes** | **No** | High-Performance external/disk sorting. |
+| **Quick Sort** | **O(n log n)**| **O(n log n)**| O(n^2) | **O(log n)**| **No** | **Yes** | Highly balanced memory caches systems. |
+| **Counting Sort**| **O(n + r)**| **O(n + r)**| **O(n + r)**| O(n + r)| **Yes** | **No** | Keys mapped to non-negative small integer ranges. |
+| **Radix Sort** | **O(n × k)**| **O(n × k)**| **O(n × k)**| O(n + k)| **Yes** | **No** | Fixed length keys (IDs, codes, strings). |
 
 ---
 
@@ -685,16 +685,16 @@ Whiteboard par bani is standard SDE selection cheat-sheet table ko dhang se dima
 Product interview room mein data-structure problems ko simplify karne ke liye sorting ek powerful weapon hai. Bahut se complex brute force paths ko hum data sort karke linear patterns mein reduce kar sakte hain:
 
 1.  **Duplicate Detection Pattern:** 
-    *   *Brute Force:* Run nested loops of **\\(\mathcal{O}(n^2)\\)** to compare pairs.
-    *   *Sorting Optimizer:* Array ko sort kar do. Saare duplicates automatically adjacent placements elements ban jayenge! Hum single linear loop **\\(\mathcal{O}(n)\\)** mein duplicates dhoondh sakte hain.
+    *   *Brute Force:* Run nested loops of **O(n^2)** to compare pairs.
+    *   *Sorting Optimizer:* Array ko sort kar do. Saare duplicates automatically adjacent placements elements ban jayenge! Hum single linear loop **O(n)** mein duplicates dhoondh sakte hain.
 2.  **Greedy Scheduling Interval Merging:**
-    *   *Mechanism:* Meeting ranges (intervals) ya overlapping intervals scheduling tasks ko sort karne par sequential comparisons start pointers single sweep index check **\\(\mathcal{O}(n)\\)** timeline checks mein drop ho jate hain.
+    *   *Mechanism:* Meeting ranges (intervals) ya overlapping intervals scheduling tasks ko sort karne par sequential comparisons start pointers single sweep index check **O(n)** timeline checks mein drop ho jate hain.
 3.  **Two Pointers Coordinate Convergence:**
-    *   *Mechanism:* Two sum ya targets pairs dhoondhne ke liye unsorted systems loop arrays comparisons run costly operations create karta hai. Array sort karne par binary search or opposite pointers convergence instantly problem **\\(\mathcal{O}(n \log n)\\)** standard limits mein reduce kar deta hai.
+    *   *Mechanism:* Two sum ya targets pairs dhoondhne ke liye unsorted systems loop arrays comparisons run costly operations create karta hai. Array sort karne par binary search or opposite pointers convergence instantly problem **O(n log n)** standard limits mein reduce kar deta hai.
 
 ---
 
-## 9. CLASSROOM PRACTICE ROOM (EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD)
+## 9. CLASSROOM PRACTICE ROOM (EASY → MEDIUM → HARD)
 
 🚀 **Arey bacho! Board completely clean hai. Pehle solution par haath rakhna aur logic khud design karne ki koshish karna!**
 
@@ -706,7 +706,7 @@ Product interview room mein data-structure problems ko simplify karne ke liye so
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Arrays are already sorted! Humein `nums2` ko `nums1` ke andar safely in-place merge karna hai bina kisi extra space auxiliary arrays ke.
-*   **Brute Force:** Dono elements ko simple duplicate array copies par copy karo, are sort method run karo. Complexity takes **\\(\mathcal{O}((m+n) \log(m+n))\\)**.
+*   **Brute Force:** Dono elements ko simple duplicate array copies par copy karo, are sort method run karo. Complexity takes **O((m+n) log(m+n))**.
 *   **Optimal Approach (The Reverse Pointer Sweep 💡):**
     Pointers ko shuru se move karne ke bajay hum arrays ke **end points (rightmost side)** se placement start karenge! Kyunki `nums1` ka end segment completely empty (zeroes segment) hai, toh hum backwards scan comparison safe in-place swaps generate kar sakte hain bina elements override bugs ke.
 
@@ -743,36 +743,36 @@ function merge(nums1, m, nums2, n) {
 *   **Step 2:** Compare `nums1[p1] (3)` and `nums2[p2] (5)`. Since `5 > 3`, `nums1 = 5`, `p2 = 0`, `p = 3`.
 *   **Step 3:** Compare `nums1[p1] (3)` and `nums2[p2] (2)`. Since `3 > 2`, `nums1 = 3`, `p1 = 1`, `p = 2`.
 *   ...continues and converges safely. Correct!
-*   **Complexity:** Time: **\\(\mathcal{O}(m+n)\\)**, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+*   **Complexity:** Time: **O(m+n)**, Space: **O(1)** auxiliary.
 
 ---
 
 ### Problem 2 (Medium): Merge Intervals (LeetCode 56)
 
-*   **Problem Statement:** Interval pairs arrays diye hain (jaise `[,,]`). Overlapping overlaps check karke standard merged output ranges structure array list format return karo.
+*   **Problem Statement:** Interval pairs arrays diye hain (jaise `[[1,3],[2,6],[8,10],[15,18]]`). Overlapping intervals ko merge karke standard merged output ranges array format mein return karo.
 
 #### 🧠 Step-by-Step Logic Building:
 *   **Understand:** Agar intervals sorted nahi honge, toh overlapping checking brute comparisons complex levels trigger kar degi.
 *   **Optimal Approach (Sort by Start Time 💡):**
-    Pehle saare intervals ko unke starting index value `interval` ke basis par sort kar do! Sorting se saare processed boundaries series align ho jati hain. Hum direct comparison index tracks par overlap trace kar sakte hain.
+    Pehle saare intervals ko unke starting value (`interval[0]`) ke basis par sort kar do! Sorting se saare processed boundaries series align ho jati hain. Hum direct comparison se overlap trace kar sakte hain.
 
 ```javascript
 function mergeIntervals(intervals) {
     if (intervals.length <= 1) return intervals;
 
-    // Step 1: Sort intervals by their start coordinate values
-    intervals.sort((a, b) => a - b); //
+    // Step 1: Sort intervals by their start coordinate (index 0 of each pair)
+    intervals.sort((a, b) => a[0] - b[0]);
 
-    const merged = [intervals];
+    const merged = [intervals[0]]; // Start with the first interval
 
     for (let i = 1; i < intervals.length; i++) {
         const current = intervals[i];
         const lastMerged = merged[merged.length - 1];
 
-        // If current interval overlaps with the last merged interval
-        if (current <= lastMerged) {
+        // If current interval's start overlaps with the last merged interval's end
+        if (current[0] <= lastMerged[1]) {
             // Update end boundary to the maximum possible overlap limit
-            lastMerged = Math.max(lastMerged, current);
+            lastMerged[1] = Math.max(lastMerged[1], current[1]);
         } else {
             // Otherwise, no overlap, push directly
             merged.push(current);
@@ -783,16 +783,19 @@ function mergeIntervals(intervals) {
 }
 ```
 
-#### Dry Run on `[,,]`:
-*   Sorted array: `[,,]`.
-*   `merged = []`.
-*   `i = 1`: `current =`, `lastMerged =`.
-    *   Since `current (2) <= lastMerged (3)` (overlap!), update `lastMerged = Math.max(3, 6) = 6`.
-    *   `merged` becomes: `[]`.
-*   `i = 2`: `current =`, `lastMerged =`.
-    *   Since `8 > 6` (no overlap!), push ``.
-    *   `merged` becomes: `[,]`. Correct!
-*   **Complexity:** Time: **\\(\mathcal{O}(n \log n)\\)** (dominated by sorting), Space: **\\(\mathcal{O}(1)\\)** (excluding output array space).
+#### Dry Run on `[[1,3],[2,6],[8,10],[15,18]]`:
+*   Sorted array (already sorted by start): `[[1,3],[2,6],[8,10],[15,18]]`.
+*   `merged = [[1,3]]` (initialized with the first interval).
+*   `i = 1`: `current = [2,6]`, `lastMerged = [1,3]`.
+    *   Since `current[0] (2) <= lastMerged[1] (3)` (overlap!), update `lastMerged[1] = Math.max(3, 6) = 6`.
+    *   `merged` becomes: `[[1,6]]`.
+*   `i = 2`: `current = [8,10]`, `lastMerged = [1,6]`.
+    *   Since `8 > 6` (no overlap!), push `[8,10]`.
+    *   `merged` becomes: `[[1,6], [8,10]]`.
+*   `i = 3`: `current = [15,18]`, `lastMerged = [8,10]`.
+    *   Since `15 > 10` (no overlap!), push `[15,18]`.
+    *   `merged` becomes: `[[1,6], [8,10], [15,18]]`. Correct! ✅
+*   **Complexity:** Time: **O(n log n)** (dominated by sorting), Space: **O(1)** (excluding output array space).
 
 ---
 
@@ -838,7 +841,7 @@ function sortColors(nums) {
 *   **Step 2:** `nums[mid] (1) === 1`. `mid` increments to `1`.
 *   **Step 3:** `nums[mid] (0) === 0`. Swap `nums[mid]` with `nums[low] (1)`. Array becomes: ``. `low = 1, mid = 2`.
 *   Converged! Array sorted correctly.
-*   **Complexity:** Time: **\\(\mathcal{O}(n)\\)** strictly single pass, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+*   **Complexity:** Time: **O(n)** strictly single pass, Space: **O(1)** auxiliary.
 
 ---
 
@@ -853,7 +856,7 @@ Bacho, interviews ke emotional stress mein in 4 bugs se dur rehna:
 3.  **Losing original configurations through mutation:**
     Forgetting that standard JS `Array.prototype.sort()` is append-in-place mutating original arrays. Always clone elements beforehand if preservation is required.
 4.  **Forgetting recursion calls stack bounds:**
-    Quick Sort standard complexity evaluations par worst-case lopsided partitions \\(\mathcal{O}(n^2)\\) computations space issues trigger karte hain.
+    Quick Sort standard complexity evaluations par worst-case lopsided partitions O(n^2) computations space issues trigger karte hain.
 
 ---
 

@@ -117,7 +117,7 @@ function backtrack(state, choices, result) {
 ## 4. THE CRITICAL PILLAR: PRUNING (THE SMART SKIP ✂️)
 
 ### Pruning Kya Hai aur Kyun Important Hai?
-Suno bacho, agar hum bina soche samjhe har possible choice ko explore karenge, toh computation space exponential ho jayega (jaise \\(\mathcal{O}(2^N)\\) ya \\(\mathcal{O}(N!)\\)).  
+Suno bacho, agar hum bina soche samjhe har possible choice ko explore karenge, toh computation space exponential ho jayega (jaise O(2^N) ya O(N!)).  
 
 **Pruning (Katai-Chhantai)** ka matlab hai: *"Jaise hi humein pata chale ki kisi branch par aage badhne se kabhi bhi sahi answer nahi mil sakta, toh us branch ko aage explore kiye bina wahin par rok do (prune kar do)!"*
 
@@ -164,7 +164,7 @@ result.push([...state]); // ES6 Spread operator creates a brand new snapshot!
 
 #### Why we do Choose-Explore-Undo using the SAME reference:
 *"Sir, agar array copy hi karna hai, toh hum har recursive step par naya array create karke call kyun nahi bhejte?"*  
-**Performance and memory efficiency bacho!** Agar tum har step par `[...state]` copy karke call bhejoge, toh har level par \\(\mathcal{O}(N)\\) time aur memory allocate hogi. Lekin agar tum same array par `push` aur `pop` karoge (In-place manipulation), toh auxiliary space strictly call-stack depth tak optimized rahegi.
+**Performance and memory efficiency bacho!** Agar tum har step par `[...state]` copy karke call bhejoge, toh har level par O(N) time aur memory allocate hogi. Lekin agar tum same array par `push` aur `pop` karoge (In-place manipulation), toh auxiliary space strictly call-stack depth tak optimized rahegi.
 
 ---
 
@@ -174,13 +174,13 @@ Bacho, is distinction table ko dhyan se dimaag mein betha lo:
 
 | Category | Order Matters? | Element Count Constraints | Key Code Mechanism | Standard Complexity |
 | :--- | :--- | :--- | :--- | :--- |
-| **Subsets (Power Set)** | **No** | Variable size (from \\(0\\) to \\(N\\)). | Binary choice: Har element ko ya toh include karo ya exclude. | \\(\mathcal{O}(2^N)\\) |
-| **Combinations** | **No** | Fixed size \\(K\\). | `startIndex` progression se duplicate symmetric paths avoid kiya jata hai. | \\(\mathcal{O}\left(\binom{N}{K}\right)\\) |
-| **Permutations** | **Yes** | Fixed size \\(N\\). | `visited` tracker ya dynamic swaps se array ke saare alignments generate kiye jate hain. | \\(\mathcal{O}(N!)\\) |
+| **Subsets (Power Set)** | **No** | Variable size (from 0 to N). | Binary choice: Har element ko ya toh include karo ya exclude. | O(2^N) |
+| **Combinations** | **No** | Fixed size K. | `startIndex` progression se duplicate symmetric paths avoid kiya jata hai. | O<=ft(\binom{N}{K}\right) |
+| **Permutations** | **Yes** | Fixed size N. | `visited` tracker ya dynamic swaps se array ke saare alignments generate kiye jate hain. | O(N!) |
 
 ---
 
-## 7. CLASSROOM PRACTICE ROOM (EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD)
+## 7. CLASSROOM PRACTICE ROOM (EASY → MEDIUM → HARD)
 
 🚀 **Whiteboard bilkul clean hai dosto! Ab hum in questions ko step-by-step trace karenge. Pehle main tumse options poochunga, phir code likhunga!**
 
@@ -189,7 +189,7 @@ Bacho, is distinction table ko dhyan se dimaag mein betha lo:
 ### PROBLEM 1 (Easy): Subsets / Power Set (LeetCode 78)
 
 *   **Problem Statement:** Given an integer array `nums` of unique elements, return all possible subsets (the power set).
-*   *Example:* `nums =` \\(\rightarrow\\) Output: `[[],,,]`.
+*   *Example:* `nums =` → Output: `[[],,,]`.
 
 #### 🧠 Step 1: Let the Learner Identify!
 Bacho, dimaag ki bati jalao:
@@ -200,8 +200,8 @@ Bacho, dimaag ki bati jalao:
 ---
 
 #### 🧠 Step 2: SDE Masterclass Breakdown
-* **Brute Force:** Saare possible binary values of \\(2^N\\) represent indices check karo.
-* **Search Space:** Total subsets of size \\(N\\) are exactly \\(2^N\\).
+* **Brute Force:** Saare possible binary values of 2^N represent indices check karo.
+* **Search Space:** Total subsets of size N are exactly 2^N.
 * **JavaScript Code (Simple & Standard Backtracking):**
 
 ```javascript
@@ -231,7 +231,7 @@ function subsets(nums) {
 
 #### 🧠 Step 3: Line-by-Line Explanation
 * `result.push([...currentSubset])`: original `currentSubset` reference Heap block par change hone se protect karne ke liye cloning snap create ki jati hai.
-* `currentSubset.push()` & `currentSubset.pop()`: Same array reference par element modifications cleanly dynamic constant time \\(\mathcal{O}(1)\\) swaps se maintain hoti hain.
+* `currentSubset.push()` & `currentSubset.pop()`: Same array reference par element modifications cleanly dynamic constant time O(1) swaps se maintain hoti hain.
 
 #### 🧠 Step 4: Decision Tree Dry Run (`nums =`):
 ```
@@ -245,15 +245,15 @@ function subsets(nums) {
                     ▼         ▼         ▼         ▼
                                     []
 ```
-* **Time Complexity:** **\\(\mathcal{O}(N \cdot 2^N)\\)** where \\(2^N\\) is total subsets and \\(N\\) is the array copying cost at leaf nodes.
-* **Space Complexity:** **\\(\mathcal{O}(N)\\)** auxiliary recursion tree call stack space.
+* **Time Complexity:** **O(N · 2^N)** where 2^N is total subsets and N is the array copying cost at leaf nodes.
+* **Space Complexity:** **O(N)** auxiliary recursion tree call stack space.
 
 ---
 
 ### PROBLEM 2 (Medium): Combination Sum (LeetCode 39)
 
 *   **Problem Statement:** Given an array of distinct integers `candidates` and a target integer `target`, return a list of all unique combinations where the chosen numbers sum to `target`. You may return the combinations in any order. The same number may be chosen from `candidates` an unlimited number of times.
-*   *Example:* `candidates =, target = 7` \\(\rightarrow\\) Output: `[,]`.
+*   *Example:* `candidates =, target = 7` → Output: `[,]`.
 
 #### 🧠 Step 1: Let the Learner Identify!
 1. *Choices kya hain?* Current candidate element `candidates[i]` ko pick karna (hum use baar-baar pick kar sakte hain) ya agle element par badhna.
@@ -321,14 +321,14 @@ function combinationSum(candidates, target) {
        ▼
      (0, sum=8) (PRUNED! ✂️)
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(2^M)\\)** (where \\(M\\) is the recursive call depth target/minimum candidate), Space: **\\(\mathcal{O}(\text{depth})\\)** auxiliary recursion call stack space.
+* **Complexity:** Time: **O(2^M)** (where M is the recursive call depth target/minimum candidate), Space: **O(depth)** auxiliary recursion call stack space.
 
 ---
 
 ### PROBLEM 3 (Medium): Generate Parentheses (LeetCode 22)
 
 *   **Problem Statement:** Given `n` pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
-*   *Example:* `n = 2` \\(\rightarrow\\) Output: `["(())", "()()"]`.
+*   *Example:* `n = 2` → Output: `["(())", "()()"]`.
 
 #### 🧠 Step 1: Let the Learner Identify!
 1. *Choices kya hain?* Ek level par ya toh opening parenthese `'('` rakhein ya closing parenthese `')'`.
@@ -367,13 +367,13 @@ function generateParenthesis(n) {
     return result;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}\left(\frac{4^n}{\sqrt{n}}\right)\\)** (Catalan number growth sequence), Space: **\\(\mathcal{O}(n)\\)** auxiliary stack depth.
+*   **Complexity:** Time: **O<=ft(\frac{4^n}{sqrt{n}}\right)** (Catalan number growth sequence), Space: **O(n)** auxiliary stack depth.
 
 ---
 
 ### PROBLEM 4 (Hard): N-Queens Problem (LeetCode 51)
 
-*   **Problem Statement:** Chessboard (size \\(N \times N\\)) par \\(N\\) Queens ko is tarah place karo taaki koi bhi do Queens ek doosre par attack na kar sakein (same row, same column, ya diagonals par check block lock range na ho).
+*   **Problem Statement:** Chessboard (size N × N) par N Queens ko is tarah place karo taaki koi bhi do Queens ek doosre par attack na kar sakein (same row, same column, ya diagonals par check block lock range na ho).
 
 ```
                      N-Queens Valid Placement (4x4 Board):
@@ -391,7 +391,7 @@ function generateParenthesis(n) {
 ---
 
 #### 🧠 Step 2: SDE Optimized Code (Hashing Tracker Sets 💡)
-Instead of running a \\(\mathcal{O}(N)\\) validation scan loop at every block, we use **Sets** to track attacked columns and diagonals in **\\(\mathcal{O}(1)\\)** lookups!
+Instead of running a O(N) validation scan loop at every block, we use **Sets** to track attacked columns and diagonals in **O(1)** lookups!
 
 ```javascript
 function solveNQueens(n) {
@@ -440,7 +440,7 @@ function solveNQueens(n) {
     return result;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(N!)\\)** computations, Space: **\\(\mathcal{O}(N^2)\\)** board size storage space.
+*   **Complexity:** Time: **O(N!)** computations, Space: **O(N^2)** board size storage space.
 
 ---
 
@@ -506,14 +506,14 @@ function solveSudoku(board) {
     solve();
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(9^{81})\\)** worst-case theoretical bound, par pruning ke karan real-world execution within milliseconds ho jati hai. Space: **\\(\mathcal{O}(81)\\)** stack frame size.
+*   **Complexity:** Time: **O(9^{81})** worst-case theoretical bound, par pruning ke karan real-world execution within milliseconds ho jati hai. Space: **O(81)** stack frame size.
 
 ---
 
 ### PROBLEM 6 (Hard): Word Search (LeetCode 79)
 
-*   **Problem Statement:** Given an \\(M \times N\\) grid of characters `board` and a string `word`, return `true` if `word` exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically adjacent).
-*   *Example:* `board = [['A','B','C','E'], ['S','F','C','S'], ['A','D','E','E']], word = "ABCCED"` \\(\rightarrow\\) Output: `true`.
+*   **Problem Statement:** Given an M × N grid of characters `board` and a string `word`, return `true` if `word` exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically adjacent).
+*   *Example:* `board = [['A','B','C','E'], ['S','F','C','S'], ['A','D','E','E']], word = "ABCCED"` → Output: `true`.
 
 #### 🧠 Step 1: Let the Learner Identify!
 1. *Choices:* Grid ke cell `(r, c)` se Up, Down, Left, ya Right jana.
@@ -565,7 +565,7 @@ function exist(board, word) {
     return false;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(M \cdot N \cdot 4^L)\\)** where \\(L\\) is word length, Space: **\\(\mathcal{O}(L)\\)** recursion depth stack.
+*   **Complexity:** Time: **O(M · N · 4^L)** where L is word length, Space: **O(L)** recursion depth stack.
 
 ---
 
@@ -589,7 +589,7 @@ Coding interviews mein sahi algorithm paradigm choose karne ke liye is cheat-she
 
 | Paradigm | Operational Philosophy | How it handles state space | When it fails ❌ |
 | :--- | :--- | :--- | :--- |
-| **Brute Force** | Evaluates the entire search space to find solutions, guaranteeing correctness at high performance cost. | No pruning; visits every possible state recursively. | Input size \\(N\\) is large, leading to TLE. |
+| **Brute Force** | Evaluates the entire search space to find solutions, guaranteeing correctness at high performance cost. | No pruning; visits every possible state recursively. | Input size N is large, leading to TLE. |
 | **Backtracking** | Incrementally builds candidate solutions, pruning invalid branches immediately. | Prunes suboptimal branches using constraint validation sets. | When we only need one optimal scalar value and past subproblems overlap. |
 | **Dynamic Programming**| Solves problems by storing solutions to overlapping subproblems in memory. | Memoizes or tabulates subproblem states to avoid duplicate work. | Subproblems do not overlap (each decision branch state is completely unique). |
 

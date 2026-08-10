@@ -108,7 +108,7 @@ Software industry mein badhti scalability ke sath, har badi company (jaise Googl
 
 Dekho, computer ek dumb machine hai. Use step-by-step clear instructions chahiye. Ek algorithm isi complete process ko define karta hai:
 
-\\[\text{Input} \longrightarrow \text{[Process / Steps]} \longrightarrow \text{Output}\\]
+\\[Input → [Process / Steps] → Output\\]
 
 ### Everyday Analogy (Intuitive Explanation)
 Chalo ek bohot simple example lete hain: **Making a Cup of Tea (Chai Banana)**. 
@@ -159,7 +159,7 @@ Interview room mein agar tumne bina soche directly typing shuru kar di, toh reje
 2. **Identify Input/Output:** Pata karo input kis form mein aa raha hai (Array, String, Number) aur humein final kya return karna hai (Index, Boolean value, New Array).
 3. **Examples (Manual test cases):** Apne dimag mein ya paper par 2-3 standard inputs lekar unka output manually calculate karo.
 4. **Basic (Brute Force) Approach:** Sabse pehla, simple aur direct solution socho bina efficiency ki parwah kiye.
-5. **Constraints:** Constraints dhyan se padho (\\(N \le 10^5\\), or \\(N \le 10^9\\)). Ye interview ka sabse bada game-changer hai, kyunki constraints hi decide karte hain ki kaunsa algorithm accept hoga.
+5. **Constraints:** Constraints dhyan se padho (N <= 10^5, or N <= 10^9). Ye interview ka sabse bada game-changer hai, kyunki constraints hi decide karte hain ki kaunsa algorithm accept hoga.
 6. **Improve (Optimization):** Brute force mein kahan faltu kaam ho raha hai (bottleneck) usse identify karke approach ko optimize karo.
 7. **Implement:** Ab dhang se, clean JavaScript code likho.
 8. **Test:** Apne likhe hue code par simple cases aur extreme edge cases (jaise negative numbers, empty arrays) test karo.
@@ -184,11 +184,11 @@ Interview room mein agar tumne bina soche directly typing shuru kar di, toh reje
 * **Optimization** tab aati hai jab hum brute force ka **bottleneck** dhoondhte hain—yaani wo jagah jahan hum bina matlab ka redundant/unnecessary kaam baar-baar kar rahe hain.
 
 ### Demonstration with a very simple beginner problem:
-**Problem: Sum of first \\(N\\) Natural Numbers**.
-*(Agar \\(N = 5\\), toh output \\(1 + 2 + 3 + 4 + 5 = 15\\) hona chahiye).*
+**Problem: Sum of first N Natural Numbers**.
+*(Agar N = 5, toh output 1 + 2 + 3 + 4 + 5 = 15 hona chahiye).*
 
 #### 1. Brute Force Approach:
-"Sir, main \\(1\\) se lekar \\(N\\) tak ek loop chalaunga aur har step par elements ko add karta rahunga."
+"Sir, main 1 se lekar N tak ek loop chalaunga aur har step par elements ko add karta rahunga."
 
 ```javascript
 function sumBruteForce(n) {
@@ -200,12 +200,12 @@ function sumBruteForce(n) {
 }
 ```
 
-* **Bottleneck:** Agar \\(N = 10^9\\) (1 billion) hai, toh computer ko is loop ko chalane ke liye 1 billion operations karne padenge, jismein lagbhag 1 to 2 seconds lag jayenge. Hum bina matlab ke har ek number ko touch kar rahe hain.
+* **Bottleneck:** Agar N = 10^9 (1 billion) hai, toh computer ko is loop ko chalane ke liye 1 billion operations karne padenge, jismein lagbhag 1 to 2 seconds lag jayenge. Hum bina matlab ke har ek number ko touch kar rahe hain.
 
 #### 2. Optimized (Improved) Approach:
 Hum mathematical formula use karenge: 
 
-\\[\text{Sum} = \frac{N \times (N + 1)}{2}\\]
+\\[Sum = N × (N + 1)/2\\]
 
 ```javascript
 function sumOptimized(n) {
@@ -213,7 +213,7 @@ function sumOptimized(n) {
 }
 ```
 
-* **Magic of Optimization:** Ab chahe \\(N = 5\\) ho ya \\(N = 10^9\\), ye algorithm bina kisi loop ke **instantly** (sirf 1 machine instruction mein) execute ho jayega. Humne loop ka sara unnecessary work remove kar diya!
+* **Magic of Optimization:** Ab chahe N = 5 ho ya N = 10^9, ye algorithm bina kisi loop ke **instantly** (sirf 1 machine instruction mein) execute ho jayega. Humne loop ka sara unnecessary work remove kar diya!
 
 ---
 
@@ -225,7 +225,7 @@ Dekho, computer badalne se code ki speed change ho sakti hai. Ek bekar code powe
 
 Hum naapte hain **Asymptotic Growth**—yaani **jaise-jaise input ka size (N) badhega, waise-waise operations kitne rate se badhenge**.
 
-Hum **Big-O Notation (\\(O\\))** use karte hain worst-case scenario ko describe karne ke liye. Chalo in 5 basic shapes ko intuitively samajhte hain:
+Hum **Big-O Notation (O)** use karte hain worst-case scenario ko describe karne ke liye. Chalo in 5 basic shapes ko intuitively samajhte hain:
 
 ```
 ▲ Operations
@@ -239,11 +239,11 @@ Hum **Big-O Notation (\\(O\\))** use karte hain worst-case scenario ko describe 
 └──────────────────────────────────────────────► Input Size (n)
 ```
 
-1. \\(O(1)\\) — **Constant Time (Instant):** Input size kitna bhi badhe, operations hamesha fixed rahenge. Jaise humara optimized sum formula upar wala.
-2. \\(O(\log n)\\) — **Logarithmic Time (Very Fast):** Har step par problem ka size aadha hota jata hai. Jaise phone book mein se kisi ka naam dhoondhna ya Binary Search.
-3. \\(O(n)\\) — **Linear Time (Fair):** Input badhega, toh operations bhi usi linear proportion mein badhenge. Jaise array mein loop chalakar kisi element ko check karna.
-4. \\(O(n \log n)\\) — **Linearithmic Time (Good):** Efficient sorting algorithms (jaise Merge Sort ya Quick Sort) is complexity par chalte hain.
-5. \\(O(n^2)\\) — **Quadratic Time (Slow):** Jab nested loops lagte hain. Agar \\(N = 1000\\) hai, toh operations \\(1000 \times 1000 = 1,000,000\\) (1 million) ho jate hain. Beginner code mein ye bohot aam hai aur interview mein isse optimize karna padta hai.
+1. O(1) — **Constant Time (Instant):** Input size kitna bhi badhe, operations hamesha fixed rahenge. Jaise humara optimized sum formula upar wala.
+2. O(log n) — **Logarithmic Time (Very Fast):** Har step par problem ka size aadha hota jata hai. Jaise phone book mein se kisi ka naam dhoondhna ya Binary Search.
+3. O(n) — **Linear Time (Fair):** Input badhega, toh operations bhi usi linear proportion mein badhenge. Jaise array mein loop chalakar kisi element ko check karna.
+4. O(n log n) — **Linearithmic Time (Good):** Efficient sorting algorithms (jaise Merge Sort ya Quick Sort) is complexity par chalte hain.
+5. O(n^2) — **Quadratic Time (Slow):** Jab nested loops lagte hain. Agar N = 1000 hai, toh operations 1000 × 1000 = 1,000,000 (1 million) ho jate hain. Beginner code mein ye bohot aam hai aur interview mein isse optimize karna padta hai.
 
 ---
 
@@ -282,15 +282,15 @@ function findLargestElement(arr) {
 #### 4. Dry Run (Whiteboard Trace):
 Chalo is array par dry run karte hain: `arr =`
 * **Initialization:** `max = arr = 12`
-* **i = 1:** `arr = 35`. Kya \\(35 > 12\\)? Haan! `max = 35`.
-* **i = 2:** `arr = 1`. Kya \\(1 > 35\\)? Nahi. `max` remains \\(35\\).
-* **i = 3:** `arr = 10`. Kya \\(10 > 35\\)? Nahi. `max` remains \\(35\\).
-* **i = 4:** `arr = 34`. Kya \\(34 > 35\\)? Nahi. `max` remains \\(35\\).
-* **End of Loop:** Returns `max` which is \\(35\\). Correct!
+* **i = 1:** `arr = 35`. Kya 35 > 12? Haan! `max = 35`.
+* **i = 2:** `arr = 1`. Kya 1 > 35? Nahi. `max` remains 35.
+* **i = 3:** `arr = 10`. Kya 10 > 35? Nahi. `max` remains 35.
+* **i = 4:** `arr = 34`. Kya 34 > 35? Nahi. `max` remains 35.
+* **End of Loop:** Returns `max` which is 35. Correct!
 
 #### 5. Complexity Analysis:
-* **Time Complexity:** \\(O(n)\\) — Kyunki humein array ke har ek element ko exactly ek baar visit karna pad raha hai.
-* **Space Complexity:** \\(O(1)\\) — Humne koi extra memory ya space consume nahi kiya, bas ek single variable `max` use kiya hai.
+* **Time Complexity:** O(n) — Kyunki humein array ke har ek element ko exactly ek baar visit karna pad raha hai.
+* **Space Complexity:** O(1) — Humne koi extra memory ya space consume nahi kiya, bas ek single variable `max` use kiya hai.
 
 ---
 
@@ -302,7 +302,7 @@ Write a function `countEvens(arr)` that returns the total count of even numbers 
 * *Hint:* Loop chalakar `% 2 === 0` check karo.
 
 #### 🎯 Homework Problem 2: Sum of Digits
-Given a positive integer `N`, find the sum of its digits. (Example: `N = 123`, output = \\(1 + 2 + 3 = 6\\)).
+Given a positive integer `N`, find the sum of its digits. (Example: `N = 123`, output = 1 + 2 + 3 = 6).
 * *Hint:* `N % 10` se last digit nikalo, aur `Math.floor(N / 10)` se number ko reduce karo.
 
 ---
@@ -312,7 +312,7 @@ Given a positive integer `N`, find the sum of its digits. (Example: `N = 123`, o
 **Dekho, as a mentor main tumhein pehle hi warning de raha hoon, ye galtiyan bilkul mat karna:**
 
 1. **Coding Before Understanding:** Interviewer ke problem poora bolte hi seedha code likhna shuru kar dena sabse badi galti hai. Pehle dhang se unse clarify karo, inputs poocho aur edge cases discuss karo.
-2. **Ignoring Constraints:** Agar constraint \\(N = 10^9\\) hai aur tumne \\(O(n^2)\\) wala double loop chala diya, toh code "Time Limit Exceeded" (TLE) dekar crash ho jayega. Constraints ko kabhi ignore mat karo.
+2. **Ignoring Constraints:** Agar constraint N = 10^9 hai aur tumne O(n^2) wala double loop chala diya, toh code "Time Limit Exceeded" (TLE) dekar crash ho jayega. Constraints ko kabhi ignore mat karo.
 3. **Skipping Manual Dry Runs:** Jab tum code likh lete ho, toh use directly compiler par run karne se pehle khud paper/whiteboard par dry run karo jaise humne abhi upar kiya. Isse tumhare logical bugs khud-ba-khud saaf ho jayenge.
 4. **Rote Learning (Ratta Marna):** DSA patterns ka khel hai. Agar tum problem ratoge toh naya problem aate hi dher ho jaoge. Seekho **how to build approach step-by-step**.
 
@@ -329,7 +329,7 @@ Interviewer tumse kya chahta hai?
 🧠 **Key Takeaways:**
 * Data Structure data organize karne ka rasta hai, aur Algorithm use process karne ka rasta.
 * SDE interviews mein logical thinking aur scalable code design ko test kiya jata hai.
-* \\(O(1)\\) aur \\(O(\log n)\\) algorithms hamesha \\(O(n)\\) aur \\(O(n^2)\\) loops se behtar perform karte hain jab scale bada ho.
+* O(1) aur O(log n) algorithms hamesha O(n) aur O(n^2) loops se behtar perform karte hain jab scale bada ho.
 
 🎯 **Problem-Solving Habits:**
 * Pehle samjho, phir manually dry run karo, aur sabse aakhir mein code implement karo.

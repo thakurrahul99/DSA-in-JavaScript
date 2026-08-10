@@ -22,9 +22,9 @@ Dhyan se is comparative breakdown table ko dekho:
 | :--- | :--- | :--- |
 | **Data Requirement** | Kisi bhi random, unsorted array par chal jata hai. | Array ka **sorted ya searchable (monotonic)** hona compulsory hai. |
 | **How it Works?** | Index `0` se lekar `N-1` tak sequence mein ek-element ko check karta hai. | Search space ko har step par **aadha (half)** split karta hai. |
-| **Best Case Time** | **\\(\mathcal{O}(1)\\)** — Agar target pehle hi index par mil jaye. | **\\(\mathcal{O}(1)\\)** — Agar target bilkul middle element (`mid`) hi ho. |
-| **Worst/Average Time**| **\\(\mathcal{O}(n)\\)** — Agar target last mein ho ya array mein ho hi na. | **\\(\mathcal{O}(\log n)\\)** — Har step par options half hone ke karan. |
-| **Space Complexity** | **\\(\mathcal{O}(1)\\)** — Koi extra helper array nahi chahiye. | **\\(\mathcal{O}(1)\\)** for iterative; **\\(\mathcal{O}(\log n)\\)** stack space for recursive. |
+| **Best Case Time** | **O(1)** — Agar target pehle hi index par mil jaye. | **O(1)** — Agar target bilkul middle element (`mid`) hi ho. |
+| **Worst/Average Time**| **O(n)** — Agar target last mein ho ya array mein ho hi na. | **O(log n)** — Har step par options half hone ke karan. |
+| **Space Complexity** | **O(1)** — Koi extra helper array nahi chahiye. | **O(1)** for iterative; **O(log n)** stack space for recursive. |
 | **JS Engine Behavior**| `Array.prototype.includes()` ya `indexOf()` internally ise hi run karte hain. | Custom implement karna padta hai, modern engines par minimal instructions leta hai. |
 
 ---
@@ -40,7 +40,7 @@ Ek unsorted array `arr` aur ek `target` value di hai. Target ka index return kar
 Humein array ke index `0` se aakhri element tak linearly traverse karna hai. Jaise hi element match hoga, search halt karke index return karenge.
 
 #### 3. Brute Force / Optimal (Linear Search is itself the only path for unsorted data):
-Unsorted data par sorting ka overhead **\\(\mathcal{O}(n \log n)\\)** hota hai, isiliye unsorted arrays par target search karne ke liye single linear pass of **\\(\mathcal{O}(n)\\)** hi best possible solution hai.
+Unsorted data par sorting ka overhead **O(n log n)** hota hai, isiliye unsorted arrays par target search karne ke liye single linear pass of **O(n)** hi best possible solution hai.
 
 #### 4. JavaScript Code:
 ```javascript
@@ -55,10 +55,10 @@ function linearSearch(arr, target) {
 ```
 
 #### 5. Dry Run on `arr =`, `target = 8`:
-*   `i = 0`: `arr = 5 !== 8` \\(\rightarrow\\) Continue.
-*   `i = 1`: `arr = 3 !== 8` \\(\rightarrow\\) Continue.
-*   `i = 2`: `arr = 8 === 8` \\(\rightarrow\\) Match found! Return index `2`.
-*   **Complexity:** Time: **\\(\mathcal{O}(n)\\)** worst case, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+*   `i = 0`: `arr = 5 !== 8` → Continue.
+*   `i = 1`: `arr = 3 !== 8` → Continue.
+*   `i = 2`: `arr = 8 === 8` → Match found! Return index `2`.
+*   **Complexity:** Time: **O(n)** worst case, Space: **O(1)** auxiliary.
 
 ---
 
@@ -90,10 +90,10 @@ Bohot se bache `mid` nikalne ke liye aankh band karke likhte hain:
 ```javascript
 let mid = Math.floor((low + high) / 2);
 ```
-**Yeh bad habit hai bacho!** Agar `low` aur `high` dono bohot bade integers hain (jaise \\(2 \times 10^9\\) ke kareeb), toh unka sum `low + high` JavaScript ke absolute safe integer limit (ya standard languages mein 32-bit signed integer limits) ko exceed kar jayega, jisse integer overflow bug ho jayega.
+**Yeh bad habit hai bacho!** Agar `low` aur `high` dono bohot bade integers hain (jaise 2 × 10^9 ke kareeb), toh unka sum `low + high` JavaScript ke absolute safe integer limit (ya standard languages mein 32-bit signed integer limits) ko exceed kar jayega, jisse integer overflow bug ho jayega.
 
 #### Safe Formula:
-\\[\text{mid} = \text{low} + \lfloor \frac{\text{high} - \text{low}}{2} \rfloor\\]
+\\[mid = low + ⌊ high - low/2 ⌋\\]
 Yeh mathematical representation overflow ko bilkul prevent karti hai kyunki hum `high - low` (jo ki humesha range se chota hoga) ko evaluate karke dynamic adjust kar rahe hain.
 
 ---
@@ -161,15 +161,15 @@ function binarySearchRecursive(arr, target) {
 1.  **First Call:** `binarySearchRecursiveHelper(arr, 12, 0, 6)`
     *   `mid = 0 + Math.floor((6 - 0) / 2) = 3`
     *   `arr` is `8`.
-    *   Since `8 < 12`, recursive trigger: `mid + 1` \\(\rightarrow\\) `binarySearchRecursiveHelper(arr, 12, 4, 6)`
+    *   Since `8 < 12`, recursive trigger: `mid + 1` → `binarySearchRecursiveHelper(arr, 12, 4, 6)`
 2.  **Second Call:** `binarySearchRecursiveHelper(arr, 12, 4, 6)`
     *   `mid = 4 + Math.floor((6 - 4) / 2) = 5`
     *   `arr` is `12`.
-    *   `12 === 12` \\(\rightarrow\\) Target found! Returns index `5`.
+    *   `12 === 12` → Target found! Returns index `5`.
 
 #### Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(\log n)\\)** in all cases.
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** for Iterative. **\\(\mathcal{O}(\log n)\\)** for Recursive due to call stack frames.
+*   **Time Complexity:** **O(log n)** in all cases.
+*   **Space Complexity:** **O(1)** for Iterative. **O(log n)** for Recursive due to call stack frames.
 
 ---
 
@@ -245,7 +245,7 @@ function searchRange(arr, target) {
     return [findFirstOccurrence(arr, target), findLastOccurrence(arr, target)];
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(log n)**, Space: **O(1)**.
 
 ---
 
@@ -254,7 +254,7 @@ Yeh boundary logic teen aur standard problems ko instantly solve kar deti hai:
 
 1.  **Count Occurrences of Target:**
     Sorted array mein target total kitni baar aaya? Simple formula:
-    \\[\text{Total Count} = \text{LastOccurrence} - \text{FirstOccurrence} + 1\\]
+    \\[Total Count = LastOccurrence - FirstOccurrence + 1\\]
     *(Agar element present hai, i.e., FirstOccurrence !== -1)*.
 2.  **Lower Bound (Search Insert Position):**
     Humein woh pehla index dhoondhna hai jahan element ki value `target` ke barabar ya usse badi ho (`arr[mid] >= target`).
@@ -300,7 +300,7 @@ Hum pehle sorted half ko identify karenge, phir check karenge ki kya humara targ
 ### Key Problem: Search in Rotated Sorted Array (LeetCode 33)
 
 #### 1. Understand:
-Sorted rotated array mein `target` element ka index dhoondhna hai. **Constraint:** Time complexity strictly **\\(\mathcal{O}(\log n)\\)** honi chahiye.
+Sorted rotated array mein `target` element ka index dhoondhna hai. **Constraint:** Time complexity strictly **O(log n)** honi chahiye.
 
 #### 2. JavaScript Code:
 ```javascript
@@ -339,7 +339,7 @@ function searchRotated(arr, target) {
 #### 3. Complete Dry Run on `arr =`, `target = 1`:
 *   `low = 0`, `high = 5`.
 *   **Step 1:** `mid = 0 + Math.floor((5 - 0) / 2) = 2`.
-    *   `arr = 7`. Since `7 !== 1` \\(\rightarrow\\) Check sorting.
+    *   `arr = 7`. Since `7 !== 1` → Check sorting.
     *   `arr[low] = arr = 5 <= arr[mid] = 7`. Left half is indeed sorted!
     *   Is target `1` in range `[5, 7)`? No (`1 < 5`).
     *   So search right: `low = mid + 1 = 3`.
@@ -352,7 +352,7 @@ function searchRotated(arr, target) {
     *   `arr = 1`. Match found! Returns index `3` (Correct!).
 
 #### 4. Complexity:
-Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+Time: **O(log n)**, Space: **O(1)**.
 
 ---
 
@@ -366,7 +366,7 @@ Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
         continue;
     }
     ```
-    *   **Worst Case Complexity:** If all elements are duplicates, this shrinks down to **\\(\mathcal{O}(n)\\)** linear checks.
+    *   **Worst Case Complexity:** If all elements are duplicates, this shrinks down to **O(n)** linear checks.
 
 ---
 
@@ -386,8 +386,8 @@ Bacho, is pattern ko dhyan se samajhna kyunki isme array fully sorted nahi hota,
 
 ### Identification Rule: Monotonic Slopes ⛰️
 Peak element woh hota hai jo apne left aur right dono padosi (neighbors) se bada ho. 
-*   Agar `arr[mid] < arr[mid + 1]`, iska matlab hum mountain ke **ascending slope (upward incline)** par hain. Peak element hamesha right side hi hoga \\(\rightarrow\\) `low = mid + 1`.
-*   Agar `arr[mid] > arr[mid + 1]`, iska matlab hum mountain ke **descending slope (downward incline)** par hain. `mid` khud peak ho sakta hai ya peak left side par hoga \\(\rightarrow\\) `high = mid`.
+*   Agar `arr[mid] < arr[mid + 1]`, iska matlab hum mountain ke **ascending slope (upward incline)** par hain. Peak element hamesha right side hi hoga → `low = mid + 1`.
+*   Agar `arr[mid] > arr[mid + 1]`, iska matlab hum mountain ke **descending slope (downward incline)** par hain. `mid` khud peak ho sakta hai ya peak left side par hoga → `high = mid`.
 
 ---
 
@@ -411,7 +411,7 @@ function findPeakElement(arr) {
     return low; // or high, both converge to peak element index
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(log n)**, Space: **O(1)**.
 
 ---
 
@@ -422,9 +422,9 @@ Matrices aur 2D array coordinates (Chapter 5) ko search space ki tarah use karne
 ### Pattern A: Perfectly Sorted Flat Matrix (Virtual 1D Array)
 *   **Constraint:** Har row sorted hai, aur har row ka first element pichli row ke last element se bada hai.
 *   **Strategy:** Pure matrix ko ek virtual continuous 1D sorted array ki tarah treat karo. 1D virtual index `mid` ko real coordinates mein transform karne ka formula:
-    \\[\text{row} = \lfloor \frac{\text{mid}}{\text{cols}} \rfloor\\]
-    \\[\text{col} = \text{mid} \pmod{\text{cols}}\\]
-*   **Complexity:** Time: **\\(\mathcal{O}(\log(R \times C))\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+    \\[row = ⌊ mid/cols ⌋\\]
+    \\[col = mid \pmod{cols}\\]
+*   **Complexity:** Time: **O(log(R × C))**, Space: **O(1)**.
 
 ---
 
@@ -455,7 +455,7 @@ function searchMatrixII(matrix, target) {
     return false;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(R + C)\\)** linear time, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(R + C)** linear time, Space: **O(1)**.
 
 ---
 
@@ -495,7 +495,7 @@ Humein ek specific condition ke mutabik **"minimum possible value"** ya **"maxim
 ### Step-by-Step Diagnostic Check: BS on Answer kab lagti hai?
 1.  **Multiple choices with monotonic boundaries:** Problem mein ek range of possible values exist karti hai. Agar value `X` feasible hai, toh kya `X + 1` ya `X - 1` bhi monotonic pattern follow karegi?
 2.  **Minimize Maximum / Maximize Minimum clue:** SDE interviews ka sabse bada sign! Agar question mein *"minimize the maximum cost"* ya *"maximize the minimum speed"* likha ho, toh 99% Binary Search on Answer hi lagta hai.
-3.  **Feasibility Validation \\(\mathcal{O}(n)\\) check helper function:** Humein ek standard checker function `isFeasible(val)` design karna padega jo sequential array loop scan karke linear time mein batata hai ki kya target constraint valid hai ya nahi.
+3.  **Feasibility Validation O(n) check helper function:** Humein ek standard checker function `isFeasible(val)` design karna padega jo sequential array loop scan karke linear time mein batata hai ki kya target constraint valid hai ya nahi.
 
 ---
 
@@ -514,10 +514,10 @@ Koko ke paas `N` piles of bananas hain, jahan `piles[i]` pile `i` ka banana coun
 
 #### 3. Brute Force:
 `K = 1` se start karke sequential iteration check chalao jab tak total hours `<= H` na ho jaye.
-*   **Complexity:** Time: **\\(\mathcal{O}(\max(\text{pile}) \times N)\\)**, leading to TLE.
+*   **Complexity:** Time: **O(max(pile) × N)**, leading to TLE.
 
 #### 4. Bottleneck:
-Max speed range bohot badi ho sakti hai (up to \\(10^9\\)). Linear checks are too slow.
+Max speed range bohot badi ho sakti hai (up to 10^9). Linear checks are too slow.
 
 #### 5. Search Space Identification ⛰️:
 *   *Minimum Possible Speed (`low`):* `1` (Koko kam se kam 1 banana per hour toh khayegi hi).
@@ -587,12 +587,12 @@ function canEatAll(piles, h, speed) {
 *   **Converged!** Loop breaks as `low > high` (`4 > 3`). Returns `4` (Correct!).
 
 #### 9. Complexity:
-*   **Time Complexity:** **\\(\mathcal{O}(N \log(\max(\text{pile})))\\)**.
-*   **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary space.
+*   **Time Complexity:** **\\(O(N log(max(pile)))\\)**.
+*   **Space Complexity:** **O(1)** auxiliary space.
 
 ---
 
-## 9. PRACTICE CORNER (EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD)
+## 9. PRACTICE CORNER (EASY → MEDIUM → HARD)
 
 🚀 **Chalo bacho, marker whiteboard par hai! Ab hum progressive practice problems ko solve karenge. Pehle search space identify karo, fir answer dekhna!**
 
@@ -623,7 +623,7 @@ function searchInsert(arr, target) {
     return ans;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(log n)**, Space: **O(1)**.
 
 ---
 
@@ -660,7 +660,7 @@ function findMin(arr) {
     return arr[low];
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(\log n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(log n)**, Space: **O(1)**.
 
 ---
 
@@ -709,7 +709,7 @@ function splitArray(nums, m) {
     return result;
 }
 ```
-*   **Complexity:** Time: **\\(\mathcal{O}(N \log(\text{Sum} - \text{Max}))\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+*   **Complexity:** Time: **O(N log(Sum - Max))**, Space: **O(1)**.
 
 ---
 

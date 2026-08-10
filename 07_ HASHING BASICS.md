@@ -2,9 +2,9 @@
 
 Pichle chapters mein humne Arrays, Matrices, aur Strings ko poore depth mein samjha aur dekha ki kaise dynamic window tracking ya opposite-direction traversal se hum complex loops ko transform karte hain. 
 
-Lekin beta, ek bohot bada bottleneck abhi bhi bacha hua hai. Agar humein kisi array mein koi element dhoondhna ho, toh sorted array mein Binary Search lagakar \\(O(\log n)\\) time lagta hai, aur unsorted mein toh linear scan karke pure \\(O(n)\\) operations karne padte hain. 
+Lekin beta, ek bohot bada bottleneck abhi bhi bacha hua hai. Agar humein kisi array mein koi element dhoondhna ho, toh sorted array mein Binary Search lagakar O(log n) time lagta hai, aur unsorted mein toh linear scan karke pure O(n) operations karne padte hain. 
 
-*"Sir, kya koi aisa magic structure hai jahan hum lakhon elements ke beech mein se apna target bina kisi loop ke, instantly **\\(O(1)\\) (Constant Time)** mein dhoondh sakein?"*
+*"Sir, kya koi aisa magic structure hai jahan hum lakhon elements ke beech mein se apna target bina kisi loop ke, instantly **O(1) (Constant Time)** mein dhoondh sakein?"*
 
 **Haan bacho, bilkul hai!** Aur usi superpower ka naam hai **Hashing**! Aaj hum Hashing ke concepts ko bilkul zero se advanced Google/Amazon interview level tak breakdown karenge. Apne dimaag ke saare window compartments open kar lo aur register par likhna shuru karo!
 
@@ -27,11 +27,11 @@ Manlo tum ek bade amusement park ya swimming pool mein gaye. Wahan ek **Locker R
 Agar tum apna bag locker room mein rakhna chahte ho, toh wahan ka manager ek simple mathematical formula use karta hai. Woh tumhara naam poochta hai, tumne bataya: **"Amit"**.
 
 Manager ne ek magic machine (Hash Function) mein **"Amit"** dala:
-1. Machine ne Amit ke characters ka sum nikala: \\(A(65) + m(109) + i(105) + t(116) = 395\\).
-2. Locker total 100 hain, toh usne modulo kiya: \\(395 \% 100 = 95\\).
+1. Machine ne Amit ke characters ka sum nikala: A(65) + m(109) + i(105) + t(116) = 395.
+2. Locker total 100 hain, toh usne modulo kiya: 395 % 100 = 95.
 3. Manager ne bola: *"Amit babu, apna bag **Locker Number 95** mein rakh do!"*
 
-Shaam ko jab tum wapas aaye aur bole: *"Mera bag de do"*, toh manager ne phir se wahi math calculate kiya: Amit \\(\rightarrow\\) 95. Usne bina kisi search ke, seedhe Locker 95 khola aur tumhara bag nikal kar de diya. 
+Shaam ko jab tum wapas aaye aur bole: *"Mera bag de do"*, toh manager ne phir se wahi math calculate kiya: Amit → 95. Usne bina kisi search ke, seedhe Locker 95 khola aur tumhara bag nikal kar de diya. 
 
 **Isi ko Hashing kehte hain!** Bina poore room mein dhoondhe (no loops, no scans), seedhe address calculate karke element par jump karna.
 
@@ -48,8 +48,8 @@ Shaam ko jab tum wapas aaye aur bole: *"Mera bag de do"*, toh manager ne phir se
 Tumhare dimaag mein ek sawaal aa raha hoga: *"Sir, agar do alag-alag naam ka calculated hash index same aa gaya toh kya hoga?"*
 
 Chalo check karte hain:
-* **Key 1: "Amit"** \\(\rightarrow\\) ASCII Sum = 395. Modulo 100 = **`95`**.
-* **Key 2: "Mita"** \\(\rightarrow\\) ASCII Sum is also 395 (same characters rearrange ho gaye!). Modulo 100 = **`95`**.
+* **Key 1: "Amit"** → ASCII Sum = 395. Modulo 100 = **`95`**.
+* **Key 2: "Mita"** → ASCII Sum is also 395 (same characters rearrange ho gaye!). Modulo 100 = **`95`**.
 
 **Oh Teri!** Dono ko same locker mila. Is condition ko DSA mein **Collision (Takraav)** kehte hain! Collision tab hota hai jab do different keys ke liye Hash Function same index output kar de.
 
@@ -84,8 +84,8 @@ Agar calculated slot pehle se full hai, toh aage badho aur agla jo bhi khali (em
 ---
 
 ### Complexity Caveat: The Worst Case Scenario ⚠️
-* **Average Case Complexity:** Agar hash function bohot balanced hai aur keys perfectly distributed hain, toh insertion, deletion, aur search hamesha **\\(\mathcal{O}(1)\\)** hoga.
-* **Worst Case Caveat:** Agar hash function ganda hai aur saari keys same index par crash ho gayi, toh separate chaining mein ek hi slot par \\(N\\) elements ki lambi Linked List ban jayegi. Tab search complexity degrade hokar **\\(\mathcal{O}(n)\\)** ho jayegi!
+* **Average Case Complexity:** Agar hash function bohot balanced hai aur keys perfectly distributed hain, toh insertion, deletion, aur search hamesha **O(1)** hoga.
+* **Worst Case Caveat:** Agar hash function ganda hai aur saari keys same index par crash ho gayi, toh separate chaining mein ek hi slot par N elements ki lambi Linked List ban jayegi. Tab search complexity degrade hokar **O(n)** ho jayegi!
 
 ---
 
@@ -108,14 +108,14 @@ JavaScript mein Hashing patterns ko implement karne ke liye humare paas main tee
 | :--- | :--- | :--- |
 | **Allowed Key Types** | Sirf **String** ya **Symbol**. Agar tum number ya array ko key banaoge, toh JS engine use internally string mein coerce (convert) kar dega. | **Any Type!** Tum pure arrays, objects, functions ya primitives ko directly key bana sakte ho. |
 | **Key Ordering** | Elements sorted order mein iterate hote hain (integer keys pehle, baki insertion order mein). | Hamesha strictly **Insertion Order** guarantee karta hai. |
-| **Size Lookup** | **\\(\mathcal{O}(n)\\)** time. Humein `Object.keys(obj).length` lagana padta hai jo pure object ko scan karta hai. | **\\(\mathcal{O}(1)\\)** time. Isme direct `.size` property hoti hai. |
+| **Size Lookup** | **O(n)** time. Humein `Object.keys(obj).length` lagana padta hai jo pure object ko scan karta hai. | **O(1)** time. Isme direct `.size` property hoti hai. |
 | **Performance** | Basic cases ke liye theek hai, par frequent updates par slow ho jata hai. | High-frequency additions aur removals ke liye heavily optimized hai. |
 
 ---
 
 ### B. Set vs. Array ⚔️
-* **Array:** Ordered collection hai jahan elements duplicates ho sakte hain aur search karne ke liye \\(\mathcal{O}(n)\\) scan lagta hai.
-* **Set:** Unique values ka collection hai. Agar tum Set mein same element 10 baar bhi insert karoge, toh woh sirf ek hi baar save hoga. Set internally hash table use karta hai, isiliye check karna ki element present hai ya nahi (`set.has(val)`) instantly **\\(\mathcal{O}(1)\\)** mein hota hai!
+* **Array:** Ordered collection hai jahan elements duplicates ho sakte hain aur search karne ke liye O(n) scan lagta hai.
+* **Set:** Unique values ka collection hai. Agar tum Set mein same element 10 baar bhi insert karoge, toh woh sirf ek hi baar save hoga. Set internally hash table use karta hai, isiliye check karna ki element present hai ya nahi (`set.has(val)`) instantly **O(1)** mein hota hai!
 
 ---
 
@@ -226,7 +226,7 @@ Output: `2` (First unique character is `'v'`).
 
 #### 3. Brute Force Approach:
 Har character `s[i]` ke liye, poori string par ek aur nested loop chalakar check karo ki kya woh character aage ya peeche dobara aaya hai.
-* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Complexity:** **Time: O(n^2)** | **Space: O(1)**.
 * **Bottleneck:** Same character ka lookup baar-baar pure linear scan ke roop mein chal raha hai.
 
 #### 4. SDE Observation:
@@ -276,12 +276,12 @@ function firstUniqChar(s) {
   * `i = 2`: `s = 'v'`. `freqMap.get('v')` is `1` (Match Found! Return `2`). Correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** (Two sequential linear passes).
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** (Auxiliary space is limited to maximum 26 lowercase English characters).
+* **Time Complexity:** **O(n)** (Two sequential linear passes).
+* **Space Complexity:** **O(1)** (Auxiliary space is limited to maximum 26 lowercase English characters).
 
 #### 8. Edge Cases:
-* Empty string `""` \\(\rightarrow\\) Return `-1`.
-* All identical characters `"eeee"` \\(\rightarrow\\) Return `-1`.
+* Empty string `""` → Return `-1`.
+* All identical characters `"eeee"` → Return `-1`.
 
 ---
 
@@ -305,7 +305,7 @@ for (let i = 0; i < nums.length; i++) {
     }
 }
 ```
-* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Complexity:** **Time: O(n^2)** | **Space: O(1)**.
 * **Bottleneck:** Complement value `target - nums[i]` ko array mein dhoondhne ke liye har baar inner loop scan karna padta hai.
 
 #### 4. SDE Observation (The Complement Lookup Pattern 💡):
@@ -349,8 +349,8 @@ function twoSum(nums, target) {
   * Return ``. Correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** because of single-pass map checks.
-* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space for map storage.
+* **Time Complexity:** **O(n)** because of single-pass map checks.
+* **Space Complexity:** **O(n)** auxiliary space for map storage.
 
 ---
 
@@ -367,7 +367,7 @@ Output: `[["bat"], ["nat", "tan"], ["ate", "eat", "tea"]]`
 
 #### 3. Brute Force Approach:
 Har word ke liye poore array mein duplicate frequencies compare karo aur manually buckets mein match karke push karo.
-* **Complexity:** **Time: \\(\mathcal{O}(n^2 \cdot k \log k)\\)** (where \\(k\\) is max string length).
+* **Complexity:** **Time: O(n^2 · k log k)** (where k is max string length).
 
 #### 4. Better/Optimal Approach (The Sorted-Key Categorization Pattern 💡):
 *"Sir, agar hum kisi anagram string ke characters ko alphabetically sort kar dein, toh uske saare variants (eat, tea, ate) ka sorted version exact same string `"aet"` ban jayega! Hum is sorted string ko hi **Map Key** ki tarah use kar sakte hain!"*
@@ -410,15 +410,15 @@ function groupAnagrams(strs) {
 * **Output values:** `[["eat", "tea"], ["tan"]]`. Correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n \cdot k \log k)\\)** where \\(n\\) is number of words and \\(k\\) is word length (due to sorting of characters).
-* **Space Complexity:** **\\(\mathcal{O}(n \cdot k)\\)** to store words inside map.
+* **Time Complexity:** **O(n · k log k)** where n is number of words and k is word length (due to sorting of characters).
+* **Space Complexity:** **O(n · k)** to store words inside map.
 
 ---
 
 ### Problem D (Medium): Longest Consecutive Sequence (LeetCode 128)
 
 #### 1. Understand:
-Humein ek unsorted integers ka array `nums` diya gaya hai. Humein sabse lambi contiguous consecutive sequence (jaise ``) ki length return karni hai. **Constraint:** Code ki Time Complexity strictly **\\(\mathcal{O}(n)\\)** honi chahiye!
+Humein ek unsorted integers ka array `nums` diya gaya hai. Humein sabse lambi contiguous consecutive sequence (jaise ``) ki length return karni hai. **Constraint:** Code ki Time Complexity strictly **O(n)** honi chahiye!
 
 #### 2. Example:
 Input: `nums =`  
@@ -428,11 +428,11 @@ Output: `4` (Kyunki consecutive sequence `` sabse badi hai, iski length 4 hai).
 
 #### 3. Brute Force Approach:
 Array ko sort kar do, aur fir linear check chalakar count karo ki kitne numbers consecutive order follow kar rahe hain.
-* **Complexity:** **Time: \\(\mathcal{O}(n \log n)\\)** due to sorting.
-* **Bottleneck:** Sorting rules humein \\(\mathcal{O}(n \log n)\\) se fast chalne nahi dete. We must achieve strictly \\(\mathcal{O}(n)\\).
+* **Complexity:** **Time: O(n log n)** due to sorting.
+* **Bottleneck:** Sorting rules humein O(n log n) se fast chalne nahi dete. We must achieve strictly O(n).
 
 #### 4. Optimal Approach (The Boundary Marker Pattern 💡):
-*"Sir, consecutive sequence hamesha apne sabse chote element se shuru hoti hai! Agar hum Set ka use karein, toh hum \\(\mathcal{O}(1)\\) mein check kar sakte hain ki kya current element sequence ka start hai ya beech ka part."*
+*"Sir, consecutive sequence hamesha apne sabse chote element se shuru hoti hai! Agar hum Set ka use karein, toh hum O(1) mein check kar sakte hain ki kya current element sequence ka start hai ya beech ka part."*
 
 **The Algorithm:**
 1. Saare elements ko ek **Set** mein daal do (uniqueness and fast lookup ensure karne ke liye).
@@ -481,8 +481,8 @@ function longestConsecutive(nums) {
 * Returns `4`. Correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)**. (Dhyan se dekho bacho! Bhale hi `while` loop nested dikh raha hai, par any element maximum 2 baar hi check hota hai—ek baar starting point check hone par, aur ek baar streak expansion ke dauran. Isiliye amortized operations strictly linear **\\(\mathcal{O}(n)\\)** rehte hain).
-* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space Set store karne ke liye.
+* **Time Complexity:** **O(n)**. (Dhyan se dekho bacho! Bhale hi `while` loop nested dikh raha hai, par any element maximum 2 baar hi check hota hai—ek baar starting point check hone par, aur ek baar streak expansion ke dauran. Isiliye amortized operations strictly linear **O(n)** rehte hain).
+* **Space Complexity:** **O(n)** auxiliary space Set store karne ke liye.
 
 ---
 
@@ -502,12 +502,12 @@ Output: `4` (Subarrays: ``, ``, `[7, 2, -3, 1]`, `[-3, 1, 4, 2]`).
 
 #### 3. Brute Force Approach:
 Do nested loops chalakar saare contiguous subarrays generate karo aur unka range sum check karo.
-* **Complexity:** **Time: \\(\mathcal{O}(n^2)\\)** | **Space: \\(\mathcal{O}(1)\\)**.
+* **Complexity:** **Time: O(n^2)** | **Space: O(1)**.
 * **Bottleneck:** Shifting windows check slow ho jati hai jab array mein negatives hon, jiski wajah se hum sliding window ko shrink ya expand karne ka optimal criteria lose kar dete hain.
 
 #### 4. Optimal Approach (The Prefix Sum + Hash Map Lookup Pattern 💡):
-*"Sir, Chapter 4 mein humne Prefix Sum seekha tha! Agar index `0` se `i` tak ka cumulative sum \\(P[i]\\) hai, aur humein beech ka segment sum `k` chahiye, toh equations ke mutabik:"*
-\\[\text{prefixSum}[i] - \text{prefixSum}[j] = k \implies \text{prefixSum}[j] = \text{prefixSum}[i] - k\\]
+*"Sir, Chapter 4 mein humne Prefix Sum seekha tha! Agar index `0` se `i` tak ka cumulative sum P[i] hai, aur humein beech ka segment sum `k` chahiye, toh equations ke mutabik:"*
+\\[prefixSum[i] - prefixSum[j] = k => prefixSum[j] = prefixSum[i] - k\\]
 
 Iska matlab: agar hum current prefix sum par khade hain, aur humein past history mein se koi aisa prefix sum dhoondhna hai jiske subtraction se target `k` mile, toh humein bas check karna hai ki **`currentPrefixSum - k` past mein kitni baar aa chuka hai!**
 
@@ -554,17 +554,17 @@ function subarraySum(nums, k) {
   * Map State: `Map { 0 => 1, 3 => 1 }`.
 * `i = 1` (Value = 4): `runningPrefixSum = 3 + 4 = 7`.
   * `targetPrefix = 7 - 7 = 0`. Is `0` in Map? **Yes!**
-  * `count += prefixFrequencies.get(0)` \\(\rightarrow\\) `count = 0 + 1 = 1`. (Subarray matches index 0-1: ``).
+  * `count += prefixFrequencies.get(0)` → `count = 0 + 1 = 1`. (Subarray matches index 0-1: ``).
   * Map State: `Map { 0 => 1, 3 => 1, 7 => 1 }`.
 * `i = 2` (Value = 7): `runningPrefixSum = 7 + 7 = 14`.
   * `targetPrefix = 14 - 7 = 7`. Is `7` in Map? **Yes!**
-  * `count += prefixFrequencies.get(7)` \\(\rightarrow\\) `count = 1 + 1 = 2`. (Subarray matches index 2: ``).
+  * `count += prefixFrequencies.get(7)` → `count = 1 + 1 = 2`. (Subarray matches index 2: ``).
   * Map State: `Map { 0 => 1, 3 => 1, 7 => 1, 14 => 1 }`.
 * Returns `2`. Correct!
 
 #### 7. Complexity Analysis:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** strictly linear single pass lookup.
-* **Space Complexity:** **\\(\mathcal{O}(n)\\)** auxiliary space map storage ke liye.
+* **Time Complexity:** **O(n)** strictly linear single pass lookup.
+* **Space Complexity:** **O(n)** auxiliary space map storage ke liye.
 
 ---
 
@@ -589,7 +589,7 @@ Interview hall mein badmashi mat karna, in 4 bugs ko hamesha dhyan mein rakhna:
 
 ### Completed Topics:
 * Hashing technique locker analogies aur lookup logic.
-* Collisions Separate Chaining aur average \\(O(1)\\) vs worst case \\(O(N)\\) behaviors.
+* Collisions Separate Chaining aur average O(1) vs worst case O(N) behaviors.
 * ES6 Map & Set operations and Javascript key references heap behavior.
 * Dynamic frequency arrays optimization lowercase English alphabet letters par.
 

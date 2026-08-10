@@ -24,12 +24,12 @@ E.g., - No!        E.g., - No! (Order broken) E.g., - Yes
 
 1. **Subarray (Contiguous Part):**
    * **Definition:** Kisi array ka ek continuous slice. Tum beech mein se elements ko skip nahi kar sakte.
-   * *Formula:* Agar array ka size \\(N\\) hai, toh total number of non-empty subarrays hote hain: **\\(\frac{N(N+1)}{2}\\)**.
+   * *Formula:* Agar array ka size N hai, toh total number of non-empty subarrays hote hain: **N(N+1)/2**.
    * *Examples:* ``, ``.
 
 2. **Subsequence (Ordered Sub-portion):**
    * **Definition:** Elements ka aisa collection jo original array ke sequence (relative order) ko maintain karta hai, par contiguous hona zaroori nahi hai (bich se elements skip ho sakte hain).
-   * *Formula:* Total subsequences of size \\(N\\) are **\\(2^N\\)** (including empty subsequence).
+   * *Formula:* Total subsequences of size N are **2^N** (including empty subsequence).
    * *Examples:* ``, ``. (Lekin `` subsequence nahi hai kyunki original order reverse ho gaya).
 
 3. **Subset (Mathematical Combo):**
@@ -47,7 +47,7 @@ Humein array mein se second largest element dhoondhna hai. Agar array hai ``, to
 
 #### 2. Brute Force:
 Array ko descending order mein sort kar do (`arr.sort((a, b) => b - a)`) aur index `1` ka element return kar do.
-* **Bottleneck:** Sorting ki time complexity **\\(O(N \log N)\\)** hoti hai. Humein ise \\(O(N)\\) mein solve karna hai.
+* **Bottleneck:** Sorting ki time complexity **O(N log N)** hoti hai. Humein ise O(N) mein solve karna hai.
 
 #### 3. Better Approach (Two Passes):
 Pehle pass mein loop chalakar absolute `largest` dhoondho. Dusre pass mein loop chalakar wo element dhoondho jo `largest` se chota ho par baaki sabse bada ho.
@@ -82,16 +82,16 @@ function getSecondLargest(arr) {
 
 #### 5. Dry Run on ``:
 * Initial: `largest = -Infinity`, `secondLargest = -Infinity`.
-* `i = 0 (10)`: `10 > -Infinity` \\(\rightarrow\\) `secondLargest = -Infinity`, `largest = 10`.
-* `i = 1 (20)`: `20 > 10` \\(\rightarrow\\) `secondLargest = 10`, `largest = 20`.
+* `i = 0 (10)`: `10 > -Infinity` → `secondLargest = -Infinity`, `largest = 10`.
+* `i = 1 (20)`: `20 > 10` → `secondLargest = 10`, `largest = 20`.
 * `i = 2 (5)`: `5` is not `> 20`. Is `5 < 20 && 5 > 10`? No.
 * `i = 3 (20)`: `20` is not `> 20`. Is `20 < 20`? No.
-* `i = 4 (15)`: `15` is not `> 20`. Is `15 < 20 && 15 > 10`? Yes! \\(\rightarrow\\) `secondLargest = 15`.
+* `i = 4 (15)`: `15` is not `> 20`. Is `15 < 20 && 15 > 10`? Yes! → `secondLargest = 15`.
 * Return `15` (Correct!).
 
 #### 6. Complexity:
-* **Time Complexity:** **\\(O(N)\\)** because of single-pass scan.
-* **Space Complexity:** **\\(O(1)\\)** auxiliary space.
+* **Time Complexity:** **O(N)** because of single-pass scan.
+* **Space Complexity:** **O(1)** auxiliary space.
 
 ---
 
@@ -103,7 +103,7 @@ Ek element tab "Leader" kehlata hai jab wo apne right side ke saare elements se 
 
 #### 2. Brute Force:
 Har element ke liye uske right side par ek nested loop chalakar check karo ki kya koi element usse bada hai.
-* **Bottleneck:** Nested loops se Time Complexity **\\(O(N^2)\\)** ho jayegi.
+* **Bottleneck:** Nested loops se Time Complexity **O(N^2)** ho jayegi.
 
 #### 3. Optimal Observation:
 "Sir, agar hum right-to-left scan karein, toh humein har step par right side ka max pata chal sakta hai!"
@@ -127,7 +127,7 @@ function findLeaders(arr) {
     return result.reverse(); // Standard ordering ke liye reverse kar do
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** (if excluding result array space).
+* **Complexity:** Time: **O(N)**, Space: **O(1)** (if excluding result array space).
 
 ---
 
@@ -135,11 +135,11 @@ function findLeaders(arr) {
 
 #### 1. Understand:
 Humein array ka wo index dhoondhna hai jahan uske left side ke saare elements ka sum, uske right side ke saare elements ke sum ke barabar ho.
-* *Example:* ``. At index `3` (value `6`): Left sum = \\(1+7+3 = 11\\). Right sum = \\(5+6 = 11\\). Pivot is `3`.
+* *Example:* ``. At index `3` (value `6`): Left sum = 1+7+3 = 11. Right sum = 5+6 = 11. Pivot is `3`.
 
 #### 2. Brute Force:
 Har index `i` par jaakar left side ka sum manually loop se calculate karo, aur right side ka sum bhi loop se calculate karo.
-* **Bottleneck:** \\(O(N^2)\\) time.
+* **Bottleneck:** O(N^2) time.
 
 #### 3. Optimal Approach (Running Sum Method):
 1. Pehle pure array ka total sum nikal lo: `totalSum`.
@@ -164,7 +164,7 @@ function pivotIndex(arr) {
     return -1;
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** auxiliary space.
+* **Complexity:** Time: **O(N)**, Space: **O(1)** auxiliary space.
 
 ---
 
@@ -172,13 +172,13 @@ function pivotIndex(arr) {
 
 #### 1. Understand:
 Humein ek array return karna hai jahan output array ke index `i` par original array ke saare elements ka product ho, except `arr[i]`. **Constraint:** Humein division operator `/` use nahi karna hai!
-* *Example:* `` \\(\rightarrow\\) Output: ``.
+* *Example:* `` → Output: ``.
 
 #### 2. Brute Force:
-Do nested loops chalao aur har element ke liye baki sabko multiply karo. Time: \\(O(N^2)\\).
+Do nested loops chalao aur har element ke liye baki sabko multiply karo. Time: O(N^2).
 
 #### 3. Optimal Approach (Prefix and Suffix Optimization):
-* *Observation:* Kisi bhi index `i` ke liye, except-self product aur kuch nahi balki **(Product of all elements to the left of i) \\(\times\\) (Product of all elements to the right of i)** hai.
+* *Observation:* Kisi bhi index `i` ke liye, except-self product aur kuch nahi balki **(Product of all elements to the left of i) × (Product of all elements to the right of i)** hai.
 1. Ek output array `result` banao.
 2. Pehle left-to-right pass chalao aur `result[i]` mein left values ka cumulative running product store karte jao.
 3. Phir right-to-left pass chalao, ek `rightProduct` accumulator track karte huye, use `result[i]` ke sath multiply karo.
@@ -205,17 +205,17 @@ function productExceptSelf(arr) {
     return result;
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** auxiliary space (kyunki output array counts memory target specifications se extra variable space require nahi karta).
+* **Complexity:** Time: **O(N)**, Space: **O(1)** auxiliary space (kyunki output array counts memory target specifications se extra variable space require nahi karta).
 
 ---
 
 ## 3. PREFIX SUM PATTERN (PRECOMPUTING RANGES)
 
 ### Prefix Sum Kya Hai aur Kyun Useful Hai?
-Bacho, imagine karo tumse ek interviewer baar-baar query pooch raha hai: *"Batao index \\(L\\) se \\(R\\) ke beech ka sum kya hai?"*. Agar array badla nahi hai, toh har baar loop chalana be-bunaid mehnat hai. 
+Bacho, imagine karo tumse ek interviewer baar-baar query pooch raha hai: *"Batao index L se R ke beech ka sum kya hai?"*. Agar array badla nahi hai, toh har baar loop chalana be-bunaid mehnat hai. 
 
 Hum ek **Prefix Array** precompute kar lete hain jiske index `i` par starting se lekar `i` tak ke saare elements ka sum pehle se stored hota hai:
-\\[\text{prefix}[i] = \text{arr} + \text{arr} + \dots + \text{arr}[i]\\]
+\\[prefix[i] = arr + arr + ... + arr[i]\\]
 
 ```
 arr:           [  3,   1,   4,   1,   5  ]
@@ -224,9 +224,9 @@ Formula:       prefix[i] = prefix[i-1] + arr[i]
 ```
 
 ### Range Sum Query Formula:
-Agar range \\([L, R]\\) ka sum nikalna hai:
-\\[\text{RangeSum}(L, R) = \text{prefix}[R] - \text{prefix}[L - 1]\\]
-*(Agar \\(L = 0\\) hai, toh direct `prefix[R]`)*
+Agar range [L, R] ka sum nikalna hai:
+\\[RangeSum(L, R) = prefix[R] - prefix[L - 1]\\]
+*(Agar L = 0 hai, toh direct `prefix[R]`)*
 
 ```javascript
 class PrefixSum {
@@ -246,23 +246,23 @@ class PrefixSum {
     }
 }
 ```
-* **Time Complexity:** Preprocessing: **\\(O(N)\\)**, Each query: **\\(O(1)\\)** lookup!
-* **Space Complexity:** **\\(O(N)\\)** prefix array store karne ke liye.
+* **Time Complexity:** Preprocessing: **O(N)**, Each query: **O(1)** lookup!
+* **Space Complexity:** **O(N)** prefix array store karne ke liye.
 
 ---
 
 ## 4. DIFFERENCE ARRAY PATTERN (RANGE UPDATE OPTIMIZATION)
 
 ### Problem it solves:
-Agar array bada ho aur humein multiple queries milein jaise: *"Index \\(L\\) se \\(R\\) tak ke saare elements mein \\(X\\) add kar do."*.
-* **Brute Force:** Har range update ke liye \\(L\\) se \\(R\\) tak iterate karo aur add karo. Worst case time per update is \\(O(N)\\). For \\(Q\\) queries, total is **\\(O(Q \times N)\\)**.
+Agar array bada ho aur humein multiple queries milein jaise: *"Index L se R tak ke saare elements mein X add kar do."*.
+* **Brute Force:** Har range update ke liye L se R tak iterate karo aur add karo. Worst case time per update is O(N). For Q queries, total is **O(Q × N)**.
 
 ### Difference Array Construction & Logic:
-Hum ek separate array \\(D\\) banate hain jiska size \\(N+1\\) hota hai, jahan:
+Hum ek separate array D banate hain jiska size N+1 hota hai, jahan:
 \\[D[i] = A[i] - A[i - 1]\\]
-Is array ka magic yeh hai ki agar range \\([L, R]\\) mein hume value \\(X\\) add karni hai, toh hume loop chalane ki koi zaroorat nahi hai! Hum sirf do updates karte hain:
-1. \\(D[L] += X\\)
-2. \\(D[R + 1] -= X\\)
+Is array ka magic yeh hai ki agar range [L, R] mein hume value X add karni hai, toh hume loop chalane ki koi zaroorat nahi hai! Hum sirf do updates karte hain:
+1. D[L] += X
+2. D[R + 1] -= X
 
 ```
 Initial Array A:     [ 10,  20,  30,  40 ]
@@ -303,15 +303,15 @@ function applyUpdates(arr, updates) {
     return arr;
 }
 ```
-* **Time Complexity:** **\\(O(N + Q)\\)** (where \\(Q\\) is updates count). *Double loop se linear pass par le aaye bacho!*
-* **Space Complexity:** **\\(O(N)\\)** auxiliary space.
+* **Time Complexity:** **O(N + Q)** (where Q is updates count). *Double loop se linear pass par le aaye bacho!*
+* **Space Complexity:** **O(N)** auxiliary space.
 
 ---
 
 ## 5. TWO POINTERS PATTERN (COMPRESSING SEARCH SPACE)
 
 ### What does it mean?
-Bacho, Two Pointers ek aisi technique hai jahan hum array ke upar **do indices (pointers)** rakhte hain aur unhe relative conditions ke mutabik badhate ya ghatate hain. Iska sabse bada fayda yeh hai ki yeh nested loops ki **\\(O(N^2)\\)** complexity ko cleanly linear **\\(O(N)\\)** mein transform kar deta hai.
+Bacho, Two Pointers ek aisi technique hai jahan hum array ke upar **do indices (pointers)** rakhte hain aur unhe relative conditions ke mutabik badhate ya ghatate hain. Iska sabse bada fayda yeh hai ki yeh nested loops ki **O(N^2)** complexity ko cleanly linear **O(N)** mein transform kar deta hai.
 
 ```
   Opposite-Direction Pointers                     Same-Direction Pointers
@@ -331,12 +331,12 @@ Bacho, Two Pointers ek aisi technique hai jahan hum array ke upar **do indices (
 ### Key Problem: Dutch National Flag (Sort 0s, 1s, and 2s)
 
 #### 1. Understand:
-Humein ek array diya hai jismein sirf `0`, `1`, aur `2` hain. Humein ise in-place linear time aur \\(O(1)\\) space mein sort karna hai.
-* *Example:* `` \\(\rightarrow\\) Output: ``.
+Humein ek array diya hai jismein sirf `0`, `1`, aur `2` hain. Humein ise in-place linear time aur O(1) space mein sort karna hai.
+* *Example:* `` → Output: ``.
 
 #### 2. Brute Force:
 Koi bhi sorting algorithm (jaise QuickSort ya MergeSort) laga do.
-* **Bottleneck:** Time complexity **\\(O(N \log N)\\)** ho jayegi. We can do it in \\(O(N)\\)!
+* **Bottleneck:** Time complexity **O(N log N)** ho jayegi. We can do it in O(N)!
 
 #### 3. Optimal Approach (Dutch National Flag Algorithm):
 Hum 3 pointers use karenge: `low`, `mid`, aur `high`:
@@ -376,11 +376,11 @@ function sort012(arr) {
 
 #### 4. Dry Run on ``:
 * `low = 0, mid = 0, high = 2`.
-* **Step 1:** `arr[mid]` is `2`. Swap `arr` with `arr` \\(\rightarrow\\) Array becomes ``. `high` becomes `1`.
+* **Step 1:** `arr[mid]` is `2`. Swap `arr` with `arr` → Array becomes ``. `high` becomes `1`.
 * **Step 2:** `arr[mid]` is `1`. `mid` becomes `1`.
-* **Step 3:** `mid <= high` (\\(1 \le 1\\)). `arr[mid]` is `0`. Swap `arr[low]` with `arr[mid]` (swap index 0 and 1) \\(\rightarrow\\) Array becomes ``. `low = 1, mid = 2`.
+* **Step 3:** `mid <= high` (1 <= 1). `arr[mid]` is `0`. Swap `arr[low]` with `arr[mid]` (swap index 0 and 1) → Array becomes ``. `low = 1, mid = 2`.
 * **End:** `mid > high` loop breaks. Sorted array: ``! Correct!
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** auxiliary space.
+* **Complexity:** Time: **O(N)**, Space: **O(1)** auxiliary space.
 
 ---
 
@@ -394,15 +394,15 @@ Window Step 1:  [  1,   2,   3  ],  4,   5   ==> Sum = 6
 Window Step 2:   1,  [  2,   3,   4  ],  5   ==> New Sum = 6 - 1 + 4 = 9 (Fast slide!)
 ```
 
-### Key Problem: Longest Subarray with Sum \\(\le K\\) (Variable Window)
+### Key Problem: Longest Subarray with Sum <= K (Variable Window)
 
 #### 1. Understand:
-Humein positive elements ka array diya hai, humein us longest contiguous subarray ki length dhoondhni hai jiska sum \\(\le K\\) ho.
+Humein positive elements ka array diya hai, humein us longest contiguous subarray ki length dhoondhni hai jiska sum <= K ho.
 * *Example:* `arr =, K = 4`.
   * Subarray `` ka sum `4` hai (length = 3). Output: `3`.
 
 #### 2. Brute Force:
-Do nested loops chalakar saare possible contiguous subarrays generate karo aur check karo. Time Complexity: **\\(O(N^2)\\)**.
+Do nested loops chalakar saare possible contiguous subarrays generate karo aur check karo. Time Complexity: **O(N^2)**.
 
 #### 3. Optimal Approach (Variable Sliding Window):
 1. Hum do pointer rakhenge `left = 0` aur `right = 0`.
@@ -432,7 +432,7 @@ function longestSubarraySumK(arr, k) {
     return maxLength;
 }
 ```
-* **Complexity:** Time Complexity: **\\(O(N)\\)** because both `left` and `right` traverse the array at most once. Space Complexity: **\\(O(1)\\)** auxiliary space.
+* **Complexity:** Time Complexity: **O(N)** because both `left` and `right` traverse the array at most once. Space Complexity: **O(1)** auxiliary space.
 
 ---
 
@@ -442,12 +442,12 @@ function longestSubarraySumK(arr, k) {
 * **Problem Statement:** Integers ke unsorted array (jismein negatives bhi hain) mein se us contiguous subarray ko dhoondho jiska sum sabse bada (maximum) ho.
 
 ### Brute Force:
-Nested loops se saare subarrays generate karke unka sum check karo. Time Complexity: **\\(O(N^2)\\)**.
+Nested loops se saare subarrays generate karke unka sum check karo. Time Complexity: **O(N^2)**.
 
 ### Kadane's Core Intuition ("Chodho ya Sath Raho" Principle):
 Dekho bacho, Kadane's ek simple local decisions par chalta hai. Hum array par aage badh rahe hain, toh kya pichle chalte aa rahe subarray sum mere sath jud kar mere sum ko badhayega, ya pichla sum ganda (negative) hai aur mujhe wahan se picha chodhkar ek naye subarray ki shuruwat karni chahiye?
 
-\\[\text{currentSum} = \max(\text{arr}[i], \text{currentSum} + \text{arr}[i])\\]
+\\[currentSum = max(arr[i], currentSum + arr[i])\\]
 
 ```javascript
 function maxSubArray(nums) {
@@ -474,7 +474,7 @@ function maxSubArray(nums) {
 * `i = 7 (-5)`: `currentSum = max(-5, 6-5) = 1`. `maxSum = max(6, 1) = 6`.
 * `i = 8 (4)`: `currentSum = max(4, 1+4) = 5`. `maxSum = max(6, 5) = 6`.
 * **Result:** `6` (Subarray is `[4, -1, 2, 1]`). Correct!
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** auxiliary space.
+* **Complexity:** Time: **O(N)**, Space: **O(1)** auxiliary space.
 
 ---
 
@@ -489,7 +489,7 @@ Circular Maximum subarray sum nikalne ke do cases ho sakte hain:
 * **Case 1 (Non-wrapping):** Maximum subarray array ke beech mein hi hai (wrapping nahi ho rahi). Isko hum simple **Kadane's algorithm** se directly nikaal sakte hain.
 * **Case 2 (Wrapping):** Subarray wrapping kar raha hai (starting and ending indices linked hain). 
   * *Observation:* Circular range ka maximum sum tabhi bachega jab hum total array sum mein se **array ke beech ka minimum subarray sum** ko nikaal dein!
-  \\[\text{Circular Max Sum} = \text{Total Array Sum} - \text{Minimum Subarray Sum}\\]
+  \\[Circular Max Sum = Total Array Sum - Minimum Subarray Sum\\]
 
 ```javascript
 function maxSubarraySumCircular(nums) {
@@ -515,7 +515,7 @@ function maxSubarraySumCircular(nums) {
     return Math.max(maxSub, totalSum - minSub);
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)**.
+* **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
@@ -536,15 +536,15 @@ Bacho, coding interviews mein problem dekh kar darna nahi hai. Sahi weapon choos
    * *Prefix Sum* works when we have repeated range queries or need exact previous sum histories (using Hashing).
    * *Sliding Window* is optimized when we need to find dynamic segments that fit constraints continuously.
 2. **Prefix Sum vs Difference Array:**
-   * *Prefix sum* is for **querying** sums in \\(O(1)\\).
-   * *Difference array* is for **updating** ranges in \\(O(1)\\).
+   * *Prefix sum* is for **querying** sums in O(1).
+   * *Difference array* is for **updating** ranges in O(1).
 3. **Two Pointers vs Sliding Window:**
    * *Two Pointers* usually converge from extreme ends towards the center.
    * *Sliding Window* pointers maintain a contiguous subset segment that expands/shrinks.
 
 ---
 
-## 9. CLASSROOM PRACTICE ROOM: LEVEL EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD
+## 9. CLASSROOM PRACTICE ROOM: LEVEL EASY → MEDIUM → HARD
 
 🚀 **Chalo bacho, marker whiteboard par hai! Ab main teen progressive problems dunga. Direct solutions par mat jana, pehle clues analyze karo aur fir solution padho!**
 
@@ -553,11 +553,11 @@ Bacho, coding interviews mein problem dekh kar darna nahi hai. Sahi weapon choos
 ### Problem 1 (Easy): Best Time to Buy and Sell Stock (LeetCode 121)
 
 * **Problem Statement:** Ek array diya hai jahan `prices[i]` stock ki price hai day `i` par. Kisi ek single day par stock buy karke, use future ke kisi day par sell karne ka maximum profit return karo.
-* *Example:* `` \\(\rightarrow\\) Output: `5` (Buy at price 1, sell at 6).
+* *Example:* `` → Output: `5` (Buy at price 1, sell at 6).
 
 #### 🧠 Step-by-Step Diagnostic Check:
 * *Is it contiguous?* Order is preserved (buy first, sell later).
-* *Can we reduce nested loops?* Yes, brute force is \\(O(N^2)\\).
+* *Can we reduce nested loops?* Yes, brute force is O(N^2).
 * *What lookup information to remember?* *"Sir, agar hum aaj sell kar rahe hain, toh maximize karne ke liye buy hamesha past ki minimum price par hi hona chahiye!"*
 * **Optimal Pattern:** **One-Pass Min-Tracking Pattern**.
 
@@ -580,14 +580,14 @@ function maxProfit(prices) {
     return maxProfit;
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)**.
+* **Complexity:** Time: **O(N)**, Space: **O(1)**.
 
 ---
 
 ### Problem 2 (Medium): Container with Most Water (LeetCode 11)
 
 * **Problem Statement:** `N` bars ki heights ka array diya hai. Do bars select karo jo maximum volume of water trap kar sakein.
-* *Example:* `` \\(\rightarrow\\) Output: `49`.
+* *Example:* `` → Output: `49`.
 
 #### 🧠 Step-by-Step Diagnostic Check:
 * *Is the array sorted?* No, heights are unsorted.
@@ -619,23 +619,23 @@ function maxArea(heights) {
     return maxVolume;
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(1)\\)** auxiliary space.
+* **Complexity:** Time: **O(N)**, Space: **O(1)** auxiliary space.
 
 ---
 
 ### Problem 3 (Hard): Subarray Sum Equals K (LeetCode 560)
 
 * **Problem Statement:** Continuous array range dhoondhni hai jiska subarray sum exactly `K` ke barabar ho. Negatives are present in the array.
-* *Example:* `, K = 2` \\(\rightarrow\\) Output: `2` (subarrays are `` at index 0-1, and index 1-2).
+* *Example:* `, K = 2` → Output: `2` (subarrays are `` at index 0-1, and index 1-2).
 
 #### 🧠 Step-by-Step Diagnostic Check:
 * *Is the array sorted?* No.
 * *Is it contiguous?* Yes.
 * *Can we use Sliding Window?* **NAHI!** Kyunki array mein negatives hain, window contraction logical properties monotonic increase ko lose kar degi.
 * *What is the mathematical connection?*
-  If prefix sum up to index `i` is \\(P[i]\\), and we want a subarray from index \\(j\\) to \\(i\\) with sum \\(K\\):
-  \\[P[i] - P[j] = K \implies P[j] = P[i] - K\\]
-  Iska matlab agar hum current prefix sum mein se \\(K\\) subtract karein, aur wo bachi value past mein pehle kabhi aa chuki ho, toh indices segment sum exactly \\(K\\) hoga!
+  If prefix sum up to index `i` is P[i], and we want a subarray from index j to i with sum K:
+  \\[P[i] - P[j] = K => P[j] = P[i] - K\\]
+  Iska matlab agar hum current prefix sum mein se K subtract karein, aur wo bachi value past mein pehle kabhi aa chuki ho, toh indices segment sum exactly K hoga!
 * **Optimal Pattern:** **Prefix Sum + Hash Map Lookup Pattern**.
 
 #### JavaScript Solution Code:
@@ -663,7 +663,7 @@ function subarraySum(nums, k) {
     return count;
 }
 ```
-* **Complexity:** Time: **\\(O(N)\\)**, Space: **\\(O(N)\\)** for hash map.
+* **Complexity:** Time: **O(N)**, Space: **O(N)** for hash map.
 
 ---
 
@@ -688,7 +688,7 @@ Interviews mein agar safe side par rehna hai bacho, toh in errors se dhyan se ba
 * Subarray, subsequence, and subset definitions.
 * Basic patterns (Second largest, Leaders, Equilibrium pivot index, stock buy/sell, product except self).
 * Prefix Sum range sum optimization.
-* Difference Array \\(O(1)\\) range updates.
+* Difference Array O(1) range updates.
 * Two Pointers sorting connection.
 * Sliding Window expand/shrink window boundaries.
 * Kadane's maximum contiguous subarray logic.

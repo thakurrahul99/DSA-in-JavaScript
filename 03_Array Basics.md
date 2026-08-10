@@ -40,12 +40,12 @@ Manlo tum ek teacher ho aur tumhein apni class ke 5 students ke marks store karn
 Bohot se bache sochte hain, *"Sir, counting 1 se kyun nahi shuru hoti?"* Iske peeche ek simple pointer calculation hai. 
 
 Memory level par jab hum kisi element ka address nikalte hain, toh computer ek offset formula use karta hai:
-\\[\text{Address of Index } i = \text{Base Address} + (i \times \text{Size of one element})\\]
+\\[Address of Index  i = Base Address + (i × Size of one element)\\]
 
 Chalo upar wale array se index `2` par rakhe element ka address nikalte hain:
-\\[\text{Address} = 1000 + (2 \times 4 \text{ bytes}) = 1008\\]
+\\[Address = 1000 + (2 × 4  bytes) = 1008\\]
 Computer ko bina kisi loop ke directly memory address mil gaya! Kyunki pehle element ke liye offset **0** hai, isiliye index **`0`** se start hota hai taaki address direct Base Address ke barabar aaye:
-\\[\text{Address of Index } 0 = 1000 + (0 \times 4) = 1000\\]
+\\[Address of Index  0 = 1000 + (0 × 4) = 1000\\]
 
 ---
 
@@ -61,7 +61,7 @@ Interviews mein yeh question direct pucha jata hai. Dono ke beech ka conceptual 
 
 ### V8 Engine Mechanics under the Hood: Packed vs Holey Arrays ⚙️
 V8 engine JavaScript arrays ko optimize karne ke liye unhe do layouts mein store karta hai:
-1. **Packed Arrays (Contiguous):** Agar tum array ko sequentially fill karte ho bina beech mein gaps chode (e.g. `const arr =`), toh engine ise contiguous block mein store karta hai. Is layout mein element access directly \\(O(1)\\) pointer arithmetic se hota hai aur performant hota hai.
+1. **Packed Arrays (Contiguous):** Agar tum array ko sequentially fill karte ho bina beech mein gaps chode (e.g. `const arr =`), toh engine ise contiguous block mein store karta hai. Is layout mein element access directly O(1) pointer arithmetic se hota hai aur performant hota hai.
 2. **Holey Arrays (Sparse):** Agar tum indices ko skip kar dete ho (e.g., index `0` par `10` set kiya aur directly index `100` par `90` set kiya), toh beech mein "holes" (undefined empty spaces) ban jate hain. Engine contiguous memory allocation chodh kar ise ek dictionary-like associative hash map mein convert kar deta hai. Isse element access slow ho jata hai kyunki engine ko prototype chain lookups perform karne padte hain.
 
 ---
@@ -85,14 +85,14 @@ DSA mein strong hone ke liye, hum built-in methods ke piche ka raw manual logic 
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### A. Element Access — \\(O(1)\\)
+### A. Element Access — O(1)
 Direct pointer arithmetic offset calculations ke zariye index target check kiya jata hai, isiliye array size chahe 10 lakh ho, element access hamesha constant time leta hai.
 ```javascript
 const arr =;
 const val = arr; // O(1) Time
 ```
 
-### B. Traversal — \\(O(n)\\)
+### B. Traversal — O(n)
 Array ke pehle element se shuru karke aakhri element tak ek-ek karke visit karna traversal hai.
 ```javascript
 function traverse(arr) {
@@ -101,7 +101,7 @@ function traverse(arr) {
     }
 }
 ```
-* **Why \\(O(n)\\)?** Agar array mein \\(n\\) elements hain, toh loop exactly \\(n\\) baar chalega.
+* **Why O(n)?** Agar array mein n elements hain, toh loop exactly n baar chalega.
 
 ---
 
@@ -173,10 +173,10 @@ function linearSearch(arr, target) {
 * `return -1`: Agar control loop se bahar aa gaya, iska matlab value nahi thi.
 
 ### Complexity Analysis:
-* **Best Case:** Target index `0` par hi mil jaye. operations = `1` \\(\rightarrow\\) **\\(O(1)\\) Time**.
-* **Worst Case:** Target aakhri index par ho ya array mein present na ho. pooray \\(n\\) elements scan karne padenge \\(\rightarrow\\) **\\(O(n)\\) Time**.
-* **Average Case:** Target array ke beech mein kahin mile (around \\(n/2\\) steps). constants drop karne par \\(\rightarrow\\) **\\(O(n)\\) Time**.
-* **Space Complexity:** **\\(O(1)\\) Auxiliary Space** kyunki hum koi extra helper memory structures scale nahi kar rahe.
+* **Best Case:** Target index `0` par hi mil jaye. operations = `1` → **O(1) Time**.
+* **Worst Case:** Target aakhri index par ho ya array mein present na ho. pooray n elements scan karne padenge → **O(n) Time**.
+* **Average Case:** Target array ke beech mein kahin mile (around n/2 steps). constants drop karne par → **O(n) Time**.
+* **Space Complexity:** **O(1) Auxiliary Space** kyunki hum koi extra helper memory structures scale nahi kar rahe.
 
 ---
 
@@ -220,9 +220,9 @@ function insertAtIndex(arr, index, value) {
 }
 ```
 
-* **Beginning insertion complexity:** **\\(O(n)\\)** kyunki pooray \\(n\\) elements ko 1 step right shift karna padta hai.
-* **Middle insertion complexity:** **\\(O(n)\\)** kyunki targeted location ke aage ke elements ko shift overhead face karna padta hai.
-* **End insertion complexity:** **\\(O(1)\\)** (amortized) kyunki piche direct empty slot par overwrite hota hai, no shifting required.
+* **Beginning insertion complexity:** **O(n)** kyunki pooray n elements ko 1 step right shift karna padta hai.
+* **Middle insertion complexity:** **O(n)** kyunki targeted location ke aage ke elements ko shift overhead face karna padta hai.
+* **End insertion complexity:** **O(1)** (amortized) kyunki piche direct empty slot par overwrite hota hai, no shifting required.
 
 ---
 
@@ -264,9 +264,9 @@ function deleteAtIndex(arr, index) {
 }
 ```
 
-* **Beginning deletion complexity:** **\\(O(n)\\)** because all elements must shift left to fill index 0.
-* **Middle deletion complexity:** **\\(O(n)\\)** due to partial shifting of suffix elements.
-* **End deletion complexity:** **\\(O(1)\\)** hamesha, directly tail element truncate hota hai, no shifts.
+* **Beginning deletion complexity:** **O(n)** because all elements must shift left to fill index 0.
+* **Middle deletion complexity:** **O(n)** due to partial shifting of suffix elements.
+* **End deletion complexity:** **O(1)** hamesha, directly tail element truncate hota hai, no shifts.
 
 ---
 
@@ -281,7 +281,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 1. `push(val)`
 * **Purpose:** Array ke very end par elements append karta hai.
 * **Does it mutate?** Yes, mutates original array.
-* **Time Complexity:** **\\(O(1)\\)** (amortized). No shifts needed.
+* **Time Complexity:** **O(1)** (amortized). No shifts needed.
 * **Example:**
   ```javascript
   fruits.push('date'); // ['apple', 'banana', 'cherry', 'date']
@@ -290,7 +290,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 2. `pop()`
 * **Purpose:** Array ke end se elements remove aur return karta hai.
 * **Does it mutate?** Yes, mutates original array.
-* **Time Complexity:** **\\(O(1)\\)**.
+* **Time Complexity:** **O(1)**.
 * **Example:**
   ```javascript
   fruits.pop(); // returns 'date'
@@ -299,7 +299,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 3. `unshift(val)`
 * **Purpose:** Array ke starting position (index 0) par element insert karta hai.
 * **Does it mutate?** Yes, mutates original array.
-* **Time Complexity:** **\\(O(n)\\)**. Shifts entire elements rightwards.
+* **Time Complexity:** **O(n)**. Shifts entire elements rightwards.
 * **Example:**
   ```javascript
   fruits.unshift('apricot'); // ['apricot', 'apple', 'banana', 'cherry']
@@ -308,7 +308,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 4. `shift()`
 * **Purpose:** Array ke index 0 se element remove aur return karta hai.
 * **Does it mutate?** Yes, mutates original array.
-* **Time Complexity:** **\\(O(n)\\)**. Shifts entire elements leftwards.
+* **Time Complexity:** **O(n)**. Shifts entire elements leftwards.
 * **Example:**
   ```javascript
   fruits.shift(); // returns 'apricot'
@@ -317,7 +317,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 5. `splice(start, deleteCount, ...items)`
 * **Purpose:** Multi-purpose tool jo elements add, remove ya replace karta hai target ranges par.
 * **Does it mutate?** Yes, mutates original array directly.
-* **Time Complexity:** **\\(O(n)\\)**. Shifts internal trailing element chains.
+* **Time Complexity:** **O(n)**. Shifts internal trailing element chains.
 * **Example:**
   ```javascript
   fruits.splice(1, 1, 'mango'); // replaces index 1 'banana' with 'mango'
@@ -326,7 +326,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 6. `slice(start, end)`
 * **Purpose:** Array ke specific chunk range `[start, end)` ko sub-array copy return karta hai.
 * **Does it mutate?** No! Returns a shallow copy, leaving original intact.
-* **Time Complexity:** **\\(O(k)\\)** where \\(k = \text{end} - \text{start}\\).
+* **Time Complexity:** **O(k)** where k = end - start.
 * **Example:**
   ```javascript
   const subset = fruits.slice(1, 3); // returns ['mango', 'cherry']
@@ -335,7 +335,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 7. `concat(...arrays)`
 * **Purpose:** Multiple arrays ko link/merge karke ek new array block return karta hai.
 * **Does it mutate?** No! Returns a brand new array.
-* **Time Complexity:** **\\(O(n + m)\\)** where \\(n, m\\) are lengths of the arrays being merged.
+* **Time Complexity:** **O(n + m)** where n, m are lengths of the arrays being merged.
 * **Example:**
   ```javascript
   const combined = fruits.concat(['grape', 'kiwi']);
@@ -344,7 +344,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 8. `includes(val)`
 * **Purpose:** Check karta hai ki array mein value hai ya nahi (returns boolean).
 * **Does it mutate?** No.
-* **Time Complexity:** **\\(O(n)\\)**. Performs manual linear scan underneath.
+* **Time Complexity:** **O(n)**. Performs manual linear scan underneath.
 * **Example:**
   ```javascript
   fruits.includes('apple'); // true
@@ -353,7 +353,7 @@ const fruits = ['apple', 'banana', 'cherry'];
 ### 9. `indexOf(val)`
 * **Purpose:** Target element ka pehla valid matching index deta hai, warna `-1`.
 * **Does it mutate?** No.
-* **Time Complexity:** **\\(O(n)\\)**. Performs linear traversal.
+* **Time Complexity:** **O(n)**. Performs linear traversal.
 * **Example:**
   ```javascript
   fruits.indexOf('mango'); // 1
@@ -367,15 +367,15 @@ Whiteboard par dhyan do, yeh table dimaag mein lock kar lo:
 
 | Operation | Position | Time Complexity | Real Shifting Reason |
 | :--- | :--- | :--- | :--- |
-| **Access** | Anywhere | **\\(O(1)\\)** | Direct index math pointer offset jump. |
-| **Search** | Anywhere | **\\(O(n)\\)** | Linear trace scan starting from index 0. |
-| **Update** | Anywhere | **\\(O(1)\\)** | Direct write to continuous indexed slot. |
-| **Insertion** | Beginning | **\\(O(n)\\)** | Must shift all \\(n\\) elements to the right. |
-| **Insertion** | Middle | **\\(O(n)\\)** | Must shift elements after the target index. |
-| **Insertion** | End | **\\(O(1)\\)** (amortized) | Direct append to final contiguous block. |
-| **Deletion** | Beginning | **\\(O(n)\\)** | Must shift all remaining elements left. |
-| **Deletion** | Middle | **\\(O(n)\\)** | Shift subsequent elements to close the gap. |
-| **Deletion** | End | **\\(O(1)\\)** | Direct tail truncation, no shifts needed. |
+| **Access** | Anywhere | **O(1)** | Direct index math pointer offset jump. |
+| **Search** | Anywhere | **O(n)** | Linear trace scan starting from index 0. |
+| **Update** | Anywhere | **O(1)** | Direct write to continuous indexed slot. |
+| **Insertion** | Beginning | **O(n)** | Must shift all n elements to the right. |
+| **Insertion** | Middle | **O(n)** | Must shift elements after the target index. |
+| **Insertion** | End | **O(1)** (amortized) | Direct append to final contiguous block. |
+| **Deletion** | Beginning | **O(n)** | Must shift all remaining elements left. |
+| **Deletion** | Middle | **O(n)** | Shift subsequent elements to close the gap. |
+| **Deletion** | End | **O(1)** | Direct tail truncation, no shifts needed. |
 
 ---
 
@@ -445,12 +445,12 @@ function getSum(arr) {
   * `sum += arr[i]`: Cumulative math addition.
 * **Dry Run (`arr =`):**
   * `sum = 0`
-  * `i = 0` \\(\rightarrow\\) `sum = 0 + 10 = 10`
-  * `i = 1` \\(\rightarrow\\) `sum = 10 + 20 = 30`
-  * `i = 2` \\(\rightarrow\\) `sum = 30 + 30 = 60`
+  * `i = 0` → `sum = 0 + 10 = 10`
+  * `i = 1` → `sum = 10 + 20 = 30`
+  * `i = 2` → `sum = 30 + 30 = 60`
   * Returns `60`.
-* **Complexity:** **\\(O(n)\\) Time** kyunki complete traversal execute ho raha hai. **\\(O(1)\\) Auxiliary Space** variables storage ke liye.
-* **Edge Cases:** Empty array `[]` \\(\rightarrow\\) check constraints, return `0`.
+* **Complexity:** **O(n) Time** kyunki complete traversal execute ho raha hai. **O(1) Auxiliary Space** variables storage ke liye.
+* **Edge Cases:** Empty array `[]` → check constraints, return `0`.
 
 ---
 
@@ -478,12 +478,12 @@ function findMinMax(arr) {
 ```
 * **Dry Run (`arr =`):**
   * `min = 5`, `max = 5`
-  * `i = 1` (Value = 12) \\(\rightarrow\\) `12 > max(5)` \\(\rightarrow\\) `max = 12`.
-  * `i = 2` (Value = 3)  \\(\rightarrow\\) `3 < min(5)` \\(\rightarrow\\) `min = 3`.
-  * `i = 3` (Value = 45) \\(\rightarrow\\) `45 > max(12)` \\(\rightarrow\\) `max = 45`.
+  * `i = 1` (Value = 12) → `12 > max(5)` → `max = 12`.
+  * `i = 2` (Value = 3)  → `3 < min(5)` → `min = 3`.
+  * `i = 3` (Value = 45) → `45 > max(12)` → `max = 45`.
   * Returns `{ min: 3, max: 45 }`.
-* **Complexity:** **\\(O(n)\\) Time**, **\\(O(1)\\) Space**.
-* **Edge Cases:** Single size array `` \\(\rightarrow\\) Returns `{min: 10, max: 10}`.
+* **Complexity:** **O(n) Time**, **O(1) Space**.
+* **Edge Cases:** Single size array `` → Returns `{min: 10, max: 10}`.
 
 ---
 
@@ -510,11 +510,11 @@ function reverseArray(arr) {
 ```
 * **Dry Run (`arr =`):**
   * `start = 0`, `end = 3`.
-  * Swap `arr` & `arr`: Array \\(\rightarrow\\) ``.
+  * Swap `arr` & `arr`: Array → ``.
   * `start = 1`, `end = 2`.
-  * Swap `arr` & `arr`: Array \\(\rightarrow\\) ``.
+  * Swap `arr` & `arr`: Array → ``.
   * `start = 2`, `end = 1` (Loop breaks). Correct!
-* **Complexity:** **\\(O(n)\\) Time**. **\\(O(1)\\) Auxiliary Space** kyunki humne arrays ke elements in-place change kiye.
+* **Complexity:** **O(n) Time**. **O(1) Auxiliary Space** kyunki humne arrays ke elements in-place change kiye.
 
 ---
 
@@ -532,7 +532,7 @@ function isSorted(arr) {
     return true;
 }
 ```
-* **Time Complexity:** **\\(O(n)\\)**. **\\(O(1)\\) Space**.
+* **Time Complexity:** **O(n)**. **O(1) Space**.
 * **Edge Cases:** Single element array ya empty array hamesha sorted hote hain.
 
 ---
@@ -552,11 +552,11 @@ function isSorted(arr) {
 
 ## 12. CONNECTING TO COMPLEXITY THEORY (CHAPTER 2 CONNECTION)
 
-Tumne notice kiya hoga ki jab hum elements starting positions par shift/remove karte hain, toh complexity linear **\\(O(n)\\)** ho jati hai. 
+Tumne notice kiya hoga ki jab hum elements starting positions par shift/remove karte hain, toh complexity linear **O(n)** ho jati hai. 
 
 * **Actual work behind the scenes:** Memory contiguous blocks are locked consecutive sequence blocks. Agar index `0` space empty karni hai, toh computer internally har index values ko register storage par shifts move linear direction instructions execute karta hai. 
 * Yahi physical shifting actions actual workload coordinate badhate hain, jisse complexity scale lines increase ho jati hai.
-* Custom loops nested iterations multiplication rule generate karti hain: outer scale \\(N\\) times, inner dynamic triangle \\(M\\) times \\(\rightarrow\\) total complexity is \\(O(n^2)\\) ya sequential linear loops add up to \\(O(n + m)\\).
+* Custom loops nested iterations multiplication rule generate karti hain: outer scale N times, inner dynamic triangle M times → total complexity is O(n^2) ya sequential linear loops add up to O(n + m).
 
 ---
 
@@ -576,7 +576,7 @@ function printAlternate(arr) {
     }
 }
 ```
-* **Complexity:** **\\(O(n)\\) Time** (since loop runs approximately \\(n/2\\) times, and constants are dropped). **\\(O(1)\\) Space**.
+* **Complexity:** **O(n) Time** (since loop runs approximately n/2 times, and constants are dropped). **O(1) Space**.
 
 ---
 
@@ -605,7 +605,7 @@ function findSecondLargest(arr) {
     return secondLargest === -Infinity ? null : secondLargest;
 }
 ```
-* **Complexity:** **\\(O(n)\\) Time** (Single-pass logic). **\\(O(1)\\) Space** (no sorting space limits used).
+* **Complexity:** **O(n) Time** (Single-pass logic). **O(1) Space** (no sorting space limits used).
 
 ---
 
@@ -620,8 +620,8 @@ function findSecondLargest(arr) {
 * Problem solving: Sum, Min/Max, Reverse, Check Sorted, Alternate print.
 
 ### Important Takeaways:
-* **Index Access hamesha constant time \\(O(1)\\) hota hai** offset formulas ke computation optimization se.
-* **Shift/Unshift/Splice linear time \\(O(n)\\) complexities lete hain** internal contiguous blocks movements shifts calculations ke pipeline overhead se.
+* **Index Access hamesha constant time O(1) hota hai** offset formulas ke computation optimization se.
+* **Shift/Unshift/Splice linear time O(n) complexities lete hain** internal contiguous blocks movements shifts calculations ke pipeline overhead se.
 
 ### Common Mistakes:
 * Loop limits boundaries standard check boundaries comparison using wrong logical operations indices mismatch.

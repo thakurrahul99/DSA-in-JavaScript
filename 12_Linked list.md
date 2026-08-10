@@ -26,7 +26,7 @@ V8 Engine memory (RAM) mein lagatar teen blocks allocate karega:
 ```
 
 ### The Array Bottleneck 🚨
-1. **Shifting Cost:** Agar tumhein is array ke shuruat (index 0) par ek naya element `5` insert karna ho (`arr.unshift(5)`), toh engine ko baaki saare elements ko ek-ek slot rightward shift karna padega. Iski time complexity **\\(\mathcal{O}(n)\\)** ho jati hai!
+1. **Shifting Cost:** Agar tumhein is array ke shuruat (index 0) par ek naya element `5` insert karna ho (`arr.unshift(5)`), toh engine ko baaki saare elements ko ek-ek slot rightward shift karna padega. Iski time complexity **O(n)** ho jati hai!
 2. **Fixed Size Resize Overhead:** Jab array ka size full ho jata hai, toh engine ko memory mein ek naya, bada space dhoondhkar saare elements ko purani jagah se nayi jagah copy karna padata hai.
 
 ### Enter the Hero: Linked List 🦸‍♂️
@@ -51,10 +51,10 @@ Whiteboard par bani is comparative matrix ko apne register mein note karo:
 
 | Operation | Array 📊 | Linked List 🔗 | Why the difference? |
 | :--- | :--- | :--- | :--- |
-| **Access by Index** | **\\(\mathcal{O}(1)\\)** | **\\(\mathcal{O}(n)\\)** | Array mein direct pointer math se offset access hota hai. LL mein head se sequentially traverse karna padta hai. |
-| **Insert at Start** | **\\(\mathcal{O}(n)\\)** | **\\(\mathcal{O}(1)\\)** | Array mein saare elements shift karne padte hain. LL mein sirf head node ka next reference update karna hota hai. |
-| **Insert at End** | **\\(\mathcal{O}(1)\\)** | **\\(\mathcal{O}(1)\\)** with tail | Array ke end mein direct insertion. LL mein agar `tail` point maintain ho, toh bina traversal direct append ho jata hai. |
-| **Search Element** | **\\(\mathcal{O}(n)\\)** | **\\(\mathcal{O}(n)\\)** | Dono ko worst-case mein linear scan check chalana padta hai. |
+| **Access by Index** | **O(1)** | **O(n)** | Array mein direct pointer math se offset access hota hai. LL mein head se sequentially traverse karna padta hai. |
+| **Insert at Start** | **O(n)** | **O(1)** | Array mein saare elements shift karne padte hain. LL mein sirf head node ka next reference update karna hota hai. |
+| **Insert at End** | **O(1)** | **O(1)** with tail | Array ke end mein direct insertion. LL mein agar `tail` point maintain ho, toh bina traversal direct append ho jata hai. |
+| **Search Element** | **O(n)** | **O(n)** | Dono ko worst-case mein linear scan check chalana padta hai. |
 
 ---
 
@@ -242,7 +242,7 @@ Reversed:       null ◄── [ 1 ] ◄── [ 2 ] ◄── [ 3 ] ◄── h
 
 #### 3. Brute Force:
 Har node ke data ko sequentially extract karke ek temporary array mein dhalo. Array ko reverse order mein read karke values ko naye linked list nodes mein instantiate karke return karo.
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)**.
+* **Complexity:** Time: **O(n)**, Space: **O(n)**.
 * **Bottleneck:** Extra helper storage arrays allocate karne se space efficiency degrade ho jati hai.
 
 #### 4. Observation:
@@ -295,12 +295,12 @@ Input: `head = [ 1 ] -> [ 2 ] -> [ 3 ] -> null`
 * **Returns:** `prev = [ 3 ]`. Perfectly reversed!
 
 #### 9. Complexity:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** because we traverse the list exactly once.
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** completely in-place in memory.
+* **Time Complexity:** **O(n)** because we traverse the list exactly once.
+* **Space Complexity:** **O(1)** completely in-place in memory.
 
 #### 10. Edge Cases:
-* Empty list `head = null` \\(\rightarrow\\) Return `null` immediately.
-* Single node `[ 1 ] -> null` \\(\rightarrow\\) Returns the same node.
+* Empty list `head = null` → Return `null` immediately.
+* Single node `[ 1 ] -> null` → Returns the same node.
 
 #### 11. Pattern:
 **Bilateral Pointer Slide (Choose-Reverse-Step).**
@@ -320,7 +320,7 @@ Even nodes:    [ 1 ] ──► [ 2 ] ──► [ 3 ] ──► [ 4 (Mid) ] ─�
 
 #### 3. Brute Force:
 List ko ek baar complete traverse karke total nodes `N` (size) count karo. Phir head se `Math.floor(N/2)` index shifts linear move karke value middle coordinate return karo.
-* **Complexity:** Time: **\\(\mathcal{O}(n + n/2) = \mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(1)\\)**.
+* **Complexity:** Time: **O(n + n/2) = O(n)**, Space: **O(1)**.
 * **Bottleneck:** Isme poori list par **do sequential scan passes** lagte hain.
 
 #### 4. Observation:
@@ -360,12 +360,12 @@ Input: `head = [ 1 ] -> [ 2 ] -> [ 3 ] -> [ 4 ] -> [ 5 ] -> [ 6 ] -> null`
 * **Returns:** `slow =`. Correct middle element!
 
 #### 8. Complexity:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** in single sequential sweep scan.
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary constant space.
+* **Time Complexity:** **O(n)** in single sequential sweep scan.
+* **Space Complexity:** **O(1)** auxiliary constant space.
 
 #### 9. Edge Cases:
-* Single node list \\(\rightarrow\\) Returns the single head node.
-* Empty list \\(\rightarrow\\) Returns `null`.
+* Single node list → Returns the single head node.
+* Empty list → Returns `null`.
 
 #### 10. Pattern:
 **Fast & Slow Pointer Speed Differential.**
@@ -387,7 +387,7 @@ Check karna hai ki kya linked list mein koi infinite loop (cycle) present hai ji
 
 #### 3. Brute Force:
 List ko traverse karte waqt visited nodes ko ek **Set (Hashing Map)** mein store karte jao. Agar koi node Set mein pehle se present hai, iska matlab cycle exists.
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)** auxiliary storage allocation.
+* **Complexity:** Time: **O(n)**, Space: **O(n)** auxiliary storage allocation.
 * **Bottleneck:** High memory footprint Set storage ke karan.
 
 #### 4. Observation:
@@ -428,8 +428,8 @@ Input: Cycle exists as `[ 1 ] -> [ 2 ] -> [ 3 ] -> [ 2 ] (back pointer)`
 * Pointers match! Returns `true`. Perfect cyclic validation!
 
 #### 8. Complexity:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** linear scan checks.
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary space allocation.
+* **Time Complexity:** **O(n)** linear scan checks.
+* **Space Complexity:** **O(1)** auxiliary space allocation.
 
 #### 9. Pattern:
 **Floyd's Tortoise and Hare Collision.**
@@ -451,21 +451,21 @@ Agar linked list mein cycle hai, toh humein us node ka index/pointer return karn
 
 #### 3. Brute Force:
 Visited nodes references ko `Set` mein track karo. Pehla node jo dobara traverse check hit hoga, wahi cycle start coordinate node hoga.
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n)\\)**.
+* **Complexity:** Time: **O(n)**, Space: **O(n)**.
 
 #### 4. Observation (The Mathematical Proof 📐):
-Let distance from `head` to `CycleStart` be **\\(D\\)**.  
-Distance from `CycleStart` to meeting point be **\\(M\\)**.  
-Total cycle perimeter length be **\\(C\\)**.  
-* Distance traveled by slow turtle: \\(S = D + M\\).
-* Distance traveled by fast rabbit: \\(F = D + M + k \times C\\) (where \\(k\\) is number of complete laps).
-* Since \\(F = 2 \times S\\) (fast is twice as fast):
-  \\[2 \times (D + M) = D + M + k \times C\\]
-  \\[D + M = k \times C\\]
-  \\[D = k \times C - M\\]
+Let distance from `head` to `CycleStart` be **D**.  
+Distance from `CycleStart` to meeting point be **M**.  
+Total cycle perimeter length be **C**.  
+* Distance traveled by slow turtle: S = D + M.
+* Distance traveled by fast rabbit: F = D + M + k × C (where k is number of complete laps).
+* Since F = 2 × S (fast is twice as fast):
+  \\[2 × (D + M) = D + M + k × C\\]
+  \\[D + M = k × C\\]
+  \\[D = k × C - M\\]
 
-**What does \\(D = k \times C - M\\) mean?**  
-Iska matlab: agar slow pointer ko back position `head` par re-initialize kiya jaye, aur fast pointer ko meeting collision block par hi choda jaye, aur ab dono ko strictly **same speed (1-step per turn)** par move karwaya jaye, toh **exact \\(D\\) distance travel karne ke baad dono usi cycle starting node par meet karenge!**
+**What does D = k × C - M mean?**  
+Iska matlab: agar slow pointer ko back position `head` par re-initialize kiya jaye, aur fast pointer ko meeting collision block par hi choda jaye, aur ab dono ko strictly **same speed (1-step per turn)** par move karwaya jaye, toh **exact D distance travel karne ke baad dono usi cycle starting node par meet karenge!**
 
 ---
 
@@ -499,8 +499,8 @@ function detectCycleStart(head) {
 ```
 
 #### 6. Complexity:
-* **Time Complexity:** **\\(\mathcal{O}(n)\\)** linear computation steps.
-* **Space Complexity:** **\\(\mathcal{O}(1)\\)** auxiliary storage footprints.
+* **Time Complexity:** **O(n)** linear computation steps.
+* **Space Complexity:** **O(1)** auxiliary storage footprints.
 
 ---
 
@@ -517,7 +517,7 @@ Remove 2nd from end (Node 4) -> [ 1 ] ──► [ 2 ] ──► [ 3 ] ──► 
 
 #### 3. Brute Force:
 Complete traversal karke total length `L` calculate karo. Phir head se start karke element at position `L - N` coordinate node ko remove karke pointers patch-over karo.
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)** with two independent linear scan cycles.
+* **Complexity:** Time: **O(n)** with two independent linear scan cycles.
 
 #### 4. Observation (The Dummy Pointer Offset Gap 💡):
 * We can use a **Dummy Node** at start to handle head deletion boundary checks cleanly.
@@ -554,7 +554,7 @@ function removeNthFromEnd(head, n) {
 ```
 
 #### 6. Complexity:
-Time: **\\(\mathcal{O}(n)\\)** (completely solved in a single loop scan pass!), Space: **\\(\mathcal{O}(1)\\)** auxiliary space.
+Time: **O(n)** (completely solved in a single loop scan pass!), Space: **O(1)** auxiliary space.
 
 ---
 
@@ -594,7 +594,7 @@ function mergeTwoLists(list1, list2) {
     return dummy.next;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n + m)\\)**, Space: **\\(\mathcal{O}(1)\\)** in-place node reference merging.
+* **Complexity:** Time: **O(n + m)**, Space: **O(1)** in-place node reference merging.
 
 ---
 
@@ -710,8 +710,8 @@ Bacho, high-level technical interviews mein ek bada system design problem aata h
 
 1. **The Goal:** Dynamic memory array block cache jahan hum elements dhoondhein `get(key)` aur set karein `put(key, val)`. Cache size limited hai, toh space full hone par **sabse purane element (Least Recently Used)** ko evict karna padega.
 2. **The Super-Fast Design Connection:**
-   * Hum **Hash Map / JavaScript Map** use karte hain keys ko direct \\(\mathcal{O}(1)\\) lookups ke liye. Map ke values nodes ke address refs store karte hain.
-   * Hum **Doubly Linked List** use karte hain nodes ki tracking ke liye. Jab koi element use ho, use instantly cut karke list ke `head` (Most Recently Used position) par push kar diya jata hai. Pointers deletion aur update in-place **\\(\mathcal{O}(1)\\)** mein perform ho jate hain!
+   * Hum **Hash Map / JavaScript Map** use karte hain keys ko direct O(1) lookups ke liye. Map ke values nodes ke address refs store karte hain.
+   * Hum **Doubly Linked List** use karte hain nodes ki tracking ke liye. Jab koi element use ho, use instantly cut karke list ke `head` (Most Recently Used position) par push kar diya jata hai. Pointers deletion aur update in-place **O(1)** mein perform ho jate hain!
 
 ---
 
@@ -737,7 +737,7 @@ Technical tests mein linked list ke questions solve karte waqt bache in classic 
 
 ---
 
-## 9. PROGRESSIVE PRACTICE BOARD (EASY \\(\rightarrow\\) MEDIUM \\(\rightarrow\\) HARD)
+## 9. PROGRESSIVE PRACTICE BOARD (EASY → MEDIUM → HARD)
 
 🚀 **Arey bacho! Board completely clean hai. Pehle solution par haath rakhna aur logic khud design karne ki koshish karna!**
 
@@ -761,7 +761,7 @@ function getLength(head) {
     return count;
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(1)\\)** auxiliary.
+* **Complexity:** Time: **O(n)**, Space: **O(1)** auxiliary.
 
 ---
 
@@ -789,7 +789,7 @@ function getIntersectionNode(headA, headB) {
     return pA; // Points to intersection node, or null
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n + m)\\)**, Space: **\\(\mathcal{O}(1)\\)** in-place matching.
+* **Complexity:** Time: **O(n + m)**, Space: **O(1)** in-place matching.
 
 ---
 
@@ -834,7 +834,7 @@ function reverseKGroup(head, k) {
     return head; // Less than k nodes, return unchanged
 }
 ```
-* **Complexity:** Time: **\\(\mathcal{O}(n)\\)**, Space: **\\(\mathcal{O}(n/k)\\)** stack space depth recursive.
+* **Complexity:** Time: **O(n)**, Space: **O(n/k)** stack space depth recursive.
 
 ---
 
